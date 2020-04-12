@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "873976261773",
+    "firebase_url": "https://awesomecalender-c989a.firebaseio.com",
+    "project_id": "awesomecalender-c989a",
+    "storage_bucket": "awesomecalender-c989a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873976261773:android:18860bdf30891d7553c6c4",
+        "android_client_info": {
+          "package_name": "com.example.CalenderProject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "873976261773-pmmti6u77u8dbddl3l9f101vmqkopetf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlsex2DP2Z-zkuWtKdydQMFAvDnkICX4A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "873976261773-pmmti6u77u8dbddl3l9f101vmqkopetf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
