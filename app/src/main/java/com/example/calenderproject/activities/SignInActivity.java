@@ -37,14 +37,18 @@ public  class SignInActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = editSignEmail.getText().toString();
                 String password = editSignPassword.getText().toString();
-
-                AuthService.signIn( email, password )
-                        .addOnFailureListener( new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText( getBaseContext(), "Can't log in: " + e.getMessage(), Toast.LENGTH_SHORT ).show();
-                            }
-                        } );
+                if(email.length()>0 || password.length() > 0) {
+                    AuthService.signIn( email, password )
+                            .addOnFailureListener( new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText( getBaseContext(), "Can't log in: " + e.getMessage(), Toast.LENGTH_SHORT ).show();
+                                }
+                            } );
+                }
+                else{
+                    Toast.makeText( getBaseContext(), "Can't log in: You must write your  password and email!" , Toast.LENGTH_SHORT ).show();
+                }
             }
         } );
 

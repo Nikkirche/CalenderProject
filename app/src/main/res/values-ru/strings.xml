@@ -18,8 +18,11 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <!-- Stuff -->
-    <string name="log_in">Войти</string>
     <string name="register">Зарегистрироваться</string>
     <string name="info_reg">Впервые у нас?</string>
     <string name="info_sign">Уже есть аккаунт?</string>
+    <string name="email">Электронная почта</string>
+    <string name="password">Пароль</string>
+    <string name="sign_in">Войти</string>
+    <string name="name">Имя</string>
 </resources>

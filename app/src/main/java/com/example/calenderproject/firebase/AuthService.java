@@ -23,6 +23,7 @@ public class AuthService {
     }
 
     public static Task<AuthResult> signIn(final String email, String password) {
+
         return FirebaseAuth.getInstance()
                 .signInWithEmailAndPassword( email, password );
     }

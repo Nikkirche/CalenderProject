@@ -1,5 +1,6 @@
 package com.example.calenderproject.activities;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -50,13 +51,14 @@ public class StartActivity extends AppCompatActivity {
 
     private void goToRegActivity() {
         Intent intent = new Intent( StartActivity.this, RegisterActivity.class );
-        startActivity( intent );
+        startActivity( intent ,ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         finish();
     }
 
+
     private void goToSignActivity() {
         Intent intent = new Intent( StartActivity.this, SignInActivity.class );
-        startActivity( intent );
+        startActivity( intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         finish();
     }
 
