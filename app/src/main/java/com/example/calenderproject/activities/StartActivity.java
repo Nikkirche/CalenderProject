@@ -48,7 +48,7 @@ public class StartActivity extends AppCompatActivity {
         } );
 
     }
-
+    //Functions
     private void goToRegActivity() {
         Intent intent = new Intent( StartActivity.this, RegisterActivity.class );
         startActivity( intent ,ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
