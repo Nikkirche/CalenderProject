@@ -10,7 +10,7 @@ public class AuthService {
                 .signOut();
     }
 
-    public static Task<AuthResult> signIn(final String email, String password, final String name) {
+    public static Task<AuthResult> signInEmailAndPasword(final String email, String password, final String name) {
         return FirebaseAuth.getInstance()
                 .createUserWithEmailAndPassword( email, password )
                 .addOnSuccessListener( new OnSuccessListener<AuthResult>() {
@@ -23,8 +23,8 @@ public class AuthService {
     }
 
     public static Task<AuthResult> signIn(final String email, String password) {
-
         return FirebaseAuth.getInstance()
                 .signInWithEmailAndPassword( email, password );
     }
+
 }

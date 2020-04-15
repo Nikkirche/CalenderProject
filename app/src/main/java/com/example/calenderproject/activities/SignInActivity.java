@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,14 +23,15 @@ public  class SignInActivity extends AppCompatActivity {
 
         //Buttons
         Button buttonSignIn = findViewById( R.id.buttonSignIn );
-        Button buttonToRegFromSign = findViewById( R.id.buttonToRegFromSign );
+        ImageButton buttonToStart =findViewById( R.id.buttonToStartFromSign );
 
         final EditText editSignEmail = findViewById( R.id.editSignEmail );
         final EditText editSignPassword = findViewById( R.id.editSignPassword );
-        buttonToRegFromSign.setOnClickListener( new View.OnClickListener() {
+
+        buttonToStart.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToRegActivity();
+                goToStartActivity();
             }
         } );
         buttonSignIn.setOnClickListener( new View.OnClickListener() {
@@ -54,14 +56,14 @@ public  class SignInActivity extends AppCompatActivity {
 
     }
 
-    private void goToMainActivity() {
-        Intent Intent = new Intent( com.example.calenderproject.activities.SignInActivity.this, MainActivity.class );
+    private void goToStartActivity() {
+        Intent Intent = new Intent( com.example.calenderproject.activities.SignInActivity.this, StartActivity.class );
         startActivity( Intent );
         finish();
     }
 
-    private void goToRegActivity() {
-        Intent Intent = new Intent( com.example.calenderproject.activities.SignInActivity.this, RegisterActivity.class );
+    private void goToMainActivity() {
+        Intent Intent = new Intent( com.example.calenderproject.activities.SignInActivity.this, MainActivity.class );
         startActivity( Intent );
         finish();
     }

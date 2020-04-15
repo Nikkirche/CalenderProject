@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,8 +28,8 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView( R.layout.activity_register );
 
         //Buttons
-        Button buttonToSign = findViewById( R.id.buttonToSignFromReg );
         Button buttonReg = findViewById( R.id.buttonRegister );
+        ImageButton buttonToStart = findViewById( R.id.buttonToStartFromReg );
         //Password & Email & Name
         final EditText regName = findViewById( R.id.editNameReg );
         final EditText regEmail = findViewById( R.id.editEmailReg );
@@ -57,10 +58,10 @@ public class RegisterActivity extends AppCompatActivity {
 
                     }
                 });
-        buttonToSign.setOnClickListener( new View.OnClickListener() {
+        buttonToStart.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToSignActivity();
+                goToStartActivity();
             }
         } );
         buttonReg.setOnClickListener( new View.OnClickListener() {
@@ -75,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-                AuthService.signIn( email, password, name )
+                AuthService.signInEmailAndPasword( email, password, name )
                         .addOnFailureListener( new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
@@ -86,12 +87,12 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-
-    private void goToSignActivity() {
-        Intent intent = new Intent( RegisterActivity.this, SignInActivity.class );
+    private void goToStartActivity() {
+        Intent intent = new Intent( RegisterActivity.this, StartActivity.class );
         startActivity( intent );
         finish();
     }
+
 
     private boolean isEmailCorrect(String email) {
         return email.contains( "@" ) && email.contains( "." ) && email.length() > 5;

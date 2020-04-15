@@ -19,10 +19,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.39" />
+        app:layout_constraintVertical_bias="0.51" />
 
     <EditText
         android:id="@+id/editSignPassword"
+        style="@android:style/Widget.AutoCompleteTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -49,44 +50,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editSignPassword" />
 
-    <Button
-        android:id="@+id/buttonToRegFromSign"
-        style="@style/RoundedCornerButton"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="64dp"
-        android:background="@drawable/round_button_style"
-        android:backgroundTintMode="src_in"
-        android:text="@string/register"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSignIn" />
-
-    <TextView
-        android:id="@+id/textSignInfoReg"
-        style="@style/Widget.AppCompat.TextView.SpinnerItem"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/imageLogo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_marginStart="80dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="80dp"
-        android:text="@string/info_reg"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/buttonToRegFromSign"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSignIn" />
-    <TextView
-        android:id="@+id/textViewNameOfApp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:transitionName="SignIn"
+        app:layout_constraintBottom_toTopOf="@+id/editSignEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <ImageButton
+        android:id="@+id/buttonToStartFromSign"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="#303030"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_clear_black_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
