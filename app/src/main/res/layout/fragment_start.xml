@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.calenderproject.activities.StartActivity">
+    tools:context="com.example.calenderproject.fragments.StartFragment">
 
     <Button
         android:id="@+id/buttonToSignInFromStart"
@@ -20,21 +20,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonToRegFromStart" />
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/buttonGoogleSign"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:background="#303030"
-        android:backgroundTint="#303030"
-        app:buttonSize="wide"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textStartInfoOthersWays" />
 
     <Button
         android:id="@+id/buttonToRegFromStart"
@@ -87,7 +72,6 @@
         android:id="@+id/imageLogo"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:transitionName="SignIn"
         app:layout_constraintBottom_toTopOf="@+id/textStartInfoReg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

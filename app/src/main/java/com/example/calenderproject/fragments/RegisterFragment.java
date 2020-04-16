@@ -1,8 +1,10 @@
-package com.example.calenderproject.activities;
+package com.example.calenderproject.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -10,7 +12,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
+import com.example.calenderproject.MainActivity;
 import com.example.calenderproject.R;
 import com.example.calenderproject.firebase.AuthService;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -18,22 +22,21 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterFragment extends Fragment {
 
     private FirebaseAuth firebaseAuth;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_register );
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        final MainActivity act = (MainActivity) getActivity();
+        View view = inflater.inflate( R.layout.fragment_register, container, false );
         //Buttons
-        Button buttonReg = findViewById( R.id.buttonRegister );
-        ImageButton buttonToStart = findViewById( R.id.buttonToStartFromReg );
+        Button buttonReg = view.findViewById( R.id.buttonRegister );
+        ImageButton buttonToStart = view.findViewById( R.id.buttonToStartFromReg );
         //Password & Email & Name
-        final EditText regName = findViewById( R.id.editNameReg );
-        final EditText regEmail = findViewById( R.id.editEmailReg );
-        final EditText regPassword = findViewById( R.id.editPasswordReg );
+        final EditText regName = view.findViewById( R.id.editNameReg );
+        final EditText regEmail = view.findViewById( R.id.editEmailReg );
+        final EditText regPassword = view.findViewById( R.id.editPasswordReg );
 
 
         FirebaseAuth.getInstance()
@@ -51,9 +54,9 @@ public class RegisterActivity extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            goToMainActivity();
+                                            act.GoToFragment( "CalenderFragment" );
                                         }
-                                    });
+                    });
                         }
 
                     }
@@ -61,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
         buttonToStart.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToStartActivity();
+                act.GoToFragment( "StartFragment" );
             }
         } );
         buttonReg.setOnClickListener( new View.OnClickListener() {
@@ -80,17 +83,12 @@ public class RegisterActivity extends AppCompatActivity {
                         .addOnFailureListener( new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText( getBaseContext(), "Can't auth: " + e.getMessage(), Toast.LENGTH_SHORT ).show();
+                                Toast.makeText( getActivity(), "Can't auth: " + e.getMessage(), Toast.LENGTH_SHORT ).show();
                             }
                         } );
             }
         });
-    }
-
-    private void goToStartActivity() {
-        Intent intent = new Intent( RegisterActivity.this, StartActivity.class );
-        startActivity( intent );
-        finish();
+        return view;
     }
 
 
@@ -100,10 +98,5 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean isPasswordCorrect(String password) {
         return password.length() > 5;
-    }
-    private void goToMainActivity() {
-        Intent intent = new Intent( RegisterActivity.this, MainActivity.class );
-        startActivity( intent );
-        finish();
     }
 }
