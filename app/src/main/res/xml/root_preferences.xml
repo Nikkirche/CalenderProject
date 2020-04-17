@@ -1,0 +1,15 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceScreen
+        android:key="button_voicemail_setting_key"
+        android:title="@string/AccountSettings"
+        android:persistent="false">
+        <com.example.calenderproject.models.NumberPickerPreference
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
+            android:title="LogOut"
+            android:key="@string/email"
+        />
+    </PreferenceScreen>
+
+</PreferenceScreen>

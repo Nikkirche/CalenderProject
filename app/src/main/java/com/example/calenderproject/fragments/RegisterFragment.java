@@ -55,6 +55,7 @@ public class RegisterFragment extends Fragment {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             act.GoToFragment( "CalenderFragment" );
+                                            act.GoToFragment( "InterfaceFragment" );
                                         }
                     });
                         }

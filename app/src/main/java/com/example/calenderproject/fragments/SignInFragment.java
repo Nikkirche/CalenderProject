@@ -56,6 +56,7 @@ public class SignInFragment extends Fragment {
                             @Override
                             public void onSuccess(AuthResult authResult) {
                                     act.GoToFragment( "CalenderFragment" );
+                                    act.GoToFragment( "InterfaceFragment" );
                         }
                     } );
                 } else {

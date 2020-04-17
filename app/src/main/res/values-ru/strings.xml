@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Великолепный календарь</string>
-    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_settings">Настройки</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
@@ -26,4 +26,8 @@
     <string name="sign_in">Войти</string>
     <string name="name">Имя</string>
     <string name="info_other_sign">или</string>
+    <string name="AccountSettings">Настройки Аккаунта</string>
+    <string name="Settings">Настройки</string>
+    <string name="Calender">Календарь</string>
+    <string name="Search">Поиск</string>
 </resources>
