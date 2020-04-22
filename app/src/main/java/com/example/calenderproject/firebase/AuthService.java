@@ -1,10 +1,11 @@
 package com.example.calenderproject.firebase;
 
-import com.example.calenderproject.MainActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class AuthService {
     public static void signOut() {
         FirebaseAuth.getInstance()
@@ -17,7 +18,7 @@ public class AuthService {
                 .addOnSuccessListener( new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        UserService.createNewUser( email, name );
+                        UserService.createNewUser( email, name,null );
 
                     }
                 } );
@@ -26,6 +27,10 @@ public class AuthService {
     public static Task<AuthResult> signIn(final String email, String password) {
         return FirebaseAuth.getInstance()
                 .signInWithEmailAndPassword( email, password );
+    }
+    public static boolean CheckStatusOfUser(){
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        return firebaseAuth.getCurrentUser()!=null;
     }
 
 }

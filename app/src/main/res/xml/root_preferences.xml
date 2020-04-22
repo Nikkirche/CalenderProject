@@ -7,7 +7,7 @@
         android:persistent="false">
         <com.example.calenderproject.models.NumberPickerPreference
             android:icon="@drawable/ic_exit_to_app_black_24dp"
-            android:title="LogOut"
+            android:title="@string/log_out"
             android:key="@string/email"
         />
     </PreferenceScreen>

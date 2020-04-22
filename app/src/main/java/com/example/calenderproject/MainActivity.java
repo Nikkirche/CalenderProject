@@ -5,13 +5,11 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.calenderproject.fragments.CalenderFragment;
-import com.example.calenderproject.fragments.InterfaceFragment;
+import com.example.calenderproject.firebase.AuthService;
+import com.example.calenderproject.fragments.menu_container.InterfaceFragment;
 import com.example.calenderproject.fragments.RegisterFragment;
-import com.example.calenderproject.fragments.SettingsFragment;
 import com.example.calenderproject.fragments.SignInFragment;
 import com.example.calenderproject.fragments.StartFragment;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,8 +23,7 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         // Check if user is signed in (non-null) and go to MainActivity then.
         super.onStart();
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        if ( firebaseAuth.getCurrentUser()!=null) {
+        if (AuthService.CheckStatusOfUser()) {
             GoToFragment( "InterfaceFragment" );
         }
         else {

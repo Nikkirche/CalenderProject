@@ -9,18 +9,7 @@
         style="@android:style/TextAppearance.DeviceDefault.SearchResult.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Title" />
-
-    <Button
-        android:id="@+id/buttonYesPreference"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
-
-    <Button
-        android:id="@+id/buttonNoPreference"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="Title"
+        android:textAlignment="center" />
 
 </LinearLayout>

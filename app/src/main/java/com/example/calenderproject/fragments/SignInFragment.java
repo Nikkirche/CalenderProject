@@ -1,6 +1,5 @@
 package com.example.calenderproject.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.calenderproject.MainActivity;
@@ -26,7 +24,7 @@ public class SignInFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.fragment_sign_in, container, false );
-        Button buttonSignIn = view.findViewById( R.id.buttonSignIn );
+        final Button buttonSignIn = view.findViewById( R.id.buttonSignIn );
         ImageButton buttonToStart = view.findViewById( R.id.buttonToStartFromSign );
 
         final EditText editSignEmail = view.findViewById( R.id.editSignEmail );
@@ -43,6 +41,7 @@ public class SignInFragment extends Fragment {
         buttonSignIn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                buttonSignIn.setClickable( false );
                 String email = editSignEmail.getText().toString();
                 String password = editSignPassword.getText().toString();
                 if (email.length() > 0 || password.length() > 0) {
@@ -60,6 +59,7 @@ public class SignInFragment extends Fragment {
                         }
                     } );
                 } else {
+                    buttonSignIn.setClickable( true );
                     Toast.makeText( getContext(), "Can't log in: You must write your  password and email!", Toast.LENGTH_SHORT ).show();
                 }
             }
