@@ -13,6 +13,13 @@ import android.widget.ImageButton;
 import com.example.calenderproject.R;
 public class MyChannelsFragment extends Fragment {
     @Override
+    public void onStart() {
+        ListChannelsFragment listChannelsFragment = new ListChannelsFragment();
+        super.onStart();
+        getChildFragmentManager().beginTransaction().add( R.id.my_channel_container,listChannelsFragment).commit();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =inflater.inflate( R.layout.fragment_my_channels, container, false );
@@ -27,20 +34,21 @@ public class MyChannelsFragment extends Fragment {
         return view ;
     }
     void GoToFragment(String Fragment){
+        ListChannelsFragment listChannelsFragment = new ListChannelsFragment();
         InterfaceFragment interfaceFragment = new InterfaceFragment();
         CreateChannelFragment createChannelFragment = new CreateChannelFragment();
         MyChannelsFragment myChannelsFragment = new MyChannelsFragment();
           FragmentTransaction fragmentTransaction =  getChildFragmentManager().beginTransaction();
           switch (Fragment){
               case "CreateChannel":
-                  fragmentTransaction.hide( interfaceFragment);
-                  fragmentTransaction.hide(myChannelsFragment);
-                  fragmentTransaction.add(R.id.my_channel_container,createChannelFragment);
+                  //fragmentTransaction.remove( interfaceFragment);
+                  //fragmentTransaction.hide(myChannelsFragment);
+                  fragmentTransaction.replace(R.id.my_channel_container,createChannelFragment);
                   break;
               case "MyChannels":
-                  fragmentTransaction.show( interfaceFragment );
-                  fragmentTransaction.show( myChannelsFragment );
-                  fragmentTransaction.remove(createChannelFragment);
+                  //fragmentTransaction.show( interfaceFragment );
+                  //fragmentTransaction.show( myChannelsFragment );
+                  fragmentTransaction.replace( R.id.my_channel_container,listChannelsFragment);
                   break;
           }
           fragmentTransaction.commit();

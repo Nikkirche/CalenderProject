@@ -15,9 +15,9 @@ import android.widget.Toast;
 
 import com.example.calenderproject.R;
 import com.example.calenderproject.firebase.ChannelService;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class CreateChannelFragment extends Fragment {
-    MyChannelsFragment myChannelsFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -26,13 +26,13 @@ public class CreateChannelFragment extends Fragment {
         ImageButton buttonGoBack = view.findViewById( R.id.buttonToMyChannelsFromCreate);
         final EditText editNameChannel = view.findViewById( R.id.editCreateChannelName );
         final Button buttonCreateChannel = view.findViewById( R.id.buttonCreateChannel );
+        final MyChannelsFragment myChannelsFragment = new MyChannelsFragment();
         buttonCreateChannel.setOnClickListener( new View.OnClickListener() {
-            @SuppressLint("ShowToast")
             @Override
             public void onClick(View v) {
                 String name = editNameChannel.getText().toString();
                 if(name.length() >3) {
-                    ChannelService.createNewChannel( name, null );
+                    ChannelService.createNewChannel( name, null,FirebaseAuth.getInstance().getCurrentUser().getUid() );
                     buttonCreateChannel.setClickable( false );
                 }
                 else{
