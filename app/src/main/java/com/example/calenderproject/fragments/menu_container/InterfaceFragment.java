@@ -15,7 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class InterfaceFragment extends Fragment {
     CalenderFragment CalenderFragment;
-    com.example.calenderproject.fragments.menu_container.SettingsFragment SettingsFragment;
+    AccountFragment AccountFragment;
     MyChannelsFragment MyChannelsFragment;
 
     @Override
@@ -32,7 +32,7 @@ public class InterfaceFragment extends Fragment {
         View view = inflater.inflate( R.layout.fragment_interface, container, false );
         setHasOptionsMenu( true );
         CalenderFragment = new CalenderFragment();
-        SettingsFragment = new SettingsFragment();
+        AccountFragment = new AccountFragment();
         MyChannelsFragment = new MyChannelsFragment();
 
         BottomNavigationView menu = view.findViewById( R.id.menu );
@@ -47,8 +47,8 @@ public class InterfaceFragment extends Fragment {
                     case R.id.MyChannels:
                         selectedFragment = MyChannelsFragment;
                         break;
-                    case R.id.Settings:
-                        selectedFragment = SettingsFragment;
+                    case R.id.Account:
+                        selectedFragment = AccountFragment;
                         break;
                 }
                 if (selectedFragment != null) {

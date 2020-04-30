@@ -2,5 +2,10 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:opacity="opaque">
     <item android:drawable="@color/colorGrey"/>
-    <item android:drawable="@drawable/ic_logo"/>
+    <item>
+        <bitmap
+            android:src="@drawable/ic_launcher"
+            android:gravity="center"
+        />
+    </item>
 </layer-list>

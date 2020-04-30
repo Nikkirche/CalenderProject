@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class Channel {
     HashMap<String, HashMap<String, String>> ChannelUsers = new HashMap<>();
-    String name;
+    public  String name;
 
     public Channel() {
     }
@@ -13,6 +13,10 @@ public class Channel {
 
     public Channel(HashMap<String, HashMap<String, String>>  ChannelUsers, String name) {
         this.ChannelUsers = ChannelUsers;
+        this.name = name;
+    }
+
+    public Channel(String name) {
         this.name = name;
     }
 

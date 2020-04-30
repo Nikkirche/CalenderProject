@@ -29,41 +29,12 @@ import java.util.HashMap;
 
 public class CalenderFragment extends Fragment {
     private static final String TAG = "CalenderFragment";
-    private DatabaseReference ref;
-    private TextView nameView;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.fragment_calender, container, false );
-        nameView = view.findViewById( R.id.textName );
 
 
         return view;
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        ref = FirebaseDatabase.getInstance().getReference( "users" ).child( firebaseUser.getUid() );
-        ref.addValueEventListener( new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String,HashMap<String,String>> map = (HashMap) dataSnapshot.getValue();
-                nameView.setText( map.get("id").get( "name" ));
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                nameView.setText( "shit" );
-            }
-        } );
-    }
-
-    ///  ValueEventListener nameListener = new ValueEventListener() {
-    ///      @Override
-    //       public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-    //           User user = dataSnapshot.getValue(User.class);
-    //           nameView.setText(user.name);
-    //       }
 }

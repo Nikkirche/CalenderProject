@@ -16,7 +16,7 @@ import java.util.HashMap;
 public class ChannelService {
     private static DatabaseReference refUser;
     private static FirebaseDatabase refChannel;
-    public static void createNewChannel(final String name, HashMap <String,HashMap <String,String>> ChannelUsers, String CurrentUser){
+    public static void createNewChannel(final String name, HashMap <String,HashMap <String,String>> ChannelUsers, String CurrentUser,String nameOfCurrentUser ){
         Channel channel = new Channel(ChannelUsers,name );
         refUser = FirebaseDatabase.getInstance().getReference( "users" ).child( CurrentUser );
 
@@ -24,7 +24,15 @@ public class ChannelService {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 HashMap<String,HashMap<String,String>> map = (HashMap) dataSnapshot.getValue();
-                map.get("id").put(name,name);
+                if(map.get( "groups" )==null)
+                {
+                    HashMap<String, String> data = new HashMap<>();
+                    data.put( name ,name );
+
+                    map.put("groups", data);
+                }
+                else
+                {map.get("groups").put(name,name);}
 
 
                 refUser.setValue(map);
@@ -38,8 +46,11 @@ public class ChannelService {
         HashMap<String, HashMap <String, String>> values = new HashMap<>();
         HashMap<String, String> data = new HashMap<>();
         data.put( "name",name );
+        HashMap<String, String> dataSubs = new HashMap<>();
+        dataSubs.put( nameOfCurrentUser,nameOfCurrentUser );
 
         values.put("id", data);
+        values.put("subscribers", dataSubs);
         FirebaseDatabase.getInstance()
                 .getReference( "Channels" ).child( name )
                 .setValue( values );

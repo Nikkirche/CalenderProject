@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#303030"
+    android:background="@color/colorGrey"
+    android:backgroundTint="@color/colorGrey"
     tools:context="com.example.calenderproject.fragments.menu_container.CreateChannelFragment">
 
     <EditText
