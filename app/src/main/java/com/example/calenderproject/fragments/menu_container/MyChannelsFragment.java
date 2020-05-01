@@ -29,11 +29,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.PipedOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MyChannelsFragment extends Fragment {
-    private ArrayList<Channel> data = new ArrayList<>();
     private DatabaseReference ref;
     private RecyclerView channelView;
     private LinearLayoutManager linearLayoutManager;
@@ -111,8 +111,20 @@ public class MyChannelsFragment extends Fragment {
 
 
                                     @Override
-                                    protected void onBindViewHolder(ChannelViewHolder holder, final int position, Channel channel) {
-                                        holder.ChannelNameTextView.setText( channel.getName() );
+                                    protected void onBindViewHolder(ChannelViewHolder holder, final int position, final Channel channel) {
+                                        final TextView NameView = holder.ChannelNameTextView;
+                                        NameView.setText( channel.getName() );
+                                        holder.itemView.setOnClickListener( new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                ChannelFragment channelFragment = new ChannelFragment();
+                                                Bundle bundle = new Bundle();
+                                                bundle.putString("ChannelName",channel.getName() );
+                                                channelFragment.setArguments(bundle);
+                                                getChildFragmentManager().beginTransaction().add( R.id.my_channel_container,channelFragment ).commit();
+
+                                            }
+                                        } );
                                     }
 
                                 };
@@ -123,6 +135,7 @@ public class MyChannelsFragment extends Fragment {
         InterfaceFragment interfaceFragment = new InterfaceFragment();
         CreateChannelFragment createChannelFragment = new CreateChannelFragment();
         MyChannelsFragment myChannelsFragment = new MyChannelsFragment();
+        ChannelFragment channelFragment = new ChannelFragment();
         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
         switch (Fragment) {
             case "CreateChannel":
@@ -130,6 +143,9 @@ public class MyChannelsFragment extends Fragment {
                 break;
             case "MyChannels":
                 fragmentTransaction.remove( createChannelFragment );
+                break;
+            case "ChannelFragment":
+                fragmentTransaction.add( R.id.my_channel_container,channelFragment);
                 break;
         }
         fragmentTransaction.commit();
