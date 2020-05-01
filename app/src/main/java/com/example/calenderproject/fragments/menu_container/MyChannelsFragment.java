@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,12 +17,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.calenderproject.R;
 import com.example.calenderproject.models.Channel;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.firebase.ui.database.SnapshotParser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -29,7 +35,22 @@ import java.util.HashMap;
 public class MyChannelsFragment extends Fragment {
     private ArrayList<Channel> data = new ArrayList<>();
     private DatabaseReference ref;
+    private RecyclerView channelView;
+    private LinearLayoutManager linearLayoutManager;
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseRecyclerAdapter adapter;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,19 +64,65 @@ public class MyChannelsFragment extends Fragment {
                 buttonGoCreate.setClickable( false );
             }
         } );
-        RecyclerView ChannelView = view.findViewById( R.id.ChannelView );
-
-        MyAdapter adapter = new MyAdapter( getData() );
-
-        ChannelView.setAdapter( adapter );
-
-        RecyclerView.LayoutManager manager = new LinearLayoutManager( getActivity() );
-
-        ChannelView.setHasFixedSize( true );
-        ChannelView.setNestedScrollingEnabled( true );
-
-        ChannelView.setLayoutManager( manager );
+        channelView = view.findViewById( R.id.ChannelView );
+        linearLayoutManager = new LinearLayoutManager( this.getActivity() );
+        channelView.setLayoutManager( linearLayoutManager );
+        channelView.setHasFixedSize( true );
+        fetch();
         return view;
+    }
+
+    static class ChannelViewHolder extends RecyclerView.ViewHolder {
+        TextView ChannelNameTextView;
+
+        public ChannelViewHolder(@NonNull View itemView) {
+            super( itemView );
+
+            ChannelNameTextView = itemView.findViewById( R.id.ChannelNameTextView );
+        }
+
+        public void bind(Channel channel) {
+            ChannelNameTextView.setText( channel.name );
+        }
+    }
+
+    private void fetch() {
+        Query query = FirebaseDatabase.getInstance().getReference( "users" ).child( firebaseUser.getUid() ).child( "groups" );
+        FirebaseRecyclerOptions<Channel> options =
+                new FirebaseRecyclerOptions.Builder<Channel>()
+                        .setQuery(query, new SnapshotParser<Channel>() {
+                            @NonNull
+                            @Override
+                            public Channel parseSnapshot(@NonNull DataSnapshot snapshot) {
+                                return new Channel(snapshot.getValue().toString());
+                            }
+                        })
+                        .build();
+
+
+                                adapter = new FirebaseRecyclerAdapter<Channel, ChannelViewHolder>( options ) {
+                                    @Override
+                                    public ChannelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                                        View view = LayoutInflater.from( parent.getContext() )
+                                                .inflate( R.layout.item_channel, parent, false );
+
+                                        return new ChannelViewHolder( view );
+                                    }
+
+
+                                    @Override
+                                    protected void onBindViewHolder(ChannelViewHolder holder, final int position, Channel channel) {
+                                        holder.ChannelNameTextView.setText( channel.getName() );
+                                        holder.itemView.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Toast.makeText( getActivity(), String.valueOf( position ), Toast.LENGTH_SHORT ).show();
+                                            }
+                                        });
+                                    }
+
+                                };
+        channelView.setAdapter( adapter );
     }
 
     void GoToFragment(String Fragment) {
@@ -68,39 +135,11 @@ public class MyChannelsFragment extends Fragment {
                 fragmentTransaction.add( R.id.my_channel_container, createChannelFragment );
                 break;
             case "MyChannels":
-                //fragmentTransaction.show( interfaceFragment );
                 fragmentTransaction.remove( createChannelFragment );
                 break;
         }
         fragmentTransaction.commit();
     }
 
-    @SuppressLint("ShowToast")
-    private ArrayList<Channel> getData() {
-        ref = FirebaseDatabase.getInstance().getReference( "users" ).child( firebaseUser.getUid() );
-        ref.addValueEventListener( new ValueEventListener() {
-            @SuppressLint("ShowToast")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                HashMap<String, HashMap<String, String>> AllMap = (HashMap) dataSnapshot.getValue();
-
-                if (AllMap != null) {
-                    HashMap<String, String> map = AllMap.get( "groups" );
-                    for (String key : map.keySet()) {
-
-                        String groupName = map.get( (String) key );
-                        data.add( new Channel( (String) key ) );
-                    }
-
-                }
-            }
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        } );
-        return data;
-    }
 }

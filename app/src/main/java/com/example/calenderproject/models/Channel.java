@@ -16,6 +16,10 @@ public class Channel {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public Channel(String name) {
         this.name = name;
     }

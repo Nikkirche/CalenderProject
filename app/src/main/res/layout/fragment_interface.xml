@@ -14,7 +14,7 @@
         android:layout_gravity="bottom"
         android:background="#3D3DDB"
         app:itemIconTint="#FFFFFF"
-        app:itemTextColor="#FFFFFF"
+        app:itemTextColor="@color/design_default_color_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.998"
