@@ -113,12 +113,6 @@ public class MyChannelsFragment extends Fragment {
                                     @Override
                                     protected void onBindViewHolder(ChannelViewHolder holder, final int position, Channel channel) {
                                         holder.ChannelNameTextView.setText( channel.getName() );
-                                        holder.itemView.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                Toast.makeText( getActivity(), String.valueOf( position ), Toast.LENGTH_SHORT ).show();
-                                            }
-                                        });
                                     }
 
                                 };
