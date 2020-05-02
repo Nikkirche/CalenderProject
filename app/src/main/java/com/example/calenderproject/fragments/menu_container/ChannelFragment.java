@@ -25,7 +25,7 @@ import java.util.HashMap;
 
 public class ChannelFragment extends Fragment {
     TextView NameView;
-    String ChannelName;
+    String ChannelName,SubberName;
     private static DatabaseReference refUser;
     private static FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -72,9 +72,43 @@ public class ChannelFragment extends Fragment {
                                                            }
                                                        }
                                                        map.put( "groups", data2 );
+                                                       SubberName=map.get("id").get("name");
 
 
                                                        refUser.setValue( map );
+
+                                                   }
+
+                                                   @Override
+                                                   public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                   }
+
+
+                                               }
+                );
+                refUser = FirebaseDatabase.getInstance().getReference( "Channels" ).child(ChannelName  );
+                refUser.addValueEventListener( new ValueEventListener() {
+                                                   public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                       HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
+
+                                                       HashMap<String, String> data1 = new HashMap<>();
+                                                       HashMap<String, String> data2 = new HashMap<>();
+                                                       data1 = map.get( "subscribers" );
+
+
+                                                       for (String key : data1.keySet()) {
+
+                                                           String Subber = data1.get( key );
+                                                           if (Subber != SubberName) {
+                                                               data2.put( Subber, Subber );
+                                                           }
+                                                       }
+                                                       map.put( "groups", data2 );
+
+
+                                                       refUser.setValue( map );
+
                                                    }
 
                                                    @Override
