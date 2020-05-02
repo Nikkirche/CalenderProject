@@ -71,8 +71,8 @@ public class CreateChannelFragment extends Fragment {
                 String name = editNameChannel.getText().toString();
                 if(name.length() >3) {
                     ChannelService.createNewChannel( name, null,FirebaseAuth.getInstance().getCurrentUser().getUid(),nameOfCurrentUser );
-                    final  MyChannelsFragment myChannelsFragment = ((MyChannelsFragment)CreateChannelFragment.this.getParentFragment());
-                    myChannelsFragment.GoToFragment( "MyChannels" );
+                    /*final  MyChannelsFragment myChannelsFragment = ((MyChannelsFragment)CreateChannelFragment.this.getParentFragment());
+                    myChannelsFragment.GoToFragment( "MyChannels" );*/
                 }
                 else{
                     Toast.makeText( getContext(),"You must write a name longer as 3 symbols",Toast.LENGTH_SHORT );
@@ -82,8 +82,8 @@ public class CreateChannelFragment extends Fragment {
         buttonGoBack.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final MyChannelsFragment myChannelsFragment = ((MyChannelsFragment)CreateChannelFragment.this.getParentFragment());
-                myChannelsFragment.GoToFragment( "MyChannels" );
+                /*final MyChannelsFragment myChannelsFragment = ((MyChannelsFragment)CreateChannelFragment.this.getParentFragment());
+                myChannelsFragment.GoToFragment( "MyChannels" );*/
             }
         } );
 

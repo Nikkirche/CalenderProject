@@ -27,18 +27,17 @@ public class ChannelFragment extends Fragment {
     TextView NameView;
     String ChannelName;
     private static DatabaseReference refUser;
-    private static FirebaseUser GroupUser =FirebaseAuth.getInstance().getCurrentUser();
+    private static FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     public void onStart() {
         super.onStart();
         Bundle bundle = getArguments();
         if (bundle != null) {
-            ChannelName = bundle.getString("ChannelName");
+            ChannelName = bundle.getString( "ChannelName" );
 
             NameView.setText( ChannelName );
-        }
-        else {
+        } else {
             NameView.setText( "Error" );
         }
     }
@@ -46,51 +45,52 @@ public class ChannelFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View  view = inflater.inflate( R.layout.fragment_channel, container, false );
-         NameView = view.findViewById( R.id.ChannelFragmentNameView );
+        View view = inflater.inflate( R.layout.fragment_channel, container, false );
+        NameView = view.findViewById( R.id.ChannelFragmentNameView );
 
 
         ImageButton UnsubscribeButton = view.findViewById( R.id.buttonUnsubscribe );
         UnsubscribeButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                refUser = FirebaseDatabase.getInstance().getReference("users").child(GroupUser.getUid());
+                refUser = FirebaseDatabase.getInstance().getReference( "users" ).child( GroupUser.getUid() );
 
-                refUser.addValueEventListener(new ValueEventListener() {
-                                                  public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                      HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
+                refUser.addValueEventListener( new ValueEventListener() {
+                                                   public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                       HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
 
-                                                      HashMap<String, String> data1 = new HashMap<>();
-                                                      HashMap<String, String> data2 = new HashMap<>();
-                                                      data1 = map.get("groups");
-
-
-                                                      for (String key : data1.keySet()) {
-
-                                                          String TrueKey = data1.get(key);
-                                                          if (TrueKey != ChannelName) {
-                                                              data2.put(TrueKey, TrueKey);
-                                                          }
-                                                      }
-                                                      map.put("groups", data2);
+                                                       HashMap<String, String> data1 = new HashMap<>();
+                                                       HashMap<String, String> data2 = new HashMap<>();
+                                                       data1 = map.get( "groups" );
 
 
-                                                      refUser.setValue(map);
-                                                  }
+                                                       for (String key : data1.keySet()) {
 
-                                                  @Override
-                                                  public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                           String TrueKey = data1.get( key );
+                                                           if (TrueKey != ChannelName) {
+                                                               data2.put( TrueKey, TrueKey );
+                                                           }
+                                                       }
+                                                       map.put( "groups", data2 );
 
-                                                  }
+
+                                                       refUser.setValue( map );
+                                                   }
+
+                                                   @Override
+                                                   public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                   }
 
 
-                                              }
+                                               }
                 );
 
 
-                return view;
+            }
+        });
+        return view;
+
 
     }
-}
-
 }

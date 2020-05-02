@@ -141,12 +141,17 @@ public class MyChannelsFragment extends Fragment {
             case "CreateChannel":
                 fragmentTransaction.add( R.id.my_channel_container, createChannelFragment );
                 break;
-            case "MyChannels":
+            case "rCreateChannel":
                 fragmentTransaction.remove( createChannelFragment );
                 break;
-            case "ChannelFragment":
+            case "rChannel":
+              fragmentTransaction.remove( channelFragment );
+              break;
+            case "Channel":
                 fragmentTransaction.add( R.id.my_channel_container,channelFragment);
                 break;
+            default:
+                fragmentTransaction.add( R.id.my_channel_container, createChannelFragment );
         }
         fragmentTransaction.commit();
     }
