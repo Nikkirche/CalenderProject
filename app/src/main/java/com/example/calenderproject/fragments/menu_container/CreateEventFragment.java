@@ -7,23 +7,67 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
-import com.example.CalenderProject.R;
+import com.example.calenderproject.R;
+import com.example.calenderproject.firebase.EventService;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class DataPickerFragment extends Fragment {
+public class CreateEventFragment extends Fragment {
+    String ChannelName;
+    TextView NameView;
 
-    public DataPickerFragment() {
-        // Required empty public constructor
+    @Override
+    public void onStart() {
+        super.onStart();
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            ChannelName = bundle.getString( "ChannelName" );
+
+            NameView.setText( ChannelName );
+        } else {
+            NameView.setText( "Error" );
+        }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate( R.layout.fragment_data_picker, container, false );
+        final ChannelFragment ChannelFragment = ((ChannelFragment) CreateEventFragment.this.getParentFragment());
+        View view = inflater.inflate( R.layout.fragment_create_event, container, false );
+        NameView = view.findViewById( R.id.CreateEventChannelNameView );
+        final Button buttonCreateEvent = view.findViewById( R.id.buttonCreateEvent );
+        ImageButton backButton = view.findViewById( R.id.buttonToChannelFromEvent );
+        final EditText EditData = view.findViewById( R.id.CreateEventEditData );
+        final EditText EditText = view.findViewById( R.id.CreateEventEditText );
+        backButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ChannelFragment.getChildFragmentManager().popBackStackImmediate();
+            }
+        } );
+        buttonCreateEvent.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text = EditText.getText().toString();
+                Integer data = Integer.parseInt( EditData.getText().toString() );
+                if (DataIsTrue( data ) && TextIsTrue( text )) {
+                    buttonCreateEvent.setClickable( false);
+                    EventService.createNewEvent( ChannelName, data, text );
+                    ChannelFragment.getChildFragmentManager().popBackStackImmediate();
+                }
+            }
+        } );
+        return view;
+    }
+
+    private boolean TextIsTrue(String text) {
+        return text.length() > 5;
+    }
+
+    private boolean DataIsTrue(Integer data) {
+        return true;
     }
 }

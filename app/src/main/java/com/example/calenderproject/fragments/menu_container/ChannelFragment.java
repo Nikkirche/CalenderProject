@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +29,7 @@ public class ChannelFragment extends Fragment {
     String ChannelName,SubberName;
     private static DatabaseReference refUser;
     private static FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
-
+    private DatabaseReference refChannel;
     @Override
     public void onStart() {
         super.onStart();
@@ -47,8 +48,25 @@ public class ChannelFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.fragment_channel, container, false );
         NameView = view.findViewById( R.id.ChannelFragmentNameView );
-
-
+        ImageButton eventButton = view.findViewById( R.id.buttonToCreateEvent);
+        ImageButton backButton = view.findViewById( R.id.buttonToMyChannelsfromChannel );
+        backButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final MyChannelsFragment myChannelsFragment = ((MyChannelsFragment)ChannelFragment.this.getParentFragment());
+                myChannelsFragment.GoToFragment( "rChannel" );
+            }
+        } );
+        eventButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CreateEventFragment createEventFragment = new CreateEventFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("ChannelName",NameView.getText().toString() );
+                createEventFragment.setArguments(bundle);
+                GoToFragment(createEventFragment);
+            }
+        } );
         ImageButton UnsubscribeButton = view.findViewById( R.id.buttonUnsubscribe );
         UnsubscribeButton.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -58,20 +76,24 @@ public class ChannelFragment extends Fragment {
                 refUser.addValueEventListener( new ValueEventListener() {
                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                        HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
-
-                                                       HashMap<String, String> data1 = new HashMap<>();
+                                                       HashMap<String, String> data1;
                                                        HashMap<String, String> data2 = new HashMap<>();
                                                        data1 = map.get( "groups" );
 
 
-                                                       for (String key : data1.keySet()) {
+                                                       /*if (data1 != null) {
+                                                           for (String key : data1.keySet()) {
 
-                                                           String TrueKey = data1.get( key );
-                                                           if (TrueKey != ChannelName) {
-                                                               data2.put( TrueKey, TrueKey );
+                                                               String TrueKey = data1.get( key );
+                                                               if (!TrueKey.equals( ChannelName )) {
+                                                                   data2.put( TrueKey, TrueKey );
+                                                               }
                                                            }
+                                                       }*/
+                                                       if (data1 != null) {
+                                                           data1.remove(ChannelName);
                                                        }
-                                                       map.put( "groups", data2 );
+                                                       map.put( "groups", data1 );
                                                        SubberName=map.get("id").get("name");
 
 
@@ -87,8 +109,8 @@ public class ChannelFragment extends Fragment {
 
                                                }
                 );
-                refUser = FirebaseDatabase.getInstance().getReference( "Channels" ).child(ChannelName  );
-                refUser.addValueEventListener( new ValueEventListener() {
+                refChannel = FirebaseDatabase.getInstance().getReference( "Channels" ).child(ChannelName  );
+                refChannel.addValueEventListener( new ValueEventListener() {
                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                        HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
 
@@ -97,17 +119,19 @@ public class ChannelFragment extends Fragment {
                                                        data1 = map.get( "subscribers" );
 
 
-                                                       for (String key : data1.keySet()) {
+                                                       if (data1 != null) {
+                                                           for (String key : data1.keySet()) {
 
-                                                           String Subber = data1.get( key );
-                                                           if (Subber != SubberName) {
-                                                               data2.put( Subber, Subber );
+                                                               String Subber = data1.get( key );
+                                                               if (!Subber.equals( SubberName )) {
+                                                                   data2.put( Subber, Subber );
+                                                               }
                                                            }
                                                        }
-                                                       map.put( "groups", data2 );
+                                                       map.put( "subscribers", data2 );
 
 
-                                                       refUser.setValue( map );
+                                                       refChannel.setValue( map );
 
                                                    }
 
@@ -125,6 +149,11 @@ public class ChannelFragment extends Fragment {
         });
         return view;
 
+
+    }
+
+    private void GoToFragment(Fragment Fragment) {
+        getChildFragmentManager().beginTransaction().add( R.id.ChannelContainer,Fragment  ).addToBackStack( null).commit();
 
     }
 }

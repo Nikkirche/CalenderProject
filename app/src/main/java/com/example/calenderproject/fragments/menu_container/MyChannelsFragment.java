@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,7 +62,6 @@ public class MyChannelsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 GoToFragment( "CreateChannel" );
-                buttonGoCreate.setClickable( false );
             }
         } );
         channelView = view.findViewById( R.id.ChannelView );
@@ -121,7 +121,7 @@ public class MyChannelsFragment extends Fragment {
                                                 Bundle bundle = new Bundle();
                                                 bundle.putString("ChannelName",channel.getName() );
                                                 channelFragment.setArguments(bundle);
-                                                getChildFragmentManager().beginTransaction().add( R.id.my_channel_container,channelFragment ).commit();
+                                                getChildFragmentManager().beginTransaction().add( R.id.my_channel_container,channelFragment ).addToBackStack(null).commit();
 
                                             }
                                         } );
@@ -136,22 +136,20 @@ public class MyChannelsFragment extends Fragment {
         CreateChannelFragment createChannelFragment = new CreateChannelFragment();
         MyChannelsFragment myChannelsFragment = new MyChannelsFragment();
         ChannelFragment channelFragment = new ChannelFragment();
-        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         switch (Fragment) {
             case "CreateChannel":
-                fragmentTransaction.add( R.id.my_channel_container, createChannelFragment );
+                fragmentTransaction.add( R.id.my_channel_container, createChannelFragment ).addToBackStack( null );
                 break;
             case "rCreateChannel":
+                fragmentManager.popBackStackImmediate();
                 fragmentTransaction.remove( createChannelFragment );
                 break;
             case "rChannel":
-              fragmentTransaction.remove( channelFragment );
-              break;
-            case "Channel":
-                fragmentTransaction.add( R.id.my_channel_container,channelFragment);
+                fragmentManager.popBackStackImmediate();
+                fragmentTransaction.remove( channelFragment);
                 break;
-            default:
-                fragmentTransaction.add( R.id.my_channel_container, createChannelFragment );
         }
         fragmentTransaction.commit();
     }
