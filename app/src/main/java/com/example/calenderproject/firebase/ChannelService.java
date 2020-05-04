@@ -47,7 +47,7 @@ public class ChannelService {
         HashMap<String, String> data = new HashMap<>();
         data.put( "name",name );
         HashMap<String, String> dataSubs = new HashMap<>();
-        dataSubs.put( nameOfCurrentUser,nameOfCurrentUser );
+        dataSubs.put( CurrentUser,CurrentUser );
 
         values.put("id", data);
         values.put("subscribers", dataSubs);
