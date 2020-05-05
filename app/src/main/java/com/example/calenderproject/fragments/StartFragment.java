@@ -37,16 +37,17 @@ public class StartFragment extends Fragment {
 
         View loginContainer = view.findViewById( R.id.form_login );
         View registerContainer = view.findViewById( R.id.form_register );
+        final ViewGroup InfoTextViews =view.findViewById( R.id.info_form );
 
-        ViewGroup loginViews = (ViewGroup) view.findViewById( R.id.login_views );
-        ViewGroup registerViews = (ViewGroup) view.findViewById( R.id.register_views );
+        final ViewGroup loginViews = (ViewGroup) view.findViewById( R.id.login_views );
+        final ViewGroup registerViews = (ViewGroup) view.findViewById( R.id.register_views );
         // Initialize Firebase Auth
         //Buttons
         final Button buttonToReg = view.findViewById( R.id.buttonToRegFromStart );
         final Button buttonToSign = view.findViewById( R.id.buttonToSignInFromStart );
         final Button buttonReg = view.findViewById( R.id.buttonRegister );
         final Button buttonSignIn = view.findViewById( R.id.buttonSignIn);
-        final CardView cardView = view.findViewById( R.id.info_form );
+
         final EditText regEmail = view.findViewById( R.id.editEmailReg );
         final EditText regName = view.findViewById( R.id.editNameReg );
         final EditText regPassword = view.findViewById( R.id.editPasswordReg );
@@ -82,15 +83,15 @@ public class StartFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!morphAnimationRegister.isPressed()) {
-                    buttonToSign.setVisibility( View.GONE);
-                    cardView.setVisibility( View.GONE );
+                    loginViews.setVisibility( View.GONE);
+                    InfoTextViews.setVisibility( View.GONE );
                     morphAnimationRegister.morphIntoForm();
                     buttonToReg.setText( R.string.back );
                 } else {
                     morphAnimationRegister.morphIntoButton();
-                    cardView.setVisibility( View.VISIBLE );
+                    InfoTextViews.setVisibility( View.VISIBLE );
                     buttonToReg.setText( R.string.register);
-                    buttonToSign.setVisibility( View.VISIBLE);
+                    loginViews.setVisibility( View.VISIBLE);
                 }
             }
         } );
@@ -98,15 +99,15 @@ public class StartFragment extends Fragment {
                                              @Override
                                              public void onClick(View v) {
                                                  if (!morphAnimationLogin.isPressed()) {
-                                                     buttonToReg.setVisibility( View.GONE);
-                                                     cardView.setVisibility( View.GONE );
+                                                     registerViews.setVisibility( View.GONE);
+                                                     InfoTextViews.setVisibility( View.GONE );
                                                      morphAnimationLogin.morphIntoForm();
                                                      buttonToSign.setText( R.string.back );
                                                  } else {
                                                      morphAnimationLogin.morphIntoButton();
-                                                     cardView.setVisibility( View.VISIBLE );
+                                                     InfoTextViews.setVisibility( View.VISIBLE );
                                                      buttonToSign.setText( R.string.sign_in);
-                                                     buttonToReg.setVisibility( View.VISIBLE);
+                                                    registerViews.setVisibility( View.VISIBLE);
                                                  }
                                                  ;
                                              }

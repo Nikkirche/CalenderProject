@@ -29,7 +29,7 @@ public class MorphAnimation {
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) buttonContainer.getLayoutParams();
         initialWidth = layoutParams.width;
         initialGravity = layoutParams.gravity;
-        layoutParams.gravity = Gravity.CENTER;
+        layoutParams.gravity = Gravity.BOTTOM;
         layoutParams.width = FrameLayout.LayoutParams.MATCH_PARENT;
         buttonContainer.setLayoutParams(layoutParams);
         for (int i = 1; i < viewsContainer.getChildCount(); i++) {
