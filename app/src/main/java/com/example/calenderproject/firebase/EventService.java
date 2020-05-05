@@ -133,7 +133,7 @@ public class EventService {
                             for (String key2 : BigMap.keySet()) {
                                 if (key1.equals(key2))
                                 {
-                                    for (String key : BigMap.keySet())
+                                    for (String key : UserChannelEvent.keySet())
                                         map.get(key1).get("events").put(key,UserChannelEvent.get(key));
                                 }
 
