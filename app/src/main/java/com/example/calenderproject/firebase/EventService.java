@@ -112,12 +112,7 @@ public class EventService {
             }
 
         } );
-        if (SubscriberChannelEvent != null) {
-            for (String key : SubscriberChannelEvent.keySet()) {
-                BigMap.put( key, UserChannelEvent );
 
-            }
-        }
 
 
 
@@ -126,15 +121,15 @@ public class EventService {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 HashMap<String,HashMap<String, HashMap<String, HashMap<String, Integer>>>> map = (HashMap) dataSnapshot.getValue();
-
+                HashMap<String,HashMap<String, HashMap<String, HashMap<String, Integer>>>> map1=(HashMap) dataSnapshot.getValue();
                     for (String key1 : map.keySet()) {
                         if (map.get(key1).get("events") != null) {
-                        if (BigMap != null) {
-                            for (String key2 : BigMap.keySet()) {
+                        if (SubscriberChannelEvent != null) {
+                            for (String key2 : SubscriberChannelEvent.keySet()) {
                                 if (key1.equals(key2))
                                 {
                                     for (String key : UserChannelEvent.keySet())
-                                        map.get(key1).get("events").put(key,UserChannelEvent.get(key));
+                                        map1.get(key1).get("events").put(key,UserChannelEvent.get(key));
                                 }
 
                             }
@@ -142,13 +137,13 @@ public class EventService {
 
                     }
                 else{
-                            map.get(key1).put("events",UserChannelEvent);
+                            map1.get(key1).put("events",UserChannelEvent);
 
                         }
 
 
                 }
-                refUser.setValue(map);
+                refUser.setValue(map1);
             }
 
             @Override
