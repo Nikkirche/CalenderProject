@@ -118,6 +118,46 @@ public class EventService {
 
             }
         }
+
+
+
+        refUser = FirebaseDatabase.getInstance().getReference( "users" );
+        refUser.addValueEventListener( new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                HashMap<String,HashMap<String, HashMap<String, HashMap<String, Integer>>>> map = (HashMap) dataSnapshot.getValue();
+
+                    for (String key1 : map.keySet()) {
+                        if (map.get(key1).get("events") != null) {
+                        if (BigMap != null) {
+                            for (String key2 : BigMap.keySet()) {
+                                if (key1.equals(key2))
+                                {
+                                    for (String key : BigMap.keySet())
+                                        map.get(key1).get("events").put(key,UserChannelEvent.get(key));
+                                }
+
+                            }
+                        }
+
+                    }
+                else{
+                            map.get(key1).put("events",UserChannelEvent);
+
+                        }
+
+
+                }
+                refUser.setValue(map);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        } );
+
         /*refUser = FirebaseDatabase.getInstance().getReference( "users" );
         refUser.addValueEventListener( new ValueEventListener() {
             @Override
