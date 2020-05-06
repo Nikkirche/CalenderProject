@@ -12,14 +12,14 @@
     <FrameLayout
         android:id="@+id/frame"
         android:layout_width="0dp"
-        android:layout_height="500dp"
+        android:layout_height="350dp"
         android:animateLayoutChanges="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.75">
+        app:layout_constraintVertical_bias="0.7">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/form_login"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="160dp"
+            android:layout_marginTop="60dp"
             android:layout_marginEnd="30dp"
             android:background="#303030"
             android:padding="0dp"
@@ -39,8 +39,8 @@
                 android:id="@+id/login_views"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -49,8 +49,8 @@
                     style="@style/RoundedCornerButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:background="@drawable/round_button_style"
                     android:gravity="center|center_horizontal|center_vertical"
                     android:text="@string/sign_in"
@@ -114,7 +114,7 @@
             android:layout_gravity="bottom"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:layout_marginBottom="160dp"
+            android:layout_marginBottom="55dp"
             android:background="#303030"
             android:padding="0dp"
             app:cardCornerRadius="10dp"
@@ -125,8 +125,8 @@
                 android:id="@+id/register_views"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -136,8 +136,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:background="@drawable/round_button_style"
                     android:backgroundTint="#FF0000"
                     android:gravity="center"
@@ -215,7 +215,7 @@
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:layout_marginStart="128dp"
-            android:layout_marginTop="235dp"
+            android:layout_marginTop="160dp"
             android:layout_marginEnd="128dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="4dp">
@@ -239,6 +239,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/frame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"

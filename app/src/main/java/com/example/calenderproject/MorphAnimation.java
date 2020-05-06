@@ -31,6 +31,7 @@ public class MorphAnimation {
         initialGravity = layoutParams.gravity;
         layoutParams.gravity = Gravity.BOTTOM;
         layoutParams.width = FrameLayout.LayoutParams.MATCH_PARENT;
+        layoutParams.height= FrameLayout.LayoutParams.WRAP_CONTENT;
         buttonContainer.setLayoutParams(layoutParams);
         for (int i = 1; i < viewsContainer.getChildCount(); i++) {
             viewsContainer.getChildAt(i).setVisibility(View.VISIBLE);

@@ -1,9 +1,6 @@
 package com.example.calenderproject.fragments.menu_container;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.calenderproject.R;
 import com.example.calenderproject.firebase.EventService;
@@ -51,12 +50,15 @@ public class CreateEventFragment extends Fragment {
         buttonCreateEvent.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                buttonCreateEvent.setClickable( false);
                 String text = EditText.getText().toString();
                 Integer data = Integer.parseInt( EditData.getText().toString() );
                 if (DataIsTrue( data ) && TextIsTrue( text )) {
-                    buttonCreateEvent.setClickable( false);
                     EventService.createNewEvent( ChannelName, data, text );
+                    buttonCreateEvent.setClickable( false);
                     ChannelFragment.getChildFragmentManager().popBackStackImmediate();
+                }else{
+                    buttonCreateEvent.setClickable( true);
                 }
             }
         } );

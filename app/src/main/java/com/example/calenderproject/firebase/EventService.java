@@ -1,10 +1,7 @@
 package com.example.calenderproject.firebase;
 
-import android.icu.util.LocaleData;
-
 import androidx.annotation.NonNull;
 
-import com.example.calenderproject.models.Channel;
 import com.example.calenderproject.models.Event;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,6 +17,7 @@ import java.util.HashMap;
 public class EventService {
     private static DatabaseReference refUser;
     private static DatabaseReference refChannel;
+    private static DatabaseReference refToUser;
     private static HashMap<String, HashMap<String, Integer>> UserChannelEvent;
     private static HashMap<String, HashMap<String, HashMap<String, Integer>>> BigMap;
     private static HashMap<String, String> SubscriberChannelEvent;
@@ -112,46 +110,50 @@ public class EventService {
             }
 
         } );
-
-
-
-
-        refUser = FirebaseDatabase.getInstance().getReference( "users" );
-        refUser.addValueEventListener( new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String,HashMap<String, HashMap<String, HashMap<String, Integer>>>> map = (HashMap) dataSnapshot.getValue();
-                HashMap<String,HashMap<String, HashMap<String, HashMap<String, Integer>>>> map1=(HashMap) dataSnapshot.getValue();
+        try {
+            Thread.sleep(1000);
+            refToUser = FirebaseDatabase.getInstance().getReference( "users" );
+            refToUser.addValueEventListener( new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    HashMap<String,HashMap<String, HashMap<String, HashMap<String, Integer>>>> map = (HashMap) dataSnapshot.getValue();
+                    HashMap<String,HashMap<String, HashMap<String, HashMap<String, Integer>>>> map1=(HashMap) dataSnapshot.getValue();
                     for (String key1 : map.keySet()) {
                         if (map.get(key1).get("events") != null) {
-                        if (SubscriberChannelEvent != null) {
-                            for (String key2 : SubscriberChannelEvent.keySet()) {
-                                if (key1.equals(key2))
-                                {
-                                    for (String key : UserChannelEvent.keySet())
-                                        map1.get(key1).get("events").put(key,UserChannelEvent.get(key));
+                            if (SubscriberChannelEvent != null) {
+                                for (String key2 : SubscriberChannelEvent.keySet()) {
+                                    if (key1.equals(key2))
+                                    {
+                                        for (String key : UserChannelEvent.keySet())
+                                            map1.get(key1).get("events").put(key,UserChannelEvent.get(key));
+                                    }
+
                                 }
-
                             }
-                        }
 
-                    }
-                else{
+                        }
+                        else{
                             map1.get(key1).put("events",UserChannelEvent);
 
                         }
 
 
+                    }
+                    refToUser.setValue(map1);
                 }
-                refUser.setValue(map1);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
+                }
 
-        } );
+            } );
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+
 
         /*refUser = FirebaseDatabase.getInstance().getReference( "users" );
         refUser.addValueEventListener( new ValueEventListener() {
