@@ -117,8 +117,8 @@ public class EventService {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     HashMap<String,HashMap<String, HashMap<String, HashMap<String, Integer>>>> map = (HashMap) dataSnapshot.getValue();
-                    HashMap<String,HashMap<String, HashMap<String, HashMap<String, Integer>>>> map1=(HashMap) dataSnapshot.getValue();
-                    for (String key1 : map.keySet()) {
+                        HashMap<String,HashMap<String, HashMap<String, HashMap<String, Integer>>>> map1=(HashMap) dataSnapshot.getValue();
+                        for (String key1 : map.keySet()) {
                         if (map.get(key1).get("events") != null) {
                             if (SubscriberChannelEvent != null) {
                                 for (String key2 : SubscriberChannelEvent.keySet()) {

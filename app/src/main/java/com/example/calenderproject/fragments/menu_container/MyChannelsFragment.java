@@ -26,12 +26,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import java.util.HashMap;
+
 public class MyChannelsFragment extends Fragment {
     private DatabaseReference ref;
     private RecyclerView channelView;
     private LinearLayoutManager linearLayoutManager;
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseRecyclerAdapter adapter;
+    private HashMap<String,String>  values;
 
     @Override
     public void onStart() {
@@ -50,6 +53,13 @@ public class MyChannelsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.fragment_my_channels, container, false );
         final ImageButton buttonGoCreate = view.findViewById( R.id.buttonToCreateChannel );
+        final  ImageButton buttonGoSearch = view.findViewById( R.id.buttonToSearch);
+        buttonGoSearch.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GoToFragment( "Search" );
+            }
+        } );
         buttonGoCreate.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +96,7 @@ public class MyChannelsFragment extends Fragment {
                             @NonNull
                             @Override
                             public Channel parseSnapshot(@NonNull DataSnapshot snapshot) {
+
                                 return new Channel(snapshot.getValue().toString());
                             }
                         })
@@ -127,6 +138,7 @@ public class MyChannelsFragment extends Fragment {
         InterfaceFragment interfaceFragment = new InterfaceFragment();
         CreateChannelFragment createChannelFragment = new CreateChannelFragment();
         MyChannelsFragment myChannelsFragment = new MyChannelsFragment();
+        SearchFragment searchFragment = new SearchFragment();
         ChannelFragment channelFragment = new ChannelFragment();
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -142,6 +154,10 @@ public class MyChannelsFragment extends Fragment {
                 fragmentManager.popBackStackImmediate();
                 fragmentTransaction.remove( channelFragment);
                 break;
+            case "Search":
+                fragmentTransaction.add( R.id.my_channel_container,searchFragment ).addToBackStack( null);
+                break;
+
         }
         fragmentTransaction.commit();
     }
