@@ -92,8 +92,15 @@ public class ChannelFragment extends Fragment {
                                                        }*/
                                                        if (data1 != null) {
                                                            data1.remove(ChannelName);
+                                                       if(data1!=null)
+                                                       {map.put( "groups", data1 );}
+                                                       else
+                                                       {  map.remove("groups");}
                                                        }
-                                                       map.put( "groups", data1 );
+                                                       else{
+                                                           map.remove("groups");
+                                                       }
+
                                                        SubberName=map.get("id").get("name");
 
 
@@ -119,16 +126,26 @@ public class ChannelFragment extends Fragment {
                                                        data1 = map.get( "subscribers" );
 
 
-                                                       if (data1 != null) {
-                                                           for (String key : data1.keySet()) {
+                                                   //    if (data1 != null) {
+                                                         //  for (String key : data1.keySet()) {
 
-                                                               String Subber = data1.get( key );
-                                                               if (!Subber.equals( SubberName )) {
-                                                                   data2.put( Subber, Subber );
-                                                               }
-                                                           }
-                                                       }
-                                                       map.put( "subscribers", data2 );
+                                                               //String Subber = data1.get( key );
+                                                              // if (!Subber.equals( SubberName )) {
+
+                                                     if(data1!=null) {
+                                                         data1.remove(GroupUser.getUid());//put( Subber, Subber );
+                                                         if(data1!=null)
+                                                         {
+
+
+                                                             map.put("subscribers",data1);}
+                                                         else
+                                                         {map.remove("subscribers");}
+                                                     }
+                                                             //  }
+                                                         //  }
+                                                  //     }
+                                                      else{ map.remove( "subscribers" );}
 
 
                                                        refChannel.setValue( map );
