@@ -1,46 +1,54 @@
 package com.example.calenderproject.fragments.menu_container;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.calenderproject.R;
+import com.example.calenderproject.models.Channel;
+import com.example.calenderproject.models.Event;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.firebase.ui.database.SnapshotParser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
 public class ChannelFragment extends Fragment {
-    TextView NameView;
-    String ChannelName,SubberName;
+    private TextView NameView;
+    private String ChannelName,SubberName;
+    private RecyclerView EventView;
+    private LinearLayoutManager linearLayoutManager;
+    private FirebaseRecyclerAdapter adapter;
     private static DatabaseReference refUser;
     private static FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference refChannel;
     @Override
     public void onStart() {
         super.onStart();
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            ChannelName = bundle.getString( "ChannelName" );
+        adapter.startListening();
 
-            NameView.setText( ChannelName );
-        } else {
-            NameView.setText( "Error" );
-        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 
     @Override
@@ -50,6 +58,19 @@ public class ChannelFragment extends Fragment {
         NameView = view.findViewById( R.id.ChannelFragmentNameView );
         ImageButton eventButton = view.findViewById( R.id.buttonToCreateEvent);
         ImageButton backButton = view.findViewById( R.id.buttonToMyChannelsfromChannel );
+        EventView = view.findViewById( R.id.EventView );
+        linearLayoutManager = new LinearLayoutManager( this.getActivity() );
+        EventView.setLayoutManager( linearLayoutManager );
+        EventView.setHasFixedSize( true );
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            ChannelName = bundle.getString( "ChannelName" );
+
+            NameView.setText( ChannelName );
+        } else {
+            NameView.setText( "Error" );
+        }
+        fetch(ChannelName);
         backButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,13 +155,9 @@ public class ChannelFragment extends Fragment {
 
                                                      if(data1!=null) {
                                                          data1.remove(GroupUser.getUid());//put( Subber, Subber );
-                                                         if(data1!=null)
-                                                         {
 
 
-                                                             map.put("subscribers",data1);}
-                                                         else
-                                                         {map.remove("subscribers");}
+                                                         map.put("subscribers",data1);
                                                      }
                                                              //  }
                                                          //  }
@@ -167,6 +184,65 @@ public class ChannelFragment extends Fragment {
         return view;
 
 
+    }
+    static class EventViewHolder extends RecyclerView.ViewHolder {
+        TextView EventNameTextView;
+
+        public EventViewHolder(@NonNull View itemView) {
+            super( itemView );
+
+            EventNameTextView = itemView.findViewById( R.id.EventNameTextView );
+        }
+
+        public void bind(Channel channel) {
+            EventNameTextView.setText( channel.name );
+        }
+    }
+
+    private void fetch(String ChannelName) {
+        Query query = FirebaseDatabase.getInstance().getReference( "Channels" ).child( ChannelName ).child( "events" );
+        FirebaseRecyclerOptions<Event> options =
+                new FirebaseRecyclerOptions.Builder<Event>()
+                        .setQuery(query, new SnapshotParser<Event>() {
+                            @NonNull
+                            @Override
+                            public Event parseSnapshot(@NonNull DataSnapshot snapshot) {
+
+                                return new Event(snapshot.getValue().toString());
+                            }
+                        })
+                        .build();
+
+
+        adapter = new FirebaseRecyclerAdapter<Event, ChannelFragment.EventViewHolder>( options ) {
+            @Override
+            public ChannelFragment.EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from( parent.getContext() )
+                        .inflate( R.layout.item_event, parent, false );
+
+                return new ChannelFragment.EventViewHolder( view );
+            }
+
+
+            @Override
+            protected void onBindViewHolder(ChannelFragment.EventViewHolder holder, final int position, final Event event) {
+                final TextView EventNameView = holder.EventNameTextView;
+                EventNameView.setText( event.getText() );
+                holder.itemView.setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        /*ChannelFragment channelFragment = new ChannelFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ChannelName",channel.getName() );
+                        channelFragment.setArguments(bundle);
+                        getChildFragmentManager().beginTransaction().add( R.id.my_channel_container,channelFragment ).addToBackStack(null).commit();*/
+
+                    }
+                } );
+            }
+
+        };
+        EventView.setAdapter( adapter );
     }
 
     private void GoToFragment(Fragment Fragment) {

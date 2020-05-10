@@ -18,12 +18,12 @@ public class EventService {
     private static DatabaseReference refUser;
     private static DatabaseReference refChannel;
     private static DatabaseReference refToUser;
-    private static HashMap<String, HashMap<String, Integer>> UserChannelEvent;
-    private static HashMap<String, HashMap<String, HashMap<String, Integer>>> BigMap;
+    private static HashMap<String, HashMap<String, String>> UserChannelEvent;
+    private static HashMap<String, HashMap<String, HashMap<String, String>>> BigMap;
     private static HashMap<String, String> SubscriberChannelEvent;
 
 
-    public static void createNewEvent(String ChannelName, final Integer time, final String text) {
+    public static void createNewEvent(String ChannelName, final String time, final String text) {
         final FirebaseUser CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         Event event = new Event( text, time );
         /*refUser = FirebaseDatabase.getInstance().getReference( "users" ).child( CurrentUser.getUid() );
@@ -51,17 +51,17 @@ public class EventService {
         refChannel.addValueEventListener( new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String, HashMap<String, HashMap<String, Integer>>> map1 = (HashMap) dataSnapshot.getValue();
+                HashMap<String, HashMap<String, HashMap<String, String>>> map1 = (HashMap) dataSnapshot.getValue();
                 String EventId = CurrentUser.getDisplayName() + Calendar.getInstance().getTime().toString();
                 if (map1 != null) {
                     if (map1.get( "events" ) == null) {
-                        HashMap<String, HashMap<String, Integer>> data1 = new HashMap<>();
-                        HashMap<String, Integer> mini = new HashMap<>();
+                        HashMap<String, HashMap<String, String>> data1 = new HashMap<>();
+                        HashMap<String, String> mini = new HashMap<>();
                         mini.put( text, time );
                         data1.put( EventId, mini );
                         map1.put( "events", data1 );
                     } else {
-                        HashMap<String, Integer> mini = new HashMap<>();
+                        HashMap<String, String> mini = new HashMap<>();
                         mini.put( text, time );
                         map1.get( "events" ).put( EventId, mini );
                     }
@@ -80,7 +80,7 @@ public class EventService {
         refUser.addValueEventListener( new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String, HashMap<String, HashMap<String, Integer>>> map = (HashMap) dataSnapshot.getValue();
+                HashMap<String, HashMap<String, HashMap<String, String>>> map = (HashMap) dataSnapshot.getValue();
                 if (map != null) {
                     UserChannelEvent = map.get( "events" );
                 }
@@ -116,8 +116,8 @@ public class EventService {
             refToUser.addValueEventListener( new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    HashMap<String,HashMap<String, HashMap<String, HashMap<String, Integer>>>> map = (HashMap) dataSnapshot.getValue();
-                        HashMap<String,HashMap<String, HashMap<String, HashMap<String, Integer>>>> map1=(HashMap) dataSnapshot.getValue();
+                    HashMap<String,HashMap<String, HashMap<String, HashMap<String, String>>>> map = (HashMap) dataSnapshot.getValue();
+                        HashMap<String,HashMap<String, HashMap<String, HashMap<String, String>>>> map1=(HashMap) dataSnapshot.getValue();
                         for (String key1 : map.keySet()) {
                         if (map.get(key1).get("events") != null) {
                             if (SubscriberChannelEvent != null) {

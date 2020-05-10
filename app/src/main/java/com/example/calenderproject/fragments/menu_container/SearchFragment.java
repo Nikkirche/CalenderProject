@@ -27,10 +27,11 @@ import java.util.HashMap;
 public class SearchFragment extends Fragment {
     LinearLayoutManager linearLayoutManager;
     RecyclerView SearchView;
-    FirebaseRecyclerAdapter  adapter;
-    HashMap <String,String> values;
+    FirebaseRecyclerAdapter adapter;
+    HashMap<String, String> values;
     String SearchQuery;
     Query query;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -54,16 +55,16 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 SearchQuery = EditSearchQuery.getText().toString();
-                fetch( SearchQuery );
             }
         } );
         linearLayoutManager = new LinearLayoutManager( this.getActivity() );
         SearchView.setLayoutManager( linearLayoutManager );
         SearchView.setHasFixedSize( true );
-        fetch(SearchQuery);
+        fetch( SearchQuery );
 
-        return  view ;
+        return view;
     }
+
     static class ChannelViewHolder extends RecyclerView.ViewHolder {
         TextView ChannelNameTextView;
 
@@ -78,17 +79,12 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    private void fetch(String SearchQuery) {
-        if(SearchQuery != null) {
-             query = FirebaseDatabase.getInstance().getReference( "Channels" ).orderByChild("id")
-                    .equalTo( SearchQuery );
-        }
-        else{
-             query = FirebaseDatabase.getInstance().getReference( "Channels" );
-        }
+    private void fetch(final String SearchQuery) {
+            query = FirebaseDatabase.getInstance()
+                    .getReference("Channels").orderByChild( "name" ).equalTo( SearchQuery );
         FirebaseRecyclerOptions<Channel> options =
                 new FirebaseRecyclerOptions.Builder<Channel>()
-                        .setQuery(query, new SnapshotParser<Channel>() {
+                        .setQuery( query, new SnapshotParser<Channel>() {
                             @NonNull
                             @Override
                             public Channel parseSnapshot(@NonNull DataSnapshot snapshot) {
@@ -98,9 +94,11 @@ public class SearchFragment extends Fragment {
                                         values.put(key1,key1);
                                     }
                                 }*/
-                                return new Channel(snapshot.child( "id" ).child( "name" ).getValue().toString());
+                                String ChannelName  = snapshot.child( "id" ).child( "name" ).getValue().toString();
+                                    return new Channel( ChannelName );
+
                             }
-                        })
+                        } )
                         .build();
 
 
@@ -121,11 +119,11 @@ public class SearchFragment extends Fragment {
                 holder.itemView.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ChannelFragment channelFragment = new ChannelFragment();
+                        SearchChannelFragment searchChannelFragment = new SearchChannelFragment();
                         Bundle bundle = new Bundle();
-                        bundle.putString("ChannelName",channel.getName() );
-                        channelFragment.setArguments(bundle);
-                        getChildFragmentManager().beginTransaction().add( R.id.SearchContainer,channelFragment ).addToBackStack(null).commit();
+                        bundle.putString( "ChannelName", channel.getName() );
+                        searchChannelFragment.setArguments( bundle );
+                        getChildFragmentManager().beginTransaction().add( R.id.SearchContainer, searchChannelFragment ).addToBackStack( null ).commit();
 
                     }
                 } );
