@@ -7,23 +7,45 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.calenderproject.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 public class SearchChannelFragment extends Fragment {
     private TextView NameView;
-
+    private static FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
+    private DatabaseReference refUser;
+    private DatabaseReference refChannel;
+    private String channelName;
+    private boolean toScribeOrNotToScribe;
     @Override
     public void onStart() {
         super.onStart();
         Bundle bundle = getArguments();
         if (bundle != null) {
-            String channelName = bundle.getString( "ChannelName" );
+            channelName = bundle.getString( "ChannelName" );
             NameView.setText( channelName );
         } else {
             NameView.setText( "Error" );
         }
+
+
+
+
+
+
+
+
 
     }
 
@@ -33,7 +55,123 @@ public class SearchChannelFragment extends Fragment {
 
         View view = inflater.inflate( R.layout.fragment_search_channel, container, false );
         ImageButton SubscribeButton = view.findViewById( R.id.SubscribeButton );
+
         NameView = view.findViewById( R.id.NameView );
-        return view ;
+
+
+
+
+
+        SubscribeButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+            refUser = FirebaseDatabase.getInstance().getReference( "users" ).child( GroupUser.getUid() );
+            refUser.addValueEventListener(new ValueEventListener() {
+                                              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                  HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
+
+                                                  HashMap<String, String> data1 = new HashMap<>();
+                                                  ;
+                                                  HashMap<String, String> data2 = new HashMap<>();
+
+                                                  if (map.get("Subchannels") != null) {
+                                                      data1 = map.get("Subchannels");
+
+                                                      data1.put(channelName, channelName);
+                                                      map.put("Subchannels", data1);
+                                                  } else {
+                                                      data1.put(channelName, channelName);
+                                                      map.put("Subchannels", data1);
+                                                  }
+
+
+                                                  refUser.setValue(map);
+                                              }
+
+                                              @Override
+                                              public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                              }
+
+
+                                          }
+            );
+
+
+            refChannel = FirebaseDatabase.getInstance().getReference("Channels").child(channelName);
+
+            refChannel.addValueEventListener(new ValueEventListener() {
+                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                     HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
+
+                                                     HashMap<String, String> data1 = new HashMap<>();
+                                                     ;
+                                                     HashMap<String, String> data2 = new HashMap<>();
+
+                                                     if (map.get("subscribers") != null) {
+                                                         data1 = map.get("subscribers");
+
+                                                         data1.put(GroupUser.getUid(), GroupUser.getUid());
+                                                         map.put("subscribers", data1);
+                                                     } else {
+                                                         data1.put(GroupUser.getUid(), GroupUser.getUid());
+                                                         map.put("subscribers", data1);
+                                                     }
+
+
+                                                     refChannel.setValue(map);
+                                                 }
+
+                                                 @Override
+                                                 public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                 }
+
+
+                                             }
+            );
+
+
+
+
+
+
+
+            }
+        });
+        return view;
+
+
     }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
