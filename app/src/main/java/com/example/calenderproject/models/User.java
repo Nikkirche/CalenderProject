@@ -2,11 +2,11 @@ package com.example.calenderproject.models;
 
 import java.util.ArrayList;
 
-public class User {
-    public String email;
-    public String name;
-    public String id;
-    public ArrayList<Channel> SubscribedChannels = new ArrayList<>();
+class User {
+    private String email;
+    private String name;
+    private String id;
+    private ArrayList<Channel> SubscribedChannels = new ArrayList<>();
     public User() {
     }
 

@@ -9,7 +9,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,16 +20,17 @@ import com.firebase.ui.database.SnapshotParser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.jaredrummler.cyanea.app.CyaneaFragment;
 
 import java.util.HashMap;
 
-public class SearchFragment extends Fragment {
-    LinearLayoutManager linearLayoutManager;
-    RecyclerView SearchView;
-    FirebaseRecyclerAdapter adapter;
+public class SearchFragment extends CyaneaFragment {
+    private LinearLayoutManager linearLayoutManager;
+    private RecyclerView SearchView;
+    private FirebaseRecyclerAdapter adapter;
     HashMap<String, String> values;
-    String SearchQuery;
-    Query query;
+    private String SearchQuery;
+    private Query query;
 
     @Override
     public void onStart() {
@@ -66,9 +66,9 @@ public class SearchFragment extends Fragment {
     }
 
     static class ChannelViewHolder extends RecyclerView.ViewHolder {
-        TextView ChannelNameTextView;
+        final TextView ChannelNameTextView;
 
-        public ChannelViewHolder(@NonNull View itemView) {
+        ChannelViewHolder(@NonNull View itemView) {
             super( itemView );
 
             ChannelNameTextView = itemView.findViewById( R.id.ChannelNameTextView );

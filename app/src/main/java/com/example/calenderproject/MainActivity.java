@@ -2,18 +2,18 @@ package com.example.calenderproject;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.calenderproject.firebase.AuthService;
-import com.example.calenderproject.fragments.menu_container.InterfaceFragment;
 import com.example.calenderproject.fragments.StartFragment;
+import com.example.calenderproject.fragments.menu_container.InterfaceFragment;
+import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends CyaneaAppCompatActivity {
 
 
-    StartFragment StartFragment;
-    InterfaceFragment InterfaceFragment;
+    private StartFragment StartFragment;
+    private InterfaceFragment InterfaceFragment;
 
     @Override
     public void onStart() {
@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme( R.style.ActivityTheme );
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
     }

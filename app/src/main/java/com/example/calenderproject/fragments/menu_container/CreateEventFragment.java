@@ -15,14 +15,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import com.example.calenderproject.R;
 import com.example.calenderproject.firebase.EventService;
+import com.jaredrummler.cyanea.app.CyaneaFragment;
 
 import java.util.Calendar;
 
-public class CreateEventFragment extends Fragment {
+public class CreateEventFragment extends CyaneaFragment {
     private String ChannelName;
     private TextView NameView;
     private static Button  ButtonSetData;
@@ -98,7 +98,7 @@ public class CreateEventFragment extends Fragment {
     private boolean DataIsTrue(String  data) {
         return true;
     }
-    public  static  class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+    public static  class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final Calendar c = Calendar.getInstance();
@@ -112,7 +112,7 @@ public class CreateEventFragment extends Fragment {
             ButtonSetTime.setText(timeToShow);
         }
     }
-    public  static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final Calendar c = Calendar.getInstance();

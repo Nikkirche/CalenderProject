@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorGrey">#303030</color>
+    <color name="cyanea_primary_reference">#0288D1</color>
+    <color name="cyanea_accent_reference">#FFA000</color>
 </resources>

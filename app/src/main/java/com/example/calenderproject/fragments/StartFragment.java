@@ -7,12 +7,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
 
 import com.example.calenderproject.MainActivity;
 import com.example.calenderproject.MorphAnimation;
@@ -23,11 +20,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.jaredrummler.cyanea.app.CyaneaFragment;
 
-import java.util.Objects;
 
-
-public class StartFragment extends Fragment {
+public class StartFragment extends CyaneaFragment {
     private MorphAnimation morphAnimationLogin;
     private MorphAnimation morphAnimationRegister;
 

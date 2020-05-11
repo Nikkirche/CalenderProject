@@ -1,10 +1,9 @@
 package com.example.calenderproject.models;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Channel {
-    HashMap<String, HashMap<String, String>> ChannelUsers = new HashMap<>();
+    private HashMap<String, HashMap<String, String>> ChannelUsers = new HashMap<>();
     public  String name;
 
     public Channel() {

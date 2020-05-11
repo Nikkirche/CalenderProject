@@ -12,11 +12,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.calenderproject.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.jaredrummler.cyanea.app.CyaneaFragment;
 
-public class InterfaceFragment extends Fragment {
-    CalenderFragment CalenderFragment;
-    AccountFragment AccountFragment;
-    MyChannelsFragment MyChannelsFragment;
+public class InterfaceFragment extends CyaneaFragment {
+    private CalenderFragment CalenderFragment;
+    private AccountFragment AccountFragment;
+    private MyChannelsFragment MyChannelsFragment;
 
     @Override
     public void onStart() {

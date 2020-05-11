@@ -7,10 +7,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import com.example.calenderproject.R;
 import com.example.calenderproject.firebase.ChannelService;
@@ -21,13 +19,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jaredrummler.cyanea.app.CyaneaFragment;
 
 import java.util.HashMap;
 
-public class CreateChannelFragment extends Fragment {
+public class CreateChannelFragment extends CyaneaFragment {
 
     private DatabaseReference ref;
-    String nameOfCurrentUser;
+    private String nameOfCurrentUser;
     @Override
     public void onStart() {
         super.onStart();
@@ -68,7 +67,6 @@ public class CreateChannelFragment extends Fragment {
                     myChannelsFragment.GoToFragment( "rCreateChannel" );
                 }
                 else{
-                    Toast.makeText( getContext(),"You must write a name longer as 3 symbols",Toast.LENGTH_SHORT );
                 }
             }
         } );

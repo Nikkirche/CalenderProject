@@ -1,14 +1,14 @@
 package com.example.calenderproject.fragments.menu_container;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.example.calenderproject.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,19 +18,38 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jaredrummler.cyanea.app.CyaneaFragment;
+import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 
 import java.util.HashMap;
 
-public class AccountFragment extends Fragment {
+public class AccountFragment extends CyaneaFragment {
     private DatabaseReference ref;
     private TextView nameView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.fragment_account, container, false );
-         nameView = view.findViewById( R.id.AccountNameView );
+        nameView = view.findViewById( R.id.AccountNameView );
+        ImageButton SettingsButton = view.findViewById( R.id.ToSettingsButton );
+        ImageButton CustomisationButton = view.findViewById( R.id.ToCustomotisationButton );
+        CustomisationButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), CyaneaSettingsActivity.class));
+            }
+        } );
+        SettingsButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SettingsFragment settingsFragment = new SettingsFragment();
+                getChildFragmentManager().beginTransaction().add( R.id.AccountContainer, settingsFragment ).commit();
+            }
+        } );
         return view;
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -39,8 +58,8 @@ public class AccountFragment extends Fragment {
         ref.addValueEventListener( new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String, HashMap<String,String>> map = (HashMap) dataSnapshot.getValue();
-                nameView.setText( map.get("id").get( "name" ));
+                HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
+                nameView.setText( map.get( "id" ).get( "name" ) );
 
             }
 

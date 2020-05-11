@@ -1,8 +1,8 @@
 package com.example.calenderproject.models;
 
 public class Event {
-    String text;
-    String  data;
+    private final String text;
+    private String  data;
 
     public Event(String text, String data) {
         this.text = text;

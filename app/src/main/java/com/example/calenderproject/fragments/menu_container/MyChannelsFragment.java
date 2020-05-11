@@ -8,7 +8,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,14 +24,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.jaredrummler.cyanea.app.CyaneaFragment;
 
 import java.util.HashMap;
 
-public class MyChannelsFragment extends Fragment {
+public class MyChannelsFragment extends CyaneaFragment {
     private DatabaseReference ref;
     private RecyclerView channelView;
     private LinearLayoutManager linearLayoutManager;
-    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    private final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseRecyclerAdapter adapter;
     private HashMap<String,String>  values;
 
@@ -75,9 +75,9 @@ public class MyChannelsFragment extends Fragment {
     }
 
     static class ChannelViewHolder extends RecyclerView.ViewHolder {
-        TextView ChannelNameTextView;
+        final TextView ChannelNameTextView;
 
-        public ChannelViewHolder(@NonNull View itemView) {
+        ChannelViewHolder(@NonNull View itemView) {
             super( itemView );
 
             ChannelNameTextView = itemView.findViewById( R.id.ChannelNameTextView );

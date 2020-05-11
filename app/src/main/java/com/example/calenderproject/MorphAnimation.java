@@ -8,8 +8,8 @@ import android.widget.FrameLayout;
 
 public class MorphAnimation {
     private final FrameLayout parentView;
-    private View buttonContainer;
-    private ViewGroup viewsContainer;
+    private final View buttonContainer;
+    private final ViewGroup viewsContainer;
     private boolean isPressed;
     private int initialWidth;
     private int initialGravity;

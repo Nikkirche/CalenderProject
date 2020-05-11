@@ -23,12 +23,12 @@ import java.util.HashMap;
 
 public class SearchChannelFragment extends Fragment {
     private TextView NameView;
-    private static FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
+    private static final FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference refUser;
     private DatabaseReference refChannel;
     private String channelName;
     private boolean toScribeOrNotToScribe=true;
-    ImageButton SubscribeButton;
+    private ImageButton SubscribeButton;
     @Override
     public void onStart() {
         super.onStart();

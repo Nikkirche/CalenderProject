@@ -26,17 +26,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.jaredrummler.cyanea.app.CyaneaFragment;
 
 import java.util.HashMap;
 
-public class ChannelFragment extends Fragment {
+public class ChannelFragment extends CyaneaFragment {
     private TextView NameView;
     private String ChannelName,SubberName;
     private RecyclerView EventView;
     private LinearLayoutManager linearLayoutManager;
     private FirebaseRecyclerAdapter adapter;
     private static DatabaseReference refUser;
-    private static FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
+    private static final FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference refChannel;
     @Override
     public void onStart() {
@@ -186,9 +187,9 @@ public class ChannelFragment extends Fragment {
 
     }
     static class EventViewHolder extends RecyclerView.ViewHolder {
-        TextView EventNameTextView;
+        final TextView EventNameTextView;
 
-        public EventViewHolder(@NonNull View itemView) {
+        EventViewHolder(@NonNull View itemView) {
             super( itemView );
 
             EventNameTextView = itemView.findViewById( R.id.EventNameTextView );
