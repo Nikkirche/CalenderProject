@@ -18,7 +18,7 @@ public class InterfaceFragment extends CyaneaFragment {
     private CalenderFragment CalenderFragment;
     private AccountFragment AccountFragment;
     private MyChannelsFragment MyChannelsFragment;
-
+    private  ShareFragment ShareFragment;
     @Override
     public void onStart() {
         super.onStart();
@@ -35,7 +35,7 @@ public class InterfaceFragment extends CyaneaFragment {
         CalenderFragment = new CalenderFragment();
         AccountFragment = new AccountFragment();
         MyChannelsFragment = new MyChannelsFragment();
-
+        ShareFragment = new ShareFragment();
         BottomNavigationView menu = view.findViewById( R.id.menu );
         menu.setOnNavigationItemSelectedListener( new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -51,6 +51,8 @@ public class InterfaceFragment extends CyaneaFragment {
                     case R.id.Account:
                         selectedFragment = AccountFragment;
                         break;
+                    case R.id.Share:
+                        selectedFragment = ShareFragment;
                 }
                 if (selectedFragment != null) {
                     getChildFragmentManager().beginTransaction().replace( R.id.menu_container, selectedFragment ).commit();

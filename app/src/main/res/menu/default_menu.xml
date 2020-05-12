@@ -8,6 +8,10 @@
         android:title="@string/Calender"
         android:icon="@drawable/ic_date_range_black_24dp"
         />
+    <item android:id="@+id/Share"
+        android:title="@string/Share"
+        android:icon="@drawable/ic_share_black_24dp"
+        />
         <item android:id="@+id/Account"
         android:title="@string/Account"
         android:icon="@drawable/ic_account_circle_black_24dp"

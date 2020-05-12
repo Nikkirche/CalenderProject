@@ -20,13 +20,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jaredrummler.cyanea.app.CyaneaFragment;
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
+import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 import java.util.HashMap;
+
+import es.dmoral.toasty.Toasty;
 
 public class CreateChannelFragment extends CyaneaFragment {
 
     private DatabaseReference ref;
     private String nameOfCurrentUser;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -35,8 +40,8 @@ public class CreateChannelFragment extends CyaneaFragment {
         ref.addValueEventListener( new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String, HashMap<String,String>> map = (HashMap) dataSnapshot.getValue();
-              nameOfCurrentUser= map.get("id").get( "name" );
+                HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
+                nameOfCurrentUser = map.get( "id" ).get( "name" );
 
             }
 
@@ -47,27 +52,45 @@ public class CreateChannelFragment extends CyaneaFragment {
     }
 
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final MyChannelsFragment myChannelsFragment = ((MyChannelsFragment)CreateChannelFragment.this.getParentFragment());
+        final MyChannelsFragment myChannelsFragment = ((MyChannelsFragment) CreateChannelFragment.this.getParentFragment());
         View view = inflater.inflate( R.layout.fragment_create_channel, container, false );
-        ImageButton buttonGoBack = view.findViewById( R.id.buttonToMyChannelsFromCreate);
+        ImageButton buttonGoBack = view.findViewById( R.id.buttonToMyChannelsFromCreate );
         final EditText editNameChannel = view.findViewById( R.id.editCreateChannelName );
         final Button buttonCreateChannel = view.findViewById( R.id.buttonCreateChannel );
         buttonCreateChannel.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = editNameChannel.getText().toString();
-                if(name.length() >3) {
-                    ChannelService.createNewChannel( name, null,FirebaseAuth.getInstance().getCurrentUser().getUid(),nameOfCurrentUser );
-                    myChannelsFragment.GoToFragment( "rCreateChannel" );
+                final  String name = editNameChannel.getText().toString();
+                if (ChannelNameIsTrue( name )) {
+                    MaterialDialog mDialog = new MaterialDialog.Builder( getActivity() )
+                            .setTitle( "Create?" )
+                            .setMessage( "Are you sure want to create this Group  with name -" + name )
+                            .setCancelable( false )
+                            .setPositiveButton( "Yes", R.drawable.ic_add_black_24dp, new MaterialDialog.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int which) {
+                                    ChannelService.createNewChannel( name, null, FirebaseAuth.getInstance().getCurrentUser().getUid(), nameOfCurrentUser );
+                                    myChannelsFragment.GoToFragment( "rCreateChannel" );
+                                    dialogInterface.dismiss();
+
+                                }
+                            } )
+                            .setNegativeButton( "Cancel", R.drawable.ic_clear_black_24dp, new MaterialDialog.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int which) {
+                                    dialogInterface.dismiss();
+                                }
+                            } )
+                            .build();
+                    mDialog.show();
+                } else {
+                    Toasty.error( getContext(), R.string.to_short_channel_error, Toasty.LENGTH_SHORT, true ).show();
                 }
-                else{
-                }
+
+
             }
         } );
         buttonGoBack.setOnClickListener( new View.OnClickListener() {
@@ -78,5 +101,9 @@ public class CreateChannelFragment extends CyaneaFragment {
         } );
 
         return view;
+    }
+
+    private boolean ChannelNameIsTrue(String name) {
+        return name.length() > 3;
     }
 }
