@@ -23,12 +23,16 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    def room_version = "2.2.5"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version" //
     implementation 'me.samlss:broccoli:1.0.0'
     //QRCodeLib
     implementation 'com.github.kenglxn.QRGen:android:2.6.0'
     //MaterialDialogLib
     implementation 'com.shreyaspatil:MaterialDialog:2.1'
-    //BetterToastyLib
+    //BetterToastsLib
     implementation 'com.github.GrenderG:Toasty:1.4.2'
     //ThemeEngineLib
     implementation 'com.jaredrummler:cyanea:1.0.2'

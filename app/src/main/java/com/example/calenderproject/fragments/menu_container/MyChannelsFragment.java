@@ -31,20 +31,25 @@ import java.util.HashMap;
 public class MyChannelsFragment extends CyaneaFragment {
     private DatabaseReference ref;
     private RecyclerView channelView;
+    private RecyclerView AdminChannelView;
     private LinearLayoutManager linearLayoutManager;
+    private LinearLayoutManager AdminLinearLayoutManager;
     private final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseRecyclerAdapter adapter;
+    private  FirebaseRecyclerAdapter adapterAdmin;
     private HashMap<String,String>  values;
 
     @Override
     public void onStart() {
         super.onStart();
+        adapterAdmin.startListening();
         adapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        adapterAdmin.stopListening();
         adapter.stopListening();
     }
 
@@ -70,7 +75,12 @@ public class MyChannelsFragment extends CyaneaFragment {
         linearLayoutManager = new LinearLayoutManager( this.getActivity() );
         channelView.setLayoutManager( linearLayoutManager );
         channelView.setHasFixedSize( true );
+        AdminChannelView = view.findViewById( R.id.AdminChannelView );
+        AdminLinearLayoutManager = new LinearLayoutManager( this.getActivity() );
+        AdminChannelView.setLayoutManager( AdminLinearLayoutManager );
+        AdminChannelView.setHasFixedSize( true );
         fetch();
+        fetchAdmin();
         return view;
     }
 
@@ -87,9 +97,67 @@ public class MyChannelsFragment extends CyaneaFragment {
             ChannelNameTextView.setText( channel.name );
         }
     }
+    static class AdminChannelViewHolder extends RecyclerView.ViewHolder {
+        final TextView ChannelNameTextView;
+
+        AdminChannelViewHolder(@NonNull View itemView) {
+            super( itemView );
+
+            ChannelNameTextView = itemView.findViewById( R.id.ChannelNameTextView );
+        }
+
+        public void bind(Channel channel) {
+            ChannelNameTextView.setText( channel.name );
+        }
+    }
+    private void fetchAdmin() {
+        Query query = FirebaseDatabase.getInstance().getReference( "users" ).child( firebaseUser.getUid() ).child( "groups" );
+        FirebaseRecyclerOptions<Channel> options =
+                new FirebaseRecyclerOptions.Builder<Channel>()
+                        .setQuery(query, new SnapshotParser<Channel>() {
+                            @NonNull
+                            @Override
+                            public Channel parseSnapshot(@NonNull DataSnapshot snapshot) {
+
+                                return new Channel(snapshot.getValue().toString());
+                            }
+                        })
+                        .build();
+
+
+        adapterAdmin = new FirebaseRecyclerAdapter<Channel, AdminChannelViewHolder>( options ) {
+            @Override
+            public AdminChannelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from( parent.getContext() )
+                        .inflate( R.layout.item_channel, parent, false );
+
+                return new AdminChannelViewHolder( view );
+            }
+
+
+            @Override
+            protected void onBindViewHolder(AdminChannelViewHolder holder, final int position, final Channel channel) {
+                final TextView NameView = holder.ChannelNameTextView;
+                NameView.setText( channel.getName() );
+                holder.itemView.setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ChannelFragment channelFragment = new ChannelFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ChannelName",channel.getName() );
+                        channelFragment.setArguments(bundle);
+                        getChildFragmentManager().beginTransaction().add( R.id.my_channel_container,channelFragment ).addToBackStack(null).commit();
+
+                    }
+                } );
+            }
+
+        };
+        AdminChannelView.setAdapter( adapterAdmin );
+    }
 
     private void fetch() {
-        Query query = FirebaseDatabase.getInstance().getReference( "users" ).child( firebaseUser.getUid() ).child( "groups" );
+        Query query = FirebaseDatabase.getInstance().getReference( "users" ).child( firebaseUser.getUid() ).child( "Subchannels" );
         FirebaseRecyclerOptions<Channel> options =
                 new FirebaseRecyclerOptions.Builder<Channel>()
                         .setQuery(query, new SnapshotParser<Channel>() {

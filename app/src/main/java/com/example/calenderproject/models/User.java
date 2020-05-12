@@ -1,8 +1,7 @@
 package com.example.calenderproject.models;
 
 import java.util.ArrayList;
-
-class User {
+public class User {
     private String email;
     private String name;
     private String id;

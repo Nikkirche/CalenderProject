@@ -18,6 +18,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
     @Override
     public void onStart() {
         // Check if user is signed in (non-null) and go to MainActivity then.
+
         super.onStart();
         if (AuthService.CheckStatusOfUser()) {
             GoToFragment( "InterfaceFragment" );

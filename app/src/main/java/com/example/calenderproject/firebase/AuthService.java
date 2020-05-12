@@ -1,5 +1,5 @@
 package com.example.calenderproject.firebase;
-
+import com.example.calenderproject.models.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -18,9 +18,9 @@ public class AuthService {
                     @Override
 
                     public void onSuccess(AuthResult authResult) {
-                        String id =FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        final String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         UserService.createNewUser( email, name, id );
-
+                        User user = new User( id, name, email, null );
                     }
                 } );
     }
@@ -29,9 +29,10 @@ public class AuthService {
         return FirebaseAuth.getInstance()
                 .signInWithEmailAndPassword( email, password );
     }
-    public static boolean CheckStatusOfUser(){
+
+    public static boolean CheckStatusOfUser() {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        return firebaseAuth.getCurrentUser()!=null;
+        return firebaseAuth.getCurrentUser() != null;
     }
 
 }
