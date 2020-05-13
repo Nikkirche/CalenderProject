@@ -30,7 +30,7 @@ import java.util.TreeMap;
 public  class CalenderFragment extends CyaneaFragment {
     private static final String TAG = "CalenderFragment";
     private DatabaseReference ref;
-    private TreeMap<String, String> MapOfEvents;
+    private TreeMap<String, String> MapOfEvents = new TreeMap<>(  );
     private RecyclerView CalenderEventView;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,10 +65,20 @@ public  class CalenderFragment extends CyaneaFragment {
                             }
 
                         }
-                        MapOfEvents = test;
-                        //testing.setText( MapOfEvents.toString() );
+                        for (String key:test.keySet()){
+                            String ReadableTime;
+                            String RedactTime[] = key.split(":");
+                            if(RedactTime[0].length()==1){
+                                 ReadableTime = "0"+RedactTime[0] + ":" + RedactTime[1];
+                            }
+                            else{
+                                 ReadableTime = key;
+                            }
+                            String value = test.get( key );
+                            MapOfEvents.put(ReadableTime,value);
+                        }
+                        testing.setText( MapOfEvents.toString() );
                         EventAdapter adapter = new EventAdapter(getData( MapOfEvents ) );
-                        // устанавливаем для списка адаптер
                         CalenderEventView.setAdapter(adapter);
                         RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext());
 
@@ -87,9 +97,11 @@ public  class CalenderFragment extends CyaneaFragment {
 
         return view;
     }
-    public ArrayList getData(TreeMap MapOfEvents){
+    public ArrayList getData(TreeMap Map){
         ArrayList<Event> data =  new ArrayList<>( );
-        data.add(new Event( "wat","nothing" ));
+        for (Object key :Map.keySet()){
+            data.add( new Event( (String) key, (String) Map.get( key ) ));
+        }
         return data;
     }
 }
