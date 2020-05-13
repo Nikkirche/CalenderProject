@@ -16,4 +16,8 @@ public class Event {
     public String getText() {
         return text;
     }
+
+    public String getData() {
+        return data;
+    }
 }
