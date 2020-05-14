@@ -6,13 +6,12 @@
     android:background="#303030"
     tools:context="com.example.calenderproject.fragments.menu_container.ShareFragment">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/QRView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/backgrounds/scenic" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
