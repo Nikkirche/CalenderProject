@@ -7,7 +7,7 @@
     tools:context="com.example.calenderproject.fragments.menu_container.ShareFragment">
 
     <Button
-        android:id="@+id/buttoToCameraFragment"
+        android:id="@+id/buttonToCameraFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button"
@@ -23,5 +23,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttoToCameraFragment" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonToCameraFragment" />
 </androidx.constraintlayout.widget.ConstraintLayout>
