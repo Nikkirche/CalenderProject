@@ -39,16 +39,12 @@ public class SearchChannelFragment extends Fragment {
         } else {
             NameView.setText( "Error" );
         }
-
         refUser = FirebaseDatabase.getInstance().getReference( "Channels" ).child( channelName );
         refUser.addValueEventListener(new ValueEventListener() {
                                           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                               HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
 
                                               HashMap<String, String> data1 = new HashMap<>();
-
-
-
                                               if (map.get("subscribers") != null) {
                                                   data1 = map.get("subscribers");
                                                   for(String key: data1.keySet())
@@ -67,9 +63,6 @@ public class SearchChannelFragment extends Fragment {
                                               } else {
                                                   toScribeOrNotToScribe=true;
                                               }
-
-
-
                                           }
 
                                           @Override

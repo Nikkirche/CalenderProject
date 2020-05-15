@@ -4,7 +4,6 @@
     android:id="@+id/menu_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#303030"
     tools:context="com.example.calenderproject.fragments.menu_container.InterfaceFragment">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -12,8 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_gravity="bottom"
-        android:background="#3D3DDB"
-        app:itemIconTint="#FFFFFF"
         app:itemTextColor="@color/design_default_color_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"

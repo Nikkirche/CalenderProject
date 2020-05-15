@@ -6,13 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="#303030"
     tools:context="com.example.calenderproject.fragments.StartFragment">
 
     <FrameLayout
         android:id="@+id/frame"
         android:layout_width="0dp"
-        android:layout_height="350dp"
+        android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +26,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="60dp"
             android:layout_marginEnd="30dp"
             android:background="#303030"
             android:padding="0dp"
@@ -114,7 +112,6 @@
             android:layout_gravity="bottom"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:layout_marginBottom="55dp"
             android:background="#303030"
             android:padding="0dp"
             app:cardCornerRadius="10dp"
@@ -215,8 +212,9 @@
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:layout_marginStart="128dp"
-            android:layout_marginTop="160dp"
+            android:layout_marginTop="60dp"
             android:layout_marginEnd="128dp"
+            android:layout_marginBottom="60dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="4dp">
 
@@ -237,9 +235,8 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="128dp"
         android:layout_marginEnd="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/frame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"

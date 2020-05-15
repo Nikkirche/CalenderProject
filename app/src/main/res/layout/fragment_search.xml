@@ -4,10 +4,8 @@
     android:id="@+id/SearchContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#303030"
+    android:background="color/cyanea_background_reference"
     tools:context="com.example.calenderproject.fragments.menu_container.SearchFragment">
-
-    <!-- TODO: Update blank fragment layout -->
 
     <ImageButton
         android:id="@+id/imageButton"

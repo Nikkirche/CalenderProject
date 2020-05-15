@@ -2,18 +2,7 @@
 <project version="4">
   <component name="AndroidLayouts">
     <shared>
-      <config>
-        <device id="pixel_xl" />
-        <device id="pixel_3_xl" />
-        <device id="Nexus 7" />
-        <device id="pixel_3a" />
-        <device id="pixel_c" />
-        <device id="Nexus 10" />
-        <device id="pixel" />
-        <device id="tv_1080p" />
-        <device id="wear_square" />
-        <device id="Nexus 9" />
-      </config>
+      <config />
     </shared>
   </component>
   <component name="AndroidLogFilters">
@@ -22,7 +11,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fa2acfa4-035d-46e0-b625-64842dc6702e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_qr_share_channel.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/calenderproject/fragments/menu_container/CameraFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-land/fragment_interface.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-land/fragment_start.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_camera.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.3/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.3/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.3/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.3/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.3/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.3/fileHashes/fileHashes.bin" afterDir="false" />
@@ -36,9 +28,23 @@
       <change beforePath="$PROJECT_DIR$/.gradle/workspace-id.txt.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/workspace-id.txt.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/calenderproject/fragments/menu_container/ShareFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/calenderproject/fragments/menu_container/ShareFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/calenderproject/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/calenderproject/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/calenderproject/MorphAnimation.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/calenderproject/MorphAnimation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/calenderproject/fragments/menu_container/SearchChannelFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/calenderproject/fragments/menu_container/SearchChannelFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/activity_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/activity_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_account.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_account.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_channel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_channel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_create_channel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_create_channel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_create_event.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_create_event.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_interface.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_interface.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_my_channels.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_my_channels.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_search.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_search.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_search_channel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_search_channel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_share.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_share.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_start.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_start.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -50,7 +56,7 @@
     <option name="testRunner" value="GRADLE" />
     <option name="delegatedBuild" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_API_28" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_XL_API_28" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -111,8 +117,8 @@
     <property name="BundleExportedModule" value="app" />
     <property name="DEBUGGABLE_DEVICE" value="emulator-5554" />
     <property name="DEBUGGABLE_PROCESS" value="com.example.CalenderProject" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="emulator-5554" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-05-05T09:38:01.606Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_XL_API_28" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-05-15T11:05:41.400Z" />
     <property name="ExportApk.ApkPath" value="C:\Users\nikki\AndroidStudioProjects\CalenderProject\app" />
     <property name="ExportApk.BuildVariants" value="debug" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -536,7 +542,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589386289036</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="add QRRecyclerView">
+      <created>1589480782035</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1589480782035</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -564,7 +577,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="SignIn works!" />
     <MESSAGE value="Add style and beginning with translation" />
     <MESSAGE value="UI improvements" />
     <MESSAGE value="Refactor" />
@@ -589,7 +601,8 @@
     <MESSAGE value="Add second Recycler in MyChannels" />
     <MESSAGE value="add a adapter in calender" />
     <MESSAGE value="work at recycler +and a bug fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="work at recycler +and a bug fix" />
+    <MESSAGE value="add QRRecyclerView" />
+    <option name="LAST_COMMIT_MESSAGE" value="add QRRecyclerView" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>

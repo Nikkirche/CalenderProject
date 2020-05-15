@@ -27,15 +27,18 @@ public class MorphAnimation {
     }
     public void morphIntoForm() {
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) buttonContainer.getLayoutParams();
+
         initialWidth = layoutParams.width;
         initialGravity = layoutParams.gravity;
-        layoutParams.gravity = Gravity.BOTTOM;
+
+        layoutParams.gravity = Gravity.CENTER;
         layoutParams.width = FrameLayout.LayoutParams.MATCH_PARENT;
-        layoutParams.height= FrameLayout.LayoutParams.WRAP_CONTENT;
         buttonContainer.setLayoutParams(layoutParams);
+
         for (int i = 1; i < viewsContainer.getChildCount(); i++) {
             viewsContainer.getChildAt(i).setVisibility(View.VISIBLE);
         }
+
         isPressed = true;
     }
     public void morphIntoButton() {
