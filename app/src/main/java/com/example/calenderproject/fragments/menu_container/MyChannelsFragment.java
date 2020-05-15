@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.calenderproject.MorphAnimation;
 import com.example.calenderproject.R;
 import com.example.calenderproject.models.Channel;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -59,18 +61,9 @@ public class MyChannelsFragment extends CyaneaFragment {
         View view = inflater.inflate( R.layout.fragment_my_channels, container, false );
         final ImageButton buttonGoCreate = view.findViewById( R.id.buttonToCreateChannel );
         final  ImageButton buttonGoSearch = view.findViewById( R.id.buttonToSearch);
-        buttonGoSearch.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GoToFragment( "Search" );
-            }
-        } );
-        buttonGoCreate.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GoToFragment( "CreateChannel" );
-            }
-        } );
+        ViewGroup CreateGroup = view.findViewById( R.id.create_channel_views );
+        FrameLayout CreateLayout  = view.findViewById( R.id.createLayout );
+        View CreateChannelContainer = view.findViewById( R.id.form_create_channel );
         channelView = view.findViewById( R.id.ChannelView );
         linearLayoutManager = new LinearLayoutManager( this.getActivity() );
         channelView.setLayoutManager( linearLayoutManager );
@@ -81,6 +74,30 @@ public class MyChannelsFragment extends CyaneaFragment {
         AdminChannelView.setHasFixedSize( true );
         fetch();
         fetchAdmin();
+        buttonGoSearch.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GoToFragment( "Search" );
+            }
+        } );
+        final MorphAnimation morphAnimationCreateChannel = new MorphAnimation(CreateChannelContainer , CreateLayout, CreateGroup );
+        buttonGoCreate.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //GoToFragment( "CreateChannel" );
+                if (!morphAnimationCreateChannel.isPressed()) {
+                    buttonGoSearch.setVisibility( View.GONE);
+                    channelView.setVisibility( View.GONE );
+                    AdminChannelView.setVisibility( View.GONE );
+                    morphAnimationCreateChannel.morphIntoForm();
+                } else {
+                    morphAnimationCreateChannel.morphIntoButton();
+                    buttonGoSearch.setVisibility( View.VISIBLE);
+                    channelView.setVisibility( View.VISIBLE );
+                    AdminChannelView.setVisibility( View.VISIBLE );
+                }
+            }
+        } );
         return view;
     }
 
