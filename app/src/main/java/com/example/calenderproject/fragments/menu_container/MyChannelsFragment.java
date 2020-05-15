@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.calenderproject.MorphAnimation;
 import com.example.calenderproject.R;
+import com.example.calenderproject.firebase.ChannelService;
 import com.example.calenderproject.models.Channel;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -23,12 +26,18 @@ import com.firebase.ui.database.SnapshotParser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.jaredrummler.cyanea.app.CyaneaFragment;
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
+import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 import java.util.HashMap;
+
+import es.dmoral.toasty.Toasty;
 
 public class MyChannelsFragment extends CyaneaFragment {
     private DatabaseReference ref;
@@ -40,12 +49,27 @@ public class MyChannelsFragment extends CyaneaFragment {
     private FirebaseRecyclerAdapter adapter;
     private  FirebaseRecyclerAdapter adapterAdmin;
     private HashMap<String,String>  values;
+    private String nameOfCurrentUser;
 
     @Override
     public void onStart() {
         super.onStart();
         adapterAdmin.startListening();
         adapter.startListening();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        ref = FirebaseDatabase.getInstance().getReference( "users" ).child( firebaseUser.getUid() );
+        ref.addValueEventListener( new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
+                nameOfCurrentUser = map.get( "id" ).get( "name" );
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        } );
     }
 
     @Override
@@ -98,9 +122,51 @@ public class MyChannelsFragment extends CyaneaFragment {
                 }
             }
         } );
+        final EditText editNameChannel = view.findViewById( R.id.editCreateChannelName );
+        final Button buttonCreateChannel = view.findViewById( R.id.buttonCreateChannel );
+        buttonCreateChannel.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final  String name = editNameChannel.getText().toString();
+                if (ChannelNameIsTrue( name )) {
+                    MaterialDialog mDialog = new MaterialDialog.Builder( getActivity() )
+                            .setTitle( "Create?" )
+                            .setMessage( "Are you sure want to create this Group  with name -" + name )
+                            .setCancelable( false )
+                            .setPositiveButton( "Yes", R.drawable.ic_add_black_24dp, new MaterialDialog.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int which) {
+                                    ChannelService.createNewChannel( name, null, FirebaseAuth.getInstance().getCurrentUser().getUid(), nameOfCurrentUser );
+                                    dialogInterface.dismiss();
+                                    morphAnimationCreateChannel.morphIntoButton();
+                                    buttonGoSearch.setVisibility( View.VISIBLE);
+                                    channelView.setVisibility( View.VISIBLE );
+                                    AdminChannelView.setVisibility( View.VISIBLE );
+
+                                }
+                            } )
+                            .setNegativeButton( "Cancel", R.drawable.ic_clear_black_24dp, new MaterialDialog.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int which) {
+                                    dialogInterface.dismiss();
+                                }
+                            } )
+                            .build();
+                    mDialog.show();
+                } else {
+                    Toasty.error( getContext(), R.string.to_short_channel_error, Toasty.LENGTH_SHORT, true ).show();
+                }
+
+
+            }
+        } );
+
         return view;
     }
 
+    private boolean ChannelNameIsTrue(String name) {
+        return name.length() > 3;
+    }
     static class ChannelViewHolder extends RecyclerView.ViewHolder {
         final TextView ChannelNameTextView;
 
@@ -188,53 +254,45 @@ public class MyChannelsFragment extends CyaneaFragment {
                         .build();
 
 
-                                adapter = new FirebaseRecyclerAdapter<Channel, ChannelViewHolder>( options ) {
-                                    @Override
-                                    public ChannelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                                        View view = LayoutInflater.from( parent.getContext() )
-                                                .inflate( R.layout.item_channel, parent, false );
+        adapter = new FirebaseRecyclerAdapter<Channel, ChannelViewHolder>( options ) {
+            @Override
+            public ChannelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from( parent.getContext() )
+                        .inflate( R.layout.item_channel, parent, false );
 
-                                        return new ChannelViewHolder( view );
-                                    }
+                return new ChannelViewHolder( view );
+            }
 
 
-                                    @Override
-                                    protected void onBindViewHolder(ChannelViewHolder holder, final int position, final Channel channel) {
-                                        final TextView NameView = holder.ChannelNameTextView;
-                                        NameView.setText( channel.getName() );
-                                        holder.itemView.setOnClickListener( new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                ChannelFragment channelFragment = new ChannelFragment();
-                                                Bundle bundle = new Bundle();
-                                                bundle.putString("ChannelName",channel.getName() );
-                                                channelFragment.setArguments(bundle);
-                                                getChildFragmentManager().beginTransaction().add( R.id.my_channel_container,channelFragment ).addToBackStack(null).commit();
+            @Override
+            protected void onBindViewHolder(ChannelViewHolder holder, final int position, final Channel channel) {
+                final TextView NameView = holder.ChannelNameTextView;
+                NameView.setText( channel.getName() );
+                holder.itemView.setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ChannelFragment channelFragment = new ChannelFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ChannelName",channel.getName() );
+                        channelFragment.setArguments(bundle);
+                        getChildFragmentManager().beginTransaction().add( R.id.my_channel_container,channelFragment ).addToBackStack(null).commit();
 
-                                            }
-                                        } );
-                                    }
+                    }
+                } );
+            }
 
-                                };
+        };
         channelView.setAdapter( adapter );
     }
 
     void GoToFragment(String Fragment) {
         InterfaceFragment interfaceFragment = new InterfaceFragment();
-        CreateChannelFragment createChannelFragment = new CreateChannelFragment();
         MyChannelsFragment myChannelsFragment = new MyChannelsFragment();
         SearchFragment searchFragment = new SearchFragment();
         ChannelFragment channelFragment = new ChannelFragment();
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         switch (Fragment) {
-            case "CreateChannel":
-                fragmentTransaction.add( R.id.my_channel_container, createChannelFragment ).addToBackStack( null );
-                break;
-            case "rCreateChannel":
-                fragmentManager.popBackStackImmediate();
-                fragmentTransaction.remove( createChannelFragment );
-                break;
             case "rChannel":
                 fragmentManager.popBackStackImmediate();
                 fragmentTransaction.remove( channelFragment);
@@ -249,3 +307,5 @@ public class MyChannelsFragment extends CyaneaFragment {
 
 
 }
+
+
