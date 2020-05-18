@@ -17,7 +17,10 @@ import com.example.calenderproject.models.Channel;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.jaredrummler.cyanea.app.CyaneaFragment;
@@ -31,10 +34,26 @@ public class SearchFragment extends CyaneaFragment {
     HashMap<String, String> values;
     private String SearchQuery;
     private Query query;
-
+    private String SubChannelName;
+    private static final FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
+    private DatabaseReference refChannel;
+    private DatabaseReference refUser;
+    HashMap<String, HashMap<String, String>> SubEvents;
     @Override
     public void onStart() {
         super.onStart();
+      /*  Bundle bundle = getArguments();
+        if (bundle != null) {
+            SubChannelName = bundle.getString( "ChannelName" );
+
+
+        } else {
+        }*/
+
+
+
+
+
         adapter.startListening();
     }
 
@@ -51,6 +70,10 @@ public class SearchFragment extends CyaneaFragment {
         SearchView = view.findViewById( R.id.SearchView );
         final EditText EditSearchQuery = view.findViewById( R.id.SearchQuery );
         final ImageButton SearchButton = view.findViewById( R.id.SearchButton );
+
+
+
+
         SearchButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
