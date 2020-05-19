@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -49,6 +50,14 @@ public class ShareFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate( R.layout.fragment_share, container, false );
+        Button buttonToCamera = view.findViewById( R.id.buttonToCameraFragment);
+        buttonToCamera.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CameraFragment cameraFragment = new CameraFragment();
+                getChildFragmentManager().beginTransaction().add( R.id.ShareContainer ,cameraFragment).commit();
+            }
+        } );
         QRView = view.findViewById( R.id.QRView );
         linearLayoutManager = new LinearLayoutManager( this.getActivity() );
         QRView.setLayoutManager( linearLayoutManager );
