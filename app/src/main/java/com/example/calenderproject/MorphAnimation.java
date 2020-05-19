@@ -25,14 +25,20 @@ public class MorphAnimation {
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
         isPressed = false;
     }
-    public void morphIntoForm() {
+    public void morphIntoForm(String Width) {
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) buttonContainer.getLayoutParams();
 
         initialWidth = layoutParams.width;
         initialGravity = layoutParams.gravity;
 
         layoutParams.gravity = Gravity.CENTER;
-        layoutParams.width = FrameLayout.LayoutParams.MATCH_PARENT;
+        if (Width.equals( "WRAP_CONTENT" )){
+            layoutParams.width = FrameLayout.LayoutParams.WRAP_CONTENT;
+        }
+        else{
+            layoutParams.width = FrameLayout.LayoutParams.MATCH_PARENT;
+        }
+        layoutParams.width = FrameLayout.LayoutParams.WRAP_CONTENT;
         buttonContainer.setLayoutParams(layoutParams);
 
         for (int i = 1; i < viewsContainer.getChildCount(); i++) {

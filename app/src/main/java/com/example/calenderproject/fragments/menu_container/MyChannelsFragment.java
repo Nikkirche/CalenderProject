@@ -113,7 +113,7 @@ public class MyChannelsFragment extends CyaneaFragment {
                     buttonGoSearch.setVisibility( View.GONE);
                     channelView.setVisibility( View.GONE );
                     AdminChannelView.setVisibility( View.GONE );
-                    morphAnimationCreateChannel.morphIntoForm();
+                    morphAnimationCreateChannel.morphIntoForm("MATCH_PARENT");
                 } else {
                     morphAnimationCreateChannel.morphIntoButton();
                     buttonGoSearch.setVisibility( View.VISIBLE);

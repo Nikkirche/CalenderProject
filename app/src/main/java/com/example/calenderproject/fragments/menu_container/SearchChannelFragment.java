@@ -83,22 +83,6 @@ public class SearchChannelFragment extends Fragment {
 
                                       }
         );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     @Override
@@ -119,32 +103,96 @@ public class SearchChannelFragment extends Fragment {
             public void onClick(View view) {
                 SubscribeButton.setClickable(false);
 
+                refChannel = FirebaseDatabase.getInstance().getReference("Channels").child(channelName);
+
+                refChannel.addValueEventListener(new ValueEventListener() {
+                                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                         HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
+
+                                                         HashMap<String, String> data1 = new HashMap<>();
+                                                         ;
+                                                         HashMap<String, String> data2 = new HashMap<>();
+
+                                                         if (map.get("subscribers") != null) {
+                                                             data1 = map.get("subscribers");
+
+                                                             data1.put(GroupUser.getUid(), GroupUser.getUid());
+                                                             map.put("subscribers", data1);
+                                                         } else {
+                                                             data1.put(GroupUser.getUid(), GroupUser.getUid());
+                                                             map.put("subscribers", data1);
+                                                         }
+
+
+                                                         refChannel.setValue(map);
+                                                     }
+
+                                                     @Override
+                                                     public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                     }
+
+
+                                                 }
+                );
+                refChannel = FirebaseDatabase.getInstance().getReference("Channels").child(channelName);
+
+                refChannel.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        HashMap<String,HashMap<String, HashMap<String, String>>>map=(HashMap) dataSnapshot.getValue();
+                        SubEvents=map.get("events");
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
 
 
-    refUser = FirebaseDatabase.getInstance().getReference("users").child(GroupUser.getUid()).child("Subchannels");
+    refUser = FirebaseDatabase.getInstance().getReference("users").child(GroupUser.getUid());
     refUser.addValueEventListener(new ValueEventListener() {
                                       public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                           HashMap<String, String> map = (HashMap) dataSnapshot.getValue();
+                                           HashMap<String,HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
+                                          HashMap<String, String> data1 = map.get( "Subchannels" );
+                                             data1.put(channelName, channelName);
+                                              map.put("Subchannels", data1);
 
-
-
-                                        //  if (map.get("Subchannels") != null) {
-                                          //    data1 = map.get("Subchannels");
-
-                                             map.put(channelName, channelName);
-                                              //map.put("Subchannels", data1);
-                                       //   } else {
-                                              map.put(channelName, channelName);
-                                          //    map.put("Subchannels", data1);
-                                        //  }
-
-
-                                          refUser.setValue(map).addOnCompleteListener(
+                                          refUser.child( "Subchannels" ).setValue(data1).addOnCompleteListener(
                                                   new OnCompleteListener<Void>() {
                                                       @Override
                                                       public void onComplete(@NonNull Task<Void> rer2) {
                                                           if (rer2.isSuccessful()) {
+                                                              Log.d("firebase", "dude");
+                                                          }
+                                                      }
+                                                  }
+                                          );
+                                          HashMap<String,HashMap<String, HashMap<String, String>>>map1 =(HashMap) dataSnapshot.getValue();
+                                          HashMap<String, HashMap<String, String>> data2 =map1.get( "events" );
+                                          //  if(map1.get("events")!=null) {
+                                          //     HashMap<String, HashMap<String, String>> mappa=map1.get("events");
+                                          if(SubEvents!=null)
+                                          { for (String key : SubEvents.keySet()) {
+                                              data2.put(key, SubEvents.get(key));
+                                          }}
+                                          map1.put( "events",data2 );
+                                          //   map1.put("events",mappa);
+                                          //       }
+                                          //       else
+                                          //      {
+                                          //          map1.put("events",SubEvents);
+                                          //     }
+
+
+
+                                          refUser.child( "events" ).setValue(data2).addOnCompleteListener(
+                                                  new OnCompleteListener<Void>() {
+                                                      @Override
+                                                      public void onComplete(@NonNull Task<Void> rer1) {
+                                                          if (rer1.isSuccessful()) {
                                                               Log.d("firebase", "dude");
                                                           }
                                                       }
@@ -163,54 +211,8 @@ public class SearchChannelFragment extends Fragment {
     );
 
 
-    refChannel = FirebaseDatabase.getInstance().getReference("Channels").child(channelName);
 
-    refChannel.addValueEventListener(new ValueEventListener() {
-                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                             HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
-
-                                             HashMap<String, String> data1 = new HashMap<>();
-                                             ;
-                                             HashMap<String, String> data2 = new HashMap<>();
-
-                                             if (map.get("subscribers") != null) {
-                                                 data1 = map.get("subscribers");
-
-                                                 data1.put(GroupUser.getUid(), GroupUser.getUid());
-                                                 map.put("subscribers", data1);
-                                             } else {
-                                                 data1.put(GroupUser.getUid(), GroupUser.getUid());
-                                                 map.put("subscribers", data1);
-                                             }
-
-
-                                             refChannel.setValue(map);
-                                         }
-
-                                         @Override
-                                         public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                         }
-
-
-                                     }
-    );
-                refChannel = FirebaseDatabase.getInstance().getReference("Channels").child(channelName);
-
-                refChannel.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        HashMap<String,HashMap<String, HashMap<String, String>>>map=(HashMap) dataSnapshot.getValue();
-                        SubEvents=map.get("events");
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-
-                reftoUser = FirebaseDatabase.getInstance().getReference("users").child(GroupUser.getUid()).child("events");
+                /*reftoUser = FirebaseDatabase.getInstance().getReference("users").child(GroupUser.getUid()).child("events");
 
                 reftoUser.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -250,7 +252,7 @@ public class SearchChannelFragment extends Fragment {
 
                     }
 
-                });
+                });*/
 
 
 

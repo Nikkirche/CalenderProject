@@ -44,7 +44,9 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 ftrans.replace( R.id.container, StartFragment );
                 break;
             case "InterfaceFragment":
-                ftrans.replace( R.id.container, InterfaceFragment);
+                ftrans.remove( StartFragment );
+                ftrans.add( R.id.container,InterfaceFragment );
+                //ftrans.replace( R.id.container, InterfaceFragment);
                 break;
         }
         ftrans.commit();

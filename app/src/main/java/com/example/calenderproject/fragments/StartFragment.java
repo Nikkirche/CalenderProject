@@ -1,5 +1,6 @@
 package com.example.calenderproject.fragments;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,7 +82,12 @@ public class StartFragment extends CyaneaFragment {
                 if (!morphAnimationRegister.isPressed()) {
                     loginViews.setVisibility( View.GONE);
                     InfoTextViews.setVisibility( View.GONE );
-                    morphAnimationRegister.morphIntoForm();
+                    if ((getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)){
+                        morphAnimationRegister.morphIntoForm("MATCH_PARENT");
+                    }
+                    else {
+                        morphAnimationRegister.morphIntoForm("WRAP_CONTENT");
+                    }
                     buttonToReg.setText( R.string.back );
                 } else {
                     morphAnimationRegister.morphIntoButton();
@@ -97,7 +103,12 @@ public class StartFragment extends CyaneaFragment {
                                                  if (!morphAnimationLogin.isPressed()) {
                                                      registerViews.setVisibility( View.GONE);
                                                      InfoTextViews.setVisibility( View.GONE );
-                                                     morphAnimationLogin.morphIntoForm();
+                                                     if ((getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)){
+                                                         morphAnimationLogin.morphIntoForm("MATCH_PARENT");
+                                                     }
+                                                     else {
+                                                         morphAnimationLogin.morphIntoForm("WRAP_CONTENT");
+                                                     }
                                                      buttonToSign.setText( R.string.back );
                                                  } else {
                                                      morphAnimationLogin.morphIntoButton();
