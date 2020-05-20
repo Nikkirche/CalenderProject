@@ -37,12 +37,102 @@ public class ChannelFragment extends CyaneaFragment {
     private LinearLayoutManager linearLayoutManager;
     private FirebaseRecyclerAdapter adapter;
     private static DatabaseReference refUser;
+    private static DatabaseReference reftoUser;
     private static final FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference refChannel;
+    private DatabaseReference reftoChannel;
+    HashMap<String, HashMap<String, String>> map;
+    HashMap<String, HashMap<String, String>> map1;
     @Override
     public void onStart() {
         super.onStart();
         adapter.startListening();
+        refUser = FirebaseDatabase.getInstance().getReference( "users" ).child( GroupUser.getUid() );
+
+        refUser.addValueEventListener( new ValueEventListener() {
+                                           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                               map = (HashMap) dataSnapshot.getValue();
+                                               HashMap<String, String> data1;
+                                               HashMap<String, String> data2 = new HashMap<>();
+                                               data1 = map.get( "groups" );
+
+
+                                                       /*if (data1 != null) {
+                                                           for (String key : data1.keySet()) {
+
+                                                               String TrueKey = data1.get( key );
+                                                               if (!TrueKey.equals( ChannelName )) {
+                                                                   data2.put( TrueKey, TrueKey );
+                                                               }
+                                                           }
+                                                       }*/
+                                               if (data1 != null) {
+                                                   data1.remove(ChannelName);
+                                                   if(data1!=null)
+                                                   {map.put( "groups", data1 );}
+                                                   else
+                                                   {  map.remove("groups");}
+                                               }
+                                               else{
+                                                   map.remove("groups");
+                                               }
+
+                                               SubberName=map.get("id").get("name");
+
+
+
+
+                                           }
+
+                                           @Override
+                                           public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                           }
+
+
+                                       }
+        );
+        refChannel = FirebaseDatabase.getInstance().getReference( "Channels" ).child(ChannelName  );
+        refChannel.addValueEventListener( new ValueEventListener() {
+                                              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                  map1 = (HashMap) dataSnapshot.getValue();
+
+                                                  HashMap<String, String> data1 = new HashMap<>();
+                                                  HashMap<String, String> data2 = new HashMap<>();
+                                                  data1 = map1.get( "subscribers" );
+
+
+                                                  //    if (data1 != null) {
+                                                  //  for (String key : data1.keySet()) {
+
+                                                  //String Subber = data1.get( key );
+                                                  // if (!Subber.equals( SubberName )) {
+
+                                                  if(data1!=null) {
+                                                      data1.remove(GroupUser.getUid());//put( Subber, Subber );
+
+
+                                                      map1.put("subscribers",data1);
+                                                  }
+                                                  //  }
+                                                  //  }
+                                                  //     }
+                                                  else{ map1.remove( "subscribers" );}
+
+
+
+
+                                              }
+
+                                              @Override
+                                              public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                              }
+
+
+                                          }
+        );
+
 
     }
 
@@ -93,93 +183,13 @@ public class ChannelFragment extends CyaneaFragment {
         UnsubscribeButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                refUser = FirebaseDatabase.getInstance().getReference( "users" ).child( GroupUser.getUid() );
 
-                refUser.addValueEventListener( new ValueEventListener() {
-                                                   public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                       HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
-                                                       HashMap<String, String> data1;
-                                                       HashMap<String, String> data2 = new HashMap<>();
-                                                       data1 = map.get( "groups" );
+                reftoUser = FirebaseDatabase.getInstance().getReference( "users" ).child( GroupUser.getUid() );
+                reftoUser.setValue( map );
 
 
-                                                       /*if (data1 != null) {
-                                                           for (String key : data1.keySet()) {
-
-                                                               String TrueKey = data1.get( key );
-                                                               if (!TrueKey.equals( ChannelName )) {
-                                                                   data2.put( TrueKey, TrueKey );
-                                                               }
-                                                           }
-                                                       }*/
-                                                       if (data1 != null) {
-                                                           data1.remove(ChannelName);
-                                                       if(data1!=null)
-                                                       {map.put( "groups", data1 );}
-                                                       else
-                                                       {  map.remove("groups");}
-                                                       }
-                                                       else{
-                                                           map.remove("groups");
-                                                       }
-
-                                                       SubberName=map.get("id").get("name");
-
-
-                                                       refUser.setValue( map );
-
-                                                   }
-
-                                                   @Override
-                                                   public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                                   }
-
-
-                                               }
-                );
-                refChannel = FirebaseDatabase.getInstance().getReference( "Channels" ).child(ChannelName  );
-                refChannel.addValueEventListener( new ValueEventListener() {
-                                                   public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                       HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
-
-                                                       HashMap<String, String> data1 = new HashMap<>();
-                                                       HashMap<String, String> data2 = new HashMap<>();
-                                                       data1 = map.get( "subscribers" );
-
-
-                                                   //    if (data1 != null) {
-                                                         //  for (String key : data1.keySet()) {
-
-                                                               //String Subber = data1.get( key );
-                                                              // if (!Subber.equals( SubberName )) {
-
-                                                     if(data1!=null) {
-                                                         data1.remove(GroupUser.getUid());//put( Subber, Subber );
-
-
-                                                         map.put("subscribers",data1);
-                                                     }
-                                                             //  }
-                                                         //  }
-                                                  //     }
-                                                      else{ map.remove( "subscribers" );}
-
-
-                                                       refChannel.setValue( map );
-
-                                                   }
-
-                                                   @Override
-                                                   public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                                   }
-
-
-                                               }
-                );
-
-
+                reftoChannel = FirebaseDatabase.getInstance().getReference( "Channels" ).child(ChannelName  );
+                refChannel.setValue( map1 );
             }
         });
         return view;

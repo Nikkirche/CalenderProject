@@ -13,12 +13,14 @@ import java.util.HashMap;
 class UserService {
     private static final String TAG = "UserService";
     private static DatabaseReference ref;
+    private static HashMap<String,HashMap<String, HashMap<String, String>>> values1;
 
     public static void createNewUser(String email, String name,String id) {
 
         HashMap<String, HashMap<String, String>> values = new HashMap<>();
         HashMap<String, String> data = new HashMap<>();
         HashMap<String, String> data2 = new HashMap<>();
+
         data.put( "email", email );
         data.put( "name",name );
         data2.put( "zerogroup","zerogroup" );
@@ -35,7 +37,7 @@ class UserService {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 HashMap<String, HashMap<String, String>> data1 = new HashMap<>();
-                HashMap<String,HashMap<String, HashMap<String, String>>> values1 = (HashMap)dataSnapshot.getValue();
+                values1 = (HashMap)dataSnapshot.getValue();
                 HashMap<String,String> nothing = new HashMap<>(  );
                 nothing.put("Pashal Egg", "1970-01-12 23:23" );
                 data1.put("PashalEgg69",nothing);
@@ -48,5 +50,11 @@ class UserService {
 
             }
         } );
+
+
+
+
     }
+
+
 }
