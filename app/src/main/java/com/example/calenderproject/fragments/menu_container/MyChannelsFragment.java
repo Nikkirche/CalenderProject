@@ -86,7 +86,11 @@ public class MyChannelsFragment extends CyaneaFragment {
         final ImageButton buttonGoCreate = view.findViewById( R.id.buttonToCreateChannel );
         final  ImageButton buttonGoSearch = view.findViewById( R.id.buttonToSearch);
         ViewGroup CreateGroup = view.findViewById( R.id.create_channel_views );
+        ViewGroup AdminChannelGroup = view.findViewById( R.id.admin_channel_recycler_views );
+        ViewGroup ChannelGroup = view.findViewById( R.id.channel_recycler_views );
         FrameLayout CreateLayout  = view.findViewById( R.id.createLayout );
+        FrameLayout ChannelLayout = view.findViewById( R.id.recyclerChannelLayout );
+        FrameLayout AdminChannelLayout = view.findViewById( R.id.recyclerAdminChannelLayout );
         View CreateChannelContainer = view.findViewById( R.id.form_create_channel );
         channelView = view.findViewById( R.id.ChannelView );
         linearLayoutManager = new LinearLayoutManager( this.getActivity() );
@@ -108,7 +112,6 @@ public class MyChannelsFragment extends CyaneaFragment {
         buttonGoCreate.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //GoToFragment( "CreateChannel" );
                 if (!morphAnimationCreateChannel.isPressed()) {
                     buttonGoSearch.setVisibility( View.GONE);
                     channelView.setVisibility( View.GONE );
