@@ -32,11 +32,21 @@ public  class CalenderFragment extends CyaneaFragment {
     private DatabaseReference ref;
     private TreeMap<String, String> MapOfEvents = new TreeMap<>(  );
     private RecyclerView CalenderEventView;
+    private DatabaseReference ref1;
+    private DatabaseReference ref2;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.fragment_calender, container, false );
         CalenderEventView = view.findViewById( R.id.CalenderEventView );
+
+
+
+
+
+
+
+
 
         CalendarView calendarView = view.findViewById( R.id.calendarView );
         final TextView testing = view.findViewById( R.id.testingtextView2 );
