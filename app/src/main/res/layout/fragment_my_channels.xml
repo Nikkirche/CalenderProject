@@ -9,7 +9,8 @@
     <FrameLayout
         android:id="@+id/recyclerAdminChannelLayout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:animateLayoutChanges="true"
         app:layout_constraintBottom_toTopOf="@+id/recyclerChannelLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -19,12 +20,12 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/form_admin_channel_recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:id="@+id/admin_channel_recycler_views"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <ImageButton
@@ -46,7 +47,8 @@
     <FrameLayout
         android:id="@+id/recyclerChannelLayout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:animateLayoutChanges="true"
         app:layout_constraintBottom_toTopOf="@+id/createLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -56,12 +58,12 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/form_recycler_channel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:id="@+id/channel_recycler_views"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <ImageButton
@@ -73,7 +75,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/ChannelView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
                 </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>

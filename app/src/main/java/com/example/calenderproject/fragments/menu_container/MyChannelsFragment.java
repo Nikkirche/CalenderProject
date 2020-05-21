@@ -85,13 +85,19 @@ public class MyChannelsFragment extends CyaneaFragment {
         View view = inflater.inflate( R.layout.fragment_my_channels, container, false );
         final ImageButton buttonGoCreate = view.findViewById( R.id.buttonToCreateChannel );
         final  ImageButton buttonGoSearch = view.findViewById( R.id.buttonToSearch);
+        final ImageButton buttonRemoveChannelRecycler = view.findViewById( R.id.buttonRemoveChannelRecycler );
+        final ImageButton buttonRemoveAdminChannelRecycler = view.findViewById( R.id.buttonRemoveAdminChannelRecycler );
         ViewGroup CreateGroup = view.findViewById( R.id.create_channel_views );
         ViewGroup AdminChannelGroup = view.findViewById( R.id.admin_channel_recycler_views );
         ViewGroup ChannelGroup = view.findViewById( R.id.channel_recycler_views );
-        FrameLayout CreateLayout  = view.findViewById( R.id.createLayout );
-        FrameLayout ChannelLayout = view.findViewById( R.id.recyclerChannelLayout );
-        FrameLayout AdminChannelLayout = view.findViewById( R.id.recyclerAdminChannelLayout );
+        final FrameLayout CreateLayout  = view.findViewById( R.id.createLayout );
+        final FrameLayout ChannelLayout = view.findViewById( R.id.recyclerChannelLayout );
+        final FrameLayout AdminChannelLayout = view.findViewById( R.id.recyclerAdminChannelLayout );
+        final EditText editNameChannel = view.findViewById( R.id.editCreateChannelName );
+        final Button buttonCreateChannel = view.findViewById( R.id.buttonCreateChannel );
         View CreateChannelContainer = view.findViewById( R.id.form_create_channel );
+        View ChannelRecyclerContainer = view.findViewById( R.id.form_recycler_channel );
+        View AdminChannelRecyclerContainer = view.findViewById( R.id.form_admin_channel_recycler );
         channelView = view.findViewById( R.id.ChannelView );
         linearLayoutManager = new LinearLayoutManager( this.getActivity() );
         channelView.setLayoutManager( linearLayoutManager );
@@ -108,25 +114,45 @@ public class MyChannelsFragment extends CyaneaFragment {
                 GoToFragment( "Search" );
             }
         } );
+        final  MorphAnimation morphAnimationChannelRecycler = new MorphAnimation(ChannelRecyclerContainer,ChannelLayout,ChannelGroup  );
+        final  MorphAnimation morphAnimationAdminChannelRecycler = new MorphAnimation( AdminChannelRecyclerContainer,AdminChannelLayout,AdminChannelGroup );
+        buttonRemoveChannelRecycler.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!morphAnimationChannelRecycler.isPressed()) {
+                    morphAnimationChannelRecycler.morphIntoButton();
+                } else {
+                    morphAnimationChannelRecycler.morphIntoForm("MATCH_PARENT");
+                }
+            }
+        } );
+        buttonRemoveAdminChannelRecycler.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!morphAnimationAdminChannelRecycler.isPressed()) {
+                    morphAnimationAdminChannelRecycler.morphIntoButton();
+                } else {
+                    morphAnimationAdminChannelRecycler.morphIntoForm("MATCH_PARENT");
+                }
+            }
+        } );
         final MorphAnimation morphAnimationCreateChannel = new MorphAnimation(CreateChannelContainer , CreateLayout, CreateGroup );
         buttonGoCreate.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!morphAnimationCreateChannel.isPressed()) {
                     buttonGoSearch.setVisibility( View.GONE);
-                    channelView.setVisibility( View.GONE );
-                    AdminChannelView.setVisibility( View.GONE );
+                    ChannelLayout.setVisibility( View.GONE );
+                    AdminChannelLayout.setVisibility( View.GONE );
                     morphAnimationCreateChannel.morphIntoForm("MATCH_PARENT");
                 } else {
                     morphAnimationCreateChannel.morphIntoButton();
                     buttonGoSearch.setVisibility( View.VISIBLE);
-                    channelView.setVisibility( View.VISIBLE );
-                    AdminChannelView.setVisibility( View.VISIBLE );
+                    ChannelLayout.setVisibility( View.VISIBLE );
+                    AdminChannelLayout.setVisibility( View.VISIBLE );
                 }
             }
         } );
-        final EditText editNameChannel = view.findViewById( R.id.editCreateChannelName );
-        final Button buttonCreateChannel = view.findViewById( R.id.buttonCreateChannel );
         buttonCreateChannel.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
