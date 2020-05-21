@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.calenderproject.firebase.AuthService;
+import com.example.calenderproject.fragments.AuthLoadingFragment;
 import com.example.calenderproject.fragments.StartFragment;
 import com.example.calenderproject.fragments.menu_container.InterfaceFragment;
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
@@ -38,16 +39,17 @@ public class MainActivity extends CyaneaAppCompatActivity {
     public void GoToFragment(String fragment) {
         StartFragment = new StartFragment();
         InterfaceFragment = new InterfaceFragment();
+        AuthLoadingFragment authLoadingFragment = new AuthLoadingFragment();
         FragmentTransaction ftrans = getSupportFragmentManager().beginTransaction();
         switch (fragment) {
             case "StartFragment":
                 ftrans.replace( R.id.container, StartFragment );
                 break;
             case "InterfaceFragment":
-                ftrans.remove( StartFragment );
-                ftrans.add( R.id.container,InterfaceFragment );
-                //ftrans.replace( R.id.container, InterfaceFragment);
+                ftrans.replace( R.id.container, InterfaceFragment);
                 break;
+            case "AuthLoadingFragment":
+                ftrans.replace( R.id.container,authLoadingFragment );
         }
         ftrans.commit();
     }
