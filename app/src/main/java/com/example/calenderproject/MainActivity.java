@@ -15,6 +15,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     private StartFragment StartFragment;
     private InterfaceFragment InterfaceFragment;
+    private AuthLoadingFragment authLoadingFragment;
 
     @Override
     public void onStart() {
@@ -39,7 +40,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
     public void GoToFragment(String fragment) {
         StartFragment = new StartFragment();
         InterfaceFragment = new InterfaceFragment();
-        AuthLoadingFragment authLoadingFragment = new AuthLoadingFragment();
+         authLoadingFragment = new AuthLoadingFragment();
         FragmentTransaction ftrans = getSupportFragmentManager().beginTransaction();
         switch (fragment) {
             case "StartFragment":

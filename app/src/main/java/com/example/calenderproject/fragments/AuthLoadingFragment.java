@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.calenderproject.MainActivity;
 import com.example.calenderproject.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,10 +33,6 @@ public class AuthLoadingFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        //код загрузки
-
-        buttonStart.setVisibility( View.VISIBLE );
-
         try {
             Thread.sleep(15000);
             FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -59,7 +56,7 @@ public class AuthLoadingFragment extends Fragment {
 
                 }
             } );
-
+            buttonStart.setVisibility( View.VISIBLE );
 
 
         } catch (InterruptedException e) {
@@ -94,8 +91,8 @@ public class AuthLoadingFragment extends Fragment {
                 values1.put("events",data1);
                 ref2 = FirebaseDatabase.getInstance().getReference( "users" ).child( GroupUser1.getUid() );
                 ref2.setValue(values1);
-               // final MainActivity act = (MainActivity) getActivity();
-            //    act.GoToFragment( "InterfaceFragment" );
+                final MainActivity act = (MainActivity) getActivity();
+              act.GoToFragment( "InterfaceFragment" );
 
 
             }  });

@@ -67,7 +67,7 @@ public class StartFragment extends CyaneaFragment {
                                     .addOnSuccessListener( new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            act.GoToFragment( "InterfaceFragment" );
+                                            //act.GoToFragment( "InterfaceFragment" );
                                         }
                                     } );
                         }
@@ -132,13 +132,18 @@ public class StartFragment extends CyaneaFragment {
                     Toast.makeText( v.getContext(), "Wrong password or email", Toast.LENGTH_SHORT ).show();
                     buttonReg.setClickable( true );
                 }
-                act.GoToFragment( "AuthLoadingFragment");//Там выполняется код записи в датабазе
                 AuthService.signInEmailAndPasword( email, password, name )
                         .addOnFailureListener( new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText( getActivity(), "Can't auth: " + e.getMessage(), Toast.LENGTH_SHORT ).show();
                                 buttonReg.setClickable( true );
+                            }
+                        } )
+                        .addOnSuccessListener( new OnSuccessListener<AuthResult>() {
+                            @Override
+                            public void onSuccess(AuthResult authResult) {
+                                act.GoToFragment( "AuthLoadingFragment");
                             }
                         } );
             }
