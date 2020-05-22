@@ -50,9 +50,12 @@ public class MyChannelsFragment extends CyaneaFragment {
     private  FirebaseRecyclerAdapter adapterAdmin;
     private HashMap<String,String>  values;
     private String nameOfCurrentUser;
+    HashMap<String,HashMap<String,String>> mapopa;
 
+    private DatabaseReference refUser;
     @Override
     public void onStart() {
+
         super.onStart();
         adapterAdmin.startListening();
         adapter.startListening();
@@ -63,6 +66,20 @@ public class MyChannelsFragment extends CyaneaFragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
                 nameOfCurrentUser = map.get( "id" ).get( "name" );
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        } );
+
+        refUser = FirebaseDatabase.getInstance().getReference( "users" ).child( firebaseUser.getUid() );
+
+        refUser.addValueEventListener( new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mapopa = (HashMap) dataSnapshot.getValue();
 
             }
 
@@ -165,6 +182,7 @@ public class MyChannelsFragment extends CyaneaFragment {
                             .setPositiveButton( "Yes", R.drawable.ic_add_black_24dp, new MaterialDialog.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int which) {
+                                    ChannelService.SetNewChannel(mapopa);
                                     ChannelService.createNewChannel( name, null, FirebaseAuth.getInstance().getCurrentUser().getUid(), nameOfCurrentUser );
                                     dialogInterface.dismiss();
                                     morphAnimationCreateChannel.morphIntoButton();
