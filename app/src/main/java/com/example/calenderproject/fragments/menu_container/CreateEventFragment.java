@@ -14,19 +14,39 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.calenderproject.R;
 import com.example.calenderproject.firebase.EventService;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.jaredrummler.cyanea.app.CyaneaFragment;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class CreateEventFragment extends CyaneaFragment {
     private String ChannelName;
     private TextView NameView;
     private static Button  ButtonSetData;
     private  static Button ButtonSetTime;
+
+     private DatabaseReference refUser;
+     private DatabaseReference refChannel;
+     private DatabaseReference refToUser;
+     HashMap<String, HashMap<String, String>> UserChannelEvent;
+     HashMap<String, String> SubscriberChannelEvent;
+     HashMap<String, HashMap<String, HashMap<String, String>>> mapp1;
+     HashMap<String,HashMap<String, HashMap<String, HashMap<String, String>>>> mapp;
+     HashMap<String,HashMap<String, HashMap<String, HashMap<String, String>>>> mapp2;
+     private FirebaseUser CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+
 
     @Override
     public void onStart() {
@@ -39,6 +59,76 @@ public class CreateEventFragment extends CyaneaFragment {
         } else {
             NameView.setText( "Error" );
         }
+
+
+        refChannel = FirebaseDatabase.getInstance().getReference( "Channels" ).child( ChannelName );
+        refChannel.addValueEventListener( new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mapp1 = (HashMap) dataSnapshot.getValue();
+
+                    if (mapp1.get( "events" ) == null) {
+                        UserChannelEvent = mapp1.get("events");
+                }
+
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+
+        } );
+
+
+
+
+
+        refUser = FirebaseDatabase.getInstance().getReference( "Channels" ).child( ChannelName );
+        refUser.addValueEventListener( new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
+                if (map != null) {
+                    SubscriberChannelEvent = map.get( "subscribers" );
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        } );
+        try {
+            Thread.sleep(1000);
+            refToUser = FirebaseDatabase.getInstance().getReference( "users" );
+            refToUser.addValueEventListener( new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    mapp = (HashMap) dataSnapshot.getValue();
+                    mapp2=(HashMap) dataSnapshot.getValue();
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+
+            } );
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+
+
     }
 
     @Override
@@ -77,6 +167,12 @@ public class CreateEventFragment extends CyaneaFragment {
             @Override
             public void onClick(View view) {
                 buttonCreateEvent.setClickable( false);
+                EventService.SetEvent (  UserChannelEvent,
+                         SubscriberChannelEvent,
+                         mapp1,
+                         mapp,
+                         mapp2
+                );
                 String text = EditText.getText().toString();
                 String  data = ButtonSetData.getText().toString() + " " +  ButtonSetTime.getText().toString();
                 if (DataIsTrue( data ) && TextIsTrue( text )) {

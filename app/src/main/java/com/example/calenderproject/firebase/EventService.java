@@ -1,15 +1,10 @@
 package com.example.calenderproject.firebase;
 
-import androidx.annotation.NonNull;
-
 import com.example.calenderproject.models.Event;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -19,113 +14,68 @@ public class EventService {
     private static DatabaseReference refChannel;
     private static DatabaseReference refToUser;
     private static HashMap<String, HashMap<String, String>> UserChannelEvent;
-    private static HashMap<String, HashMap<String, HashMap<String, String>>> BigMap;
     private static HashMap<String, String> SubscriberChannelEvent;
+    private static HashMap<String, HashMap<String, HashMap<String, String>>> mapp1;
+    private static HashMap<String,HashMap<String, HashMap<String, HashMap<String, String>>>> mapp;
+    private static HashMap<String,HashMap<String, HashMap<String, HashMap<String, String>>>> mapp2;
 
+    public static void  SetEvent( HashMap<String, HashMap<String, String>> UserChannelEventZ,
+             HashMap<String, String> SubscriberChannelEventZ,
+             HashMap<String, HashMap<String, HashMap<String, String>>> mapp1Z,
+             HashMap<String,HashMap<String, HashMap<String, HashMap<String, String>>>> mappZ,
+             HashMap<String,HashMap<String, HashMap<String, HashMap<String, String>>>> mapp2Z
+    )
+    {
+        UserChannelEvent=UserChannelEventZ;
+        SubscriberChannelEvent=SubscriberChannelEventZ;
+        mapp1=mapp1Z;
+        mapp=mappZ;
+        mapp2=mapp2Z;
 
+    }
     public static void createNewEvent(String ChannelName, final String time, final String text) {
         final FirebaseUser CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         Event event = new Event( text, time );
-        /*refUser = FirebaseDatabase.getInstance().getReference( "users" ).child( CurrentUser.getUid() );
-        refUser.addValueEventListener( new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String, HashMap<String, Integer>> map = (HashMap) dataSnapshot.getValue();
-                if (map.get( "events" ) == null) {
-                    HashMap<String, Integer> data = new HashMap<>();
-                    data.put( text, time );
-                    map.put( "events", data );
-                } else {
-                    map.get( "events" ).put( text, time );
-                }
-                refUser.setValue( map );
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-
-
-        } );*/
         refChannel = FirebaseDatabase.getInstance().getReference( "Channels" ).child( ChannelName );
-        refChannel.addValueEventListener( new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String, HashMap<String, HashMap<String, String>>> map1 = (HashMap) dataSnapshot.getValue();
+
                 String EventId = CurrentUser.getDisplayName() + Calendar.getInstance().getTime().toString();
-                if (map1 != null) {
-                    if (map1.get( "events" ) == null) {
+                if (mapp1 != null) {
+                    if (mapp1.get( "events" ) == null) {
                         HashMap<String, HashMap<String, String>> data1 = new HashMap<>();
                         HashMap<String, String> mini = new HashMap<>();
                         mini.put( text, time );
                         data1.put( EventId, mini );
-                        map1.put( "events", data1 );
+                        mapp1.put( "events", data1 );
                     } else {
                         HashMap<String, String> mini = new HashMap<>();
                         mini.put( text, time );
-                        map1.get( "events" ).put( EventId, mini );
+                        mapp1.get( "events" ).put( EventId, mini );
                     }
                 }
-                refChannel.setValue( map1 );
-            }
+                UserChannelEvent = mapp1.get("events");
+                refChannel.setValue( mapp1 );
 
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
 
-        } );
 
-        refUser = FirebaseDatabase.getInstance().getReference( "Channels" ).child( ChannelName );
-        refUser.addValueEventListener( new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String, HashMap<String, HashMap<String, String>>> map = (HashMap) dataSnapshot.getValue();
-                if (map != null) {
-                    UserChannelEvent = map.get( "events" );
-                }
 
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
 
-        } );
-        refUser = FirebaseDatabase.getInstance().getReference( "Channels" ).child( ChannelName );
-        refUser.addValueEventListener( new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
-                if (map != null) {
-                    SubscriberChannelEvent = map.get( "subscribers" );
-                }
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-
-        } );
         try {
             Thread.sleep(1000);
             refToUser = FirebaseDatabase.getInstance().getReference( "users" );
-            refToUser.addValueEventListener( new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    HashMap<String,HashMap<String, HashMap<String, HashMap<String, String>>>> map = (HashMap) dataSnapshot.getValue();
-                        HashMap<String,HashMap<String, HashMap<String, HashMap<String, String>>>> map1=(HashMap) dataSnapshot.getValue();
-                        for (String key1 : map.keySet()) {
-                        if (map.get(key1).get("events") != null) {
+
+                        for (String key1 : mapp.keySet()) {
+                        if (mapp.get(key1).get("events") != null) {
                             if (SubscriberChannelEvent != null) {
                                 for (String key2 : SubscriberChannelEvent.keySet()) {
                                     if (key1.equals(key2))
                                     {
                                         for (String key : UserChannelEvent.keySet())
-                                            map1.get(key1).get("events").put(key,UserChannelEvent.get(key));
+                                            mapp2.get(key1).get("events").put(key,UserChannelEvent.get(key));
                                     }
 
                                 }
@@ -133,21 +83,14 @@ public class EventService {
 
                         }
                         else{
-                            map1.get(key1).put("events",UserChannelEvent);
+                            mapp2.get(key1).put("events",UserChannelEvent);
 
                         }
 
 
                     }
-                    refToUser.setValue(map1);
-                }
+                    refToUser.setValue(mapp2);
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-
-            } );
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
