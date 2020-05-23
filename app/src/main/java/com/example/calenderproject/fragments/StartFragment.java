@@ -8,74 +8,63 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.calenderproject.MainActivity;
 import com.example.calenderproject.MorphAnimation;
 import com.example.calenderproject.R;
-import com.example.calenderproject.firebase.AuthService;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
+import com.example.calenderproject.presenter.StartPresenter;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.jaredrummler.cyanea.app.CyaneaFragment;
 
 
 public class StartFragment extends CyaneaFragment {
-    private MorphAnimation morphAnimationLogin;
-    private MorphAnimation morphAnimationRegister;
+    StartPresenter startPresenter;
+    @Override
+    public void onStart() {
+        super.onStart();
+        startPresenter = new StartPresenter( this );
+        startPresenter.CheckStatusOfUser();
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.fragment_start, container, false );
-
+        //Containers
         View loginContainer = view.findViewById( R.id.form_login );
         View registerContainer = view.findViewById( R.id.form_register );
+        //ViewGroups
         final ViewGroup InfoTextViews =view.findViewById( R.id.info_form );
-
-        final ViewGroup loginViews = (ViewGroup) view.findViewById( R.id.login_views );
-        final ViewGroup registerViews = (ViewGroup) view.findViewById( R.id.register_views );
-        // Initialize Firebase Auth
-        //Buttons
+        final ViewGroup loginViews = view.findViewById( R.id.login_views );
+        final ViewGroup registerViews = view.findViewById( R.id.register_views );
+        //Buttons to form
         final Button buttonToReg = view.findViewById( R.id.buttonToRegFromStart );
         final Button buttonToSign = view.findViewById( R.id.buttonToSignInFromStart );
+        //Button Go in
         final Button buttonReg = view.findViewById( R.id.buttonRegister );
         final Button buttonSignIn = view.findViewById( R.id.buttonSignIn);
-
+        //EditTexts
         final EditText regEmail = view.findViewById( R.id.editEmailReg );
         final EditText regName = view.findViewById( R.id.editNameReg );
         final EditText regPassword = view.findViewById( R.id.editPasswordReg );
         final EditText editSignEmail = view.findViewById( R.id.editSignEmail );
         final EditText editSignPassword = view.findViewById( R.id.editSignPassword );
-        final FrameLayout layout = (FrameLayout) view.findViewById( R.id.frame );
-        final MainActivity act = (MainActivity) getActivity();
+        //AnimationLayout
+        final FrameLayout layout = view.findViewById( R.id.frame );
+        //Animation
+        MorphAnimation morphAnimationLogin = new MorphAnimation( loginContainer, layout, loginViews );
+        MorphAnimation morphAnimationRegister = new MorphAnimation( registerContainer, layout, registerViews );
         FirebaseAuth.getInstance()
                 .addAuthStateListener( new FirebaseAuth.AuthStateListener() {
                     @Override
                     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                        if (firebaseAuth.getCurrentUser() != null && firebaseAuth.getCurrentUser().getDisplayName() == null) {
-                            final String name = regName.getText().toString();
-                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                    .setDisplayName( name )
-                                    .build();
-
-                            firebaseAuth.getCurrentUser()
-                                    .updateProfile( profileUpdates )
-                                    .addOnSuccessListener( new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            //act.GoToFragment( "InterfaceFragment" );
-                                        }
-                                    } );
-                        }
+                        final String name = regName.getText().toString();
+                        startPresenter.ChangedAuthStatus(name,firebaseAuth );
 
                     }
                 } );
-        morphAnimationLogin = new MorphAnimation( loginContainer, layout, loginViews );
-        morphAnimationRegister = new MorphAnimation( registerContainer, layout, registerViews );
+        //ButtonFormAnimation
         buttonToReg.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,28 +113,12 @@ public class StartFragment extends CyaneaFragment {
             @Override
             public void onClick(View v) {
                 buttonReg.setClickable( false );
-                String email = regEmail.getText().toString();
-                String password = regPassword.getText().toString();
+                //Get Text
+                final String email = regEmail.getText().toString();
+                final String password = regPassword.getText().toString();
                 final String name = regName.getText().toString();
-
-                if (!isEmailCorrect( email ) || !isPasswordCorrect( password )) {
-                    Toast.makeText( v.getContext(), "Wrong password or email", Toast.LENGTH_SHORT ).show();
-                    buttonReg.setClickable( true );
-                }
-                AuthService.signInEmailAndPasword( email, password, name )
-                        .addOnFailureListener( new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText( getActivity(), "Can't auth: " + e.getMessage(), Toast.LENGTH_SHORT ).show();
-                                buttonReg.setClickable( true );
-                            }
-                        } )
-                        .addOnSuccessListener( new OnSuccessListener<AuthResult>() {
-                            @Override
-                            public void onSuccess(AuthResult authResult) {
-                                act.GoToFragment( "AuthLoadingFragment");
-                            }
-                        } );
+                startPresenter.register( email,password,name );
+                buttonReg.setClickable( true );
             }
         } );
         buttonSignIn.setOnClickListener( new View.OnClickListener() {
@@ -154,36 +127,24 @@ public class StartFragment extends CyaneaFragment {
                 buttonSignIn.setClickable( false );
                 String email = editSignEmail.getText().toString();
                 String password = editSignPassword.getText().toString();
-                if (email.length() > 0 || password.length() > 0) {
-                    AuthService.signIn( email, password )
-                            .addOnFailureListener( new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText( getContext(), "Can't log in: " + e.getMessage(), Toast.LENGTH_SHORT ).show();
-                                }
-                            } ).addOnSuccessListener( new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
-                            act.GoToFragment( "InterfaceFragment" );
-                        }
-                    } );
-                } else {
-                    buttonSignIn.setClickable( true );
-                    Toast.makeText( getContext(), "Can't log in: You must write your  password and email!", Toast.LENGTH_SHORT ).show();
-                }
+                startPresenter.signIn(email, password );
+                buttonSignIn.setClickable( true );
             }
         } );
         return view;
 
     }
 
-    private boolean isEmailCorrect(String email) {
-        return email.contains( "@" ) && email.contains( "." ) && email.length() > 5;
+    public void GoToLoadingFragment() {
+        final MainActivity act = (MainActivity) getActivity();
+        act.GoToFragment("AuthLoadingFragment");
     }
 
-    private boolean isPasswordCorrect(String password) {
-        return password.length() > 5;
+    public void GoToApp(){
+        final MainActivity act = (MainActivity) getActivity();
+        act.GoToFragment( "InterfaceFragment");
     }
+
 
 }
 

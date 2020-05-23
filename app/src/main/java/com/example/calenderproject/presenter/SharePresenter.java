@@ -1,16 +1,18 @@
-package com.example.calenderproject.fragments.menu_container;
+package com.example.calenderproject.presenter;
 
+import com.example.calenderproject.fragments.menu_container.ShareFragment;
+import com.example.calenderproject.fragments.menu_container.ShareModel;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 public class SharePresenter {
     private ShareFragment view;
     private ShareModel model;
 
-    SharePresenter(ShareFragment view) {
+    public SharePresenter(ShareFragment view) {
         this.view = view;
         this.model = new ShareModel();
     }
 
-    void addCameraFragment() {
+    public void addCameraFragment() {
         view.setCameraFragment();
 
     }

@@ -17,6 +17,12 @@ public class User {
 
     }
 
+    public User(String id, String name, String email) {
+        this.email = email;
+        this.name = name;
+        this.id=id;
+    }
+
     @Override
     public String toString() {
         return "User{" +

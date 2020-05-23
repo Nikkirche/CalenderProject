@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.calenderproject.R;
 import com.example.calenderproject.models.Channel;
+import com.example.calenderproject.presenter.SharePresenter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
@@ -71,7 +72,7 @@ public class ShareFragment extends CyaneaFragment  {
     }
 
 
-    FirebaseRecyclerOptions getOptions() {
+    public FirebaseRecyclerOptions getOptions() {
         Query query = FirebaseDatabase.getInstance().getReference( "users" ).child( firebaseUser.getUid() ).child( "groups" );
         FirebaseRecyclerOptions<Channel> options =
                 new FirebaseRecyclerOptions.Builder<Channel>()
@@ -86,7 +87,7 @@ public class ShareFragment extends CyaneaFragment  {
         return options;
     }
 
-    FirebaseRecyclerAdapter getAdapter(FirebaseRecyclerOptions options) {
+    public FirebaseRecyclerAdapter getAdapter(FirebaseRecyclerOptions options) {
         adapter = new FirebaseRecyclerAdapter<Channel, ShareFragment.ChannelViewHolder>( options ) {
             @Override
             public ShareFragment.ChannelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

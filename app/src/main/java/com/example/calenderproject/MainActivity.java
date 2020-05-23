@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.calenderproject.firebase.AuthService;
 import com.example.calenderproject.fragments.AuthLoadingFragment;
 import com.example.calenderproject.fragments.StartFragment;
 import com.example.calenderproject.fragments.menu_container.InterfaceFragment;
@@ -14,22 +13,16 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
 
     private StartFragment StartFragment;
-    private InterfaceFragment InterfaceFragment;
-    private AuthLoadingFragment authLoadingFragment;
 
     @Override
     public void onStart() {
         // Check if user is signed in (non-null) and go to MainActivity then.
 
         super.onStart();
-        if (AuthService.CheckStatusOfUser()) {
-            GoToFragment( "InterfaceFragment" );
-        }
-        else {
+
             StartFragment = new StartFragment();
             FragmentTransaction fstart = getSupportFragmentManager().beginTransaction();
             fstart.add( R.id.container, StartFragment ).commit();
-        }
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,19 +31,15 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     public void GoToFragment(String fragment) {
-        StartFragment = new StartFragment();
-        InterfaceFragment = new InterfaceFragment();
-         authLoadingFragment = new AuthLoadingFragment();
+        InterfaceFragment interfaceFragment = new InterfaceFragment();
+        AuthLoadingFragment authLoadingFragment = new AuthLoadingFragment();
         FragmentTransaction ftrans = getSupportFragmentManager().beginTransaction();
         switch (fragment) {
-            case "StartFragment":
-                ftrans.replace( R.id.container, StartFragment );
-                break;
             case "InterfaceFragment":
-                ftrans.replace( R.id.container, InterfaceFragment);
+                ftrans.replace( R.id.container, interfaceFragment );
                 break;
             case "AuthLoadingFragment":
-                ftrans.replace( R.id.container,authLoadingFragment );
+                ftrans.replace( R.id.container, authLoadingFragment );
         }
         ftrans.commit();
     }

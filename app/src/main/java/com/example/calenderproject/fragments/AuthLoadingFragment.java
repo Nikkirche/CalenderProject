@@ -33,6 +33,20 @@ public class AuthLoadingFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+
+       /* */
+
+        View view = inflater.inflate( R.layout.fragment_auth_loading, container, false );
+        buttonStart = view.findViewById( R.id.buttonStart );
+
         try {
             Thread.sleep(15000);
             FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -62,19 +76,6 @@ public class AuthLoadingFragment extends Fragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-       /* */
-
-        View view = inflater.inflate( R.layout.fragment_auth_loading, container, false );
-
-         buttonStart = view.findViewById( R.id.buttonStart );
         buttonStart.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
