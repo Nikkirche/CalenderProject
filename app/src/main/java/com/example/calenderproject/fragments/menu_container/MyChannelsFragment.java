@@ -275,6 +275,7 @@ public class MyChannelsFragment extends CyaneaFragment {
                         ChannelFragment channelFragment = new ChannelFragment();
                         Bundle bundle = new Bundle();
                         bundle.putString("ChannelName",channel.getName() );
+                        bundle.putString("TypeOfChannel","groups");
                         channelFragment.setArguments(bundle);
                         getChildFragmentManager().beginTransaction().add( R.id.my_channel_container,channelFragment ).addToBackStack(null).commit();
 
@@ -321,6 +322,7 @@ public class MyChannelsFragment extends CyaneaFragment {
                         ChannelFragment channelFragment = new ChannelFragment();
                         Bundle bundle = new Bundle();
                         bundle.putString("ChannelName",channel.getName() );
+                        bundle.putString("TypeOfChannel","Subchannels");
                         channelFragment.setArguments(bundle);
                         getChildFragmentManager().beginTransaction().add( R.id.my_channel_container,channelFragment ).addToBackStack(null).commit();
 

@@ -33,6 +33,7 @@ import java.util.HashMap;
 public class ChannelFragment extends CyaneaFragment {
     private TextView NameView;
     private String ChannelName,SubberName;
+    private String TypeOfChannel;
     private RecyclerView EventView;
     private LinearLayoutManager linearLayoutManager;
     private FirebaseRecyclerAdapter adapter;
@@ -43,10 +44,23 @@ public class ChannelFragment extends CyaneaFragment {
     private DatabaseReference reftoChannel;
     HashMap<String, HashMap<String, String>> map;
     HashMap<String, HashMap<String, String>> map1;
+    private ImageButton eventButton;
     @Override
     public void onStart() {
         super.onStart();
         adapter.startListening();
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+
+            TypeOfChannel=bundle.getString("TypeOfChannel");
+            if(TypeOfChannel.equals("Subchannels")
+            )
+            {eventButton.setEnabled(false);
+                eventButton.setVisibility(View.GONE);}
+            NameView.setText( ChannelName );
+        } else {
+            NameView.setText( "Error" );
+        }
         refUser = FirebaseDatabase.getInstance().getReference( "users" ).child( GroupUser.getUid() );
 
         refUser.addValueEventListener( new ValueEventListener() {
@@ -54,7 +68,7 @@ public class ChannelFragment extends CyaneaFragment {
                                                map = (HashMap) dataSnapshot.getValue();
                                                HashMap<String, String> data1;
                                                HashMap<String, String> data2 = new HashMap<>();
-                                               data1 = map.get( "groups" );
+                                               data1 = map.get( TypeOfChannel );
 
 
                                                        /*if (data1 != null) {
@@ -69,12 +83,12 @@ public class ChannelFragment extends CyaneaFragment {
                                                if (data1 != null) {
                                                    data1.remove(ChannelName);
                                                    if(data1!=null)
-                                                   {map.put( "groups", data1 );}
+                                                   {map.put( TypeOfChannel, data1 );}
                                                    else
-                                                   {  map.remove("groups");}
+                                                   {  map.remove(TypeOfChannel);}
                                                }
                                                else{
-                                                   map.remove("groups");
+                                                   map.remove(TypeOfChannel);
                                                }
 
                                                SubberName=map.get("id").get("name");
@@ -147,7 +161,7 @@ public class ChannelFragment extends CyaneaFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.fragment_channel, container, false );
         NameView = view.findViewById( R.id.ChannelFragmentNameView );
-        ImageButton eventButton = view.findViewById( R.id.buttonToCreateEvent);
+         eventButton = view.findViewById( R.id.buttonToCreateEvent);
         ImageButton backButton = view.findViewById( R.id.buttonToMyChannelsfromChannel );
         EventView = view.findViewById( R.id.EventView );
         linearLayoutManager = new LinearLayoutManager( this.getActivity() );
@@ -157,7 +171,6 @@ public class ChannelFragment extends CyaneaFragment {
         if (bundle != null) {
             ChannelName = bundle.getString( "ChannelName" );
 
-            NameView.setText( ChannelName );
         } else {
             NameView.setText( "Error" );
         }
