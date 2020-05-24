@@ -1,5 +1,9 @@
 package com.example.calenderproject.fragments.menu_container;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,10 +28,16 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.jaredrummler.cyanea.app.CyaneaFragment;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import net.glxn.qrgen.android.QRCode;
 
-public class ShareFragment extends CyaneaFragment  {
+public class ShareFragment extends CyaneaFragment {
     private RecyclerView QRView;
     private LinearLayoutManager linearLayoutManager;
     private FirebaseRecyclerAdapter adapter;
@@ -58,7 +68,42 @@ public class ShareFragment extends CyaneaFragment  {
         buttonToCamera.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sharePresenter.addCameraFragment();
+                Dexter.withContext( getContext()).withPermission( Manifest.permission.CAMERA ).withListener( new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+                        sharePresenter.addCameraFragment();
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+                        if (permissionDeniedResponse.isPermanentlyDenied()) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setTitle("Need Permissions");
+                            builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.");
+                            builder.setPositiveButton("GOTO SETTINGS", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                    openSettings();
+                                }
+                            });
+                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                            builder.show();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                        permissionToken.continuePermissionRequest();
+
+                    }
+                } ).check();
+
             }
         } );
         QRView = view.findViewById( R.id.QRView );
@@ -129,6 +174,9 @@ public class ShareFragment extends CyaneaFragment  {
             Bitmap QR = QRCode.from( "Calender" + channel.getName() ).bitmap();
             QRCod.setImageBitmap( QR );
         }
+    }
+    public  void openSettings() {
+        startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
     }
 
 

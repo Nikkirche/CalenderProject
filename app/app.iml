@@ -123,6 +123,7 @@
     <orderEntry type="library" name="Gradle: com.budiyev.android:code-scanner:2.1.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.firebaseui:firebase-ui-database:6.2.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.firebase:firebase-database:19.3.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: com.karumi:dexter:6.1.2@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.jaredrummler:cyanea:1.0.2@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.jaredrummler:colorpicker-compat:1.0.5@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.preference:preference:1.1.1@aar" level="project" />
