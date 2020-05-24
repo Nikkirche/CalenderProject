@@ -1,11 +1,11 @@
 package com.example.calenderproject.fragments.menu_container;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,19 +26,30 @@ import com.google.firebase.database.Query;
 import com.jaredrummler.cyanea.app.CyaneaFragment;
 
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.functions.Predicate;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class SearchFragment extends CyaneaFragment {
     private LinearLayoutManager linearLayoutManager;
-    private RecyclerView SearchView;
+    private RecyclerView SearchRecycler;
     private FirebaseRecyclerAdapter adapter;
     HashMap<String, String> values;
-    private String SearchQuery;
     private Query query;
+    private SearchView searchView;
+    private TextView test;
+    private String SearchQuery = null;
     private String SubChannelName;
     private static final FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference refChannel;
     private DatabaseReference refUser;
     HashMap<String, HashMap<String, String>> SubEvents;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -49,11 +60,7 @@ public class SearchFragment extends CyaneaFragment {
 
         } else {
         }*/
-
-
-
-
-
+        fetch( SearchQuery);
         adapter.startListening();
     }
 
@@ -61,30 +68,19 @@ public class SearchFragment extends CyaneaFragment {
     public void onStop() {
         super.onStop();
         adapter.stopListening();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.fragment_search, container, false );
-        SearchView = view.findViewById( R.id.SearchView );
-        final EditText EditSearchQuery = view.findViewById( R.id.SearchQuery );
-        final ImageButton SearchButton = view.findViewById( R.id.SearchButton );
-
-
-
-
-        SearchButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SearchQuery = EditSearchQuery.getText().toString();
-            }
-        } );
+        searchView = view.findViewById( R.id.SearchQuery );
+        SearchRecycler = view.findViewById( R.id.SearchView );
         linearLayoutManager = new LinearLayoutManager( this.getActivity() );
-        SearchView.setLayoutManager( linearLayoutManager );
-        SearchView.setHasFixedSize( true );
-        fetch( SearchQuery );
-
+        SearchRecycler.setLayoutManager( linearLayoutManager );
+        test = view.findViewById( R.id.testSearch );
+        setUpSearchObservable();
         return view;
     }
 
@@ -102,9 +98,12 @@ public class SearchFragment extends CyaneaFragment {
         }
     }
 
-    private void fetch(final String SearchQuery) {
-            query = FirebaseDatabase.getInstance()
-                    .getReference("Channels").orderByChild( "name" ).equalTo( SearchQuery );
+    private void fetch(String SearchQuery) {
+        query = FirebaseDatabase.getInstance()
+                .getReference( "Channels" )
+                .orderByChild( "name").startAt(SearchQuery)
+                .endAt(SearchQuery+"\uf8ff");;
+            Log.println( Log.DEBUG, "test", query.toString() );
         FirebaseRecyclerOptions<Channel> options =
                 new FirebaseRecyclerOptions.Builder<Channel>()
                         .setQuery( query, new SnapshotParser<Channel>() {
@@ -117,8 +116,8 @@ public class SearchFragment extends CyaneaFragment {
                                         values.put(key1,key1);
                                     }
                                 }*/
-                                String ChannelName  = snapshot.child( "id" ).child( "name" ).getValue().toString();
-                                    return new Channel( ChannelName );
+                                String ChannelName = snapshot.child( "id" ).child( "name" ).getValue().toString();
+                                return new Channel( ChannelName );
 
                             }
                         } )
@@ -153,6 +152,54 @@ public class SearchFragment extends CyaneaFragment {
             }
 
         };
-        SearchView.setAdapter( adapter );
+        SearchRecycler.setAdapter( adapter );
+    }
+
+    private void setUpSearchObservable() {
+        RxSearchObservable.fromView( searchView )
+                .debounce( 300, TimeUnit.MILLISECONDS )
+                .filter( new Predicate<String>() {
+                    @Override
+                    public boolean test(String text) {
+                        return !text.isEmpty();
+                    }
+                } )
+                .distinctUntilChanged()
+                .subscribeOn( Schedulers.io() )
+                .observeOn( AndroidSchedulers.mainThread() )
+                .subscribe( new Consumer<String>() {
+                    @Override
+                    public void accept(String result) {
+                        SearchQuery = result;
+                        adapter.stopListening();
+                        fetch( SearchQuery );
+                        adapter.startListening();
+
+                    }
+                } );
+    }
+
+
+    public static class RxSearchObservable {
+
+        static Observable<String> fromView(SearchView searchView) {
+
+            final PublishSubject<String> subject = PublishSubject.create();
+
+            searchView.setOnQueryTextListener( new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String s) {
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String text) {
+                    subject.onNext( text );
+                    return true;
+                }
+            } );
+
+            return subject;
+        }
     }
 }
