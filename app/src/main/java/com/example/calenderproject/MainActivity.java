@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -35,7 +36,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
 
-    public void GoToFragment(String fragment) {
+    public void GoToFragment(@NonNull String fragment) {
         InterfaceFragment interfaceFragment = new InterfaceFragment();
         AuthLoadingFragment authLoadingFragment = new AuthLoadingFragment();
         StartFragment startFragment = new StartFragment();
@@ -47,7 +48,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
             case "AuthLoadingFragment":
                 ftrans.replace( R.id.container, authLoadingFragment );
                 break;
-            default:
+            case "StartFragment":
                 ftrans.replace( R.id.container, startFragment);
                 break;
         }

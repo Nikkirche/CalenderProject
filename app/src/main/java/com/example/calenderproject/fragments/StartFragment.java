@@ -2,13 +2,16 @@ package com.example.calenderproject.fragments;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.calenderproject.MainActivity;
 import com.example.calenderproject.MorphAnimation;
@@ -64,32 +67,53 @@ public class StartFragment extends CyaneaFragment {
                     startPresenter.ChangedAuthStatus( name, firebaseAuth );
 
                 } );
+        regPassword.setOnEditorActionListener( new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE){
+                    final String email = regEmail.getText().toString();
+                    final String password = regPassword.getText().toString();
+                    final String name = regName.getText().toString();
+                    startPresenter.register(email,password,name  );
+                }
+                return true;
+            }
+        } );
+        editSignPassword.setOnEditorActionListener( new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE){
+                    final String email = editSignEmail.getText().toString();
+                    final String password = editSignPassword.getText().toString();
+                    startPresenter.signIn(email,password );
+                }
+                return true;
+            }
+        } );
         //ButtonFormAnimation
         buttonToReg.setOnClickListener( v -> {
             if (!morphAnimationRegister.isPressed()) {
                 loginViews.setVisibility( View.GONE );
                 InfoTextViews.setVisibility( View.GONE );
+                ImageLogo.setVisibility( View.GONE );
                 if ((getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)) {
                     morphAnimationRegister.morphIntoForm( "MATCH_PARENT" );
                 } else {
                     morphAnimationRegister.morphIntoForm( "WRAP_CONTENT" );
-                    ImageLogo.setVisibility( View.GONE );
                 }
                 buttonToReg.setText( R.string.back );
             } else {
                 morphAnimationRegister.morphIntoButton();
                 InfoTextViews.setVisibility( View.VISIBLE );
-                buttonToReg.setText( R.string.register );
-                if ((getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)) {
-                    ImageLogo.setVisibility( View.VISIBLE );
-                }
                 loginViews.setVisibility( View.VISIBLE );
-            }
+                ImageLogo.setVisibility( View.VISIBLE );
+                buttonToReg.setText( R.string.register ); }
         } );
         buttonToSign.setOnClickListener( v -> {
             if (!morphAnimationLogin.isPressed()) {
                 registerViews.setVisibility( View.GONE );
                 InfoTextViews.setVisibility( View.GONE );
+                ImageLogo.setVisibility( View.GONE );
                 if ((getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)) {
                     morphAnimationLogin.morphIntoForm( "MATCH_PARENT" );
                 } else {
@@ -98,6 +122,7 @@ public class StartFragment extends CyaneaFragment {
                 buttonToSign.setText( R.string.back );
             } else {
                 morphAnimationLogin.morphIntoButton();
+                ImageLogo.setVisibility( View.VISIBLE );
                 InfoTextViews.setVisibility( View.VISIBLE );
                 buttonToSign.setText( R.string.sign_in );
                 registerViews.setVisibility( View.VISIBLE );
@@ -130,12 +155,16 @@ public class StartFragment extends CyaneaFragment {
 
     public void GoToLoadingFragment() {
         final MainActivity act = (MainActivity) getActivity();
-        act.GoToFragment( "AuthLoadingFragment" );
+        if (act != null) {
+            act.GoToFragment( "AuthLoadingFragment" );
+        }
     }
 
     public void GoToApp() {
         final MainActivity act = (MainActivity) getActivity();
-        act.GoToFragment( "InterfaceFragment" );
+        if (act != null) {
+            act.GoToFragment( "InterfaceFragment" );
+        }
     }
 
 

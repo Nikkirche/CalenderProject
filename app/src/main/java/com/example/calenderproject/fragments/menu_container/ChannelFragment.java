@@ -67,8 +67,8 @@ public class ChannelFragment extends CyaneaFragment {
                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                map = (HashMap) dataSnapshot.getValue();
                                                HashMap<String, String> data1;
-                                               HashMap<String, String> data2 = new HashMap<>();
-                                               data1 = map.get( TypeOfChannel );
+                                                HashMap<String, String> data2 = new HashMap<>();
+                                              data1 = map.get( TypeOfChannel );
 
 
                                                        /*if (data1 != null) {

@@ -21,7 +21,7 @@ public class MorphAnimation {
         this.parentView = parentView;
         this.viewsContainer = viewsContainer;
         LayoutTransition layoutTransition = parentView.getLayoutTransition();
-        layoutTransition.setDuration(400);
+        layoutTransition.setDuration(600);
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
         isPressed = false;
     }
