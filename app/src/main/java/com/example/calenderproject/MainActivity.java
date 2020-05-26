@@ -1,17 +1,10 @@
 package com.example.calenderproject;
 
-import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.FragmentTransaction;
@@ -32,12 +25,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
         FragmentTransaction fstart = getSupportFragmentManager().beginTransaction();
         fstart.add( R.id.container, StartFragment ).commit();
         createEventNotificationChannel();
-        final int REQUEST_CODE=101;
-        Intent intent=new Intent(this,EventReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,REQUEST_CODE,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-        Context context = getApplicationContext();
-        AlarmManager EventManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-        EventManager.setExact(AlarmManager.RTC, System.currentTimeMillis() ,pendingIntent  );
     }
 
     @Override
@@ -88,12 +75,5 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
 }
 
-class EventReceiver extends BroadcastReceiver {
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        Toast.makeText( context, "Event Service start", Toast.LENGTH_SHORT ).show();
-        Log.e( "test", "works");
-    }
-}
 
 

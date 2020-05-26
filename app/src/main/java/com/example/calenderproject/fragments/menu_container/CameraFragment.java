@@ -5,22 +5,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
-import com.budiyev.android.codescanner.DecodeCallback;
 import com.example.calenderproject.R;
-import com.google.zxing.Result;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 
-public class CameraFragment extends Fragment  {
+public class CameraFragment extends Fragment {
     private CodeScanner mCodeScanner;
 
     @Nullable
@@ -28,44 +26,47 @@ public class CameraFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         final Activity activity = getActivity();
-        View root = inflater.inflate(R.layout.fragment_camera, container, false);
-        CodeScannerView scannerView = root.findViewById(R.id.scanner_view);
-        mCodeScanner = new CodeScanner(activity, scannerView);
-        mCodeScanner.setDecodeCallback(new DecodeCallback() {
+        View root = inflater.inflate( R.layout.fragment_camera, container, false );
+        CodeScannerView scannerView = root.findViewById( R.id.scanner_view );
+        ImageButton goBack = root.findViewById( R.id.goBackFromCamera );
+        goBack.setOnClickListener( view -> {
+            final ShareFragment ShareFragment = ((ShareFragment)  CameraFragment.this.getParentFragment());
+            InterfaceFragment interfaceFragment = (InterfaceFragment) ShareFragment.getParentFragment();
+            interfaceFragment.showMenu();
+            ShareFragment.buttonToCamera.setVisibility( View.VISIBLE );
+            ShareFragment.getChildFragmentManager().popBackStack();
+        } );
+        mCodeScanner = new CodeScanner( activity, scannerView );
+        mCodeScanner.setDecodeCallback( result -> activity.runOnUiThread( new Runnable() {
             @Override
-            public void onDecoded(@NonNull final Result result) {
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(activity, result.getText(), Toast.LENGTH_SHORT).show();
-                            String name = result.getText();
-                            MaterialDialog.Builder mDialog = new MaterialDialog.Builder( getActivity() )
-                                    .setTitle( "Subscribe?" )
-                                    .setMessage( "Are you sure want to subscribe this Group  with name -" + name )
-                                    .setCancelable( false )
-                                    .setPositiveButton( "Yes", R.drawable.ic_add_black_24dp, new MaterialDialog.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int which) {
-                                            dialogInterface.dismiss();
+            public void run() {
+                Toast.makeText( activity, result.getText(), Toast.LENGTH_SHORT ).show();
+                String name = result.getText();
+                MaterialDialog.Builder mDialog = new MaterialDialog.Builder( getActivity() )
+                        .setTitle( "Subscribe?" )
+                        .setMessage( "Are you sure want to subscribe this Group  with name -" + name )
+                        .setCancelable( false )
+                        .setPositiveButton( "Yes", R.drawable.ic_add_black_24dp, new MaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                dialogInterface.dismiss();
 
-                                        }
-                                    } )
-                                    .setNegativeButton( "Cancel", R.drawable.ic_clear_black_24dp, new MaterialDialog.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int which) {
-                                            dialogInterface.dismiss();
-                                        }
-                                    } );
-                    }
-                });
+                            }
+                        } )
+                        .setNegativeButton( "Cancel", R.drawable.ic_clear_black_24dp, new MaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                dialogInterface.dismiss();
+                            }
+                        } );
             }
-        });
-        scannerView.setOnClickListener(new View.OnClickListener() {
+        } ) );
+        scannerView.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mCodeScanner.startPreview();
             }
-        });
+        } );
         return root;
     }
 

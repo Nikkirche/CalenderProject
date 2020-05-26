@@ -19,6 +19,7 @@ public class InterfaceFragment extends CyaneaFragment {
     private AccountFragment AccountFragment;
     private MyChannelsFragment MyChannelsFragment;
     private  ShareFragment ShareFragment;
+    BottomNavigationView menu;
     @Override
     public void onStart() {
         super.onStart();
@@ -36,7 +37,7 @@ public class InterfaceFragment extends CyaneaFragment {
         AccountFragment = new AccountFragment();
         MyChannelsFragment = new MyChannelsFragment();
         ShareFragment = new ShareFragment();
-        BottomNavigationView menu = view.findViewById( R.id.menu );
+        menu = view.findViewById( R.id.menu );
         menu.setOnNavigationItemSelectedListener( new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -61,6 +62,12 @@ public class InterfaceFragment extends CyaneaFragment {
             }
         } );
         return view;
+    }
+    void hideMenu(){
+        menu.setVisibility( View.GONE );
+    }
+    void showMenu(){
+        menu.setVisibility( View.VISIBLE );
     }
 
 

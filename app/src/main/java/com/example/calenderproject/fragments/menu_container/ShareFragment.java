@@ -42,6 +42,7 @@ public class ShareFragment extends CyaneaFragment {
     private LinearLayoutManager linearLayoutManager;
     private FirebaseRecyclerAdapter adapter;
     private SharePresenter sharePresenter;
+    Button buttonToCamera;
     private final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
@@ -64,7 +65,12 @@ public class ShareFragment extends CyaneaFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate( R.layout.fragment_share, container, false );
-        Button buttonToCamera = view.findViewById( R.id.buttonToCameraFragment );
+        CameraFragment cameraFragment = new CameraFragment();
+        if (!cameraFragment.isAdded()){
+            InterfaceFragment interfaceFragment = (InterfaceFragment)getParentFragment();
+            interfaceFragment.showMenu();
+        }
+        buttonToCamera = view.findViewById( R.id.buttonToCameraFragment );
         buttonToCamera.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -156,8 +162,11 @@ public class ShareFragment extends CyaneaFragment {
 
 
     public void setCameraFragment() {
+        buttonToCamera.setVisibility( View.GONE );
         CameraFragment cameraFragment = new CameraFragment();
-        getChildFragmentManager().beginTransaction().add( R.id.ShareContainer, cameraFragment ).commit();
+        InterfaceFragment interfaceFragment = (InterfaceFragment)getParentFragment();
+        //interfaceFragment.hideMenu();
+        getChildFragmentManager().beginTransaction().add( R.id.ShareContainer, cameraFragment ).addToBackStack( "camera" ).commit();
 
     }
 
