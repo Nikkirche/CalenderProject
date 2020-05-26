@@ -1,6 +1,5 @@
 package com.example.calenderproject.fragments.menu_container;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jaredrummler.cyanea.app.CyaneaFragment;
-import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 
 import java.util.HashMap;
 
@@ -33,13 +31,6 @@ public class AccountFragment extends CyaneaFragment {
         View view = inflater.inflate( R.layout.fragment_account, container, false );
         nameView = view.findViewById( R.id.AccountNameView );
         ImageButton SettingsButton = view.findViewById( R.id.ToSettingsButton );
-        ImageButton CustomisationButton = view.findViewById( R.id.ToCustomotisationButton );
-        CustomisationButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), CyaneaSettingsActivity.class));
-            }
-        } );
         SettingsButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
