@@ -1,7 +1,14 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#303030">
+    android:background="#303030"
+    android:backgroundTint="#303030"
+    android:visibility="visible">
     <PreferenceCategory app:title="@string/messages_header" />
+    <Preference
+        android:key="LogOut"
+        android:title="@string/log_out"
+        android:defaultValue="false"
+        />
 
     <PreferenceCategory app:title="@string/sync_header" />
 

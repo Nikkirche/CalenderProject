@@ -38,6 +38,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
     public void GoToFragment(String fragment) {
         InterfaceFragment interfaceFragment = new InterfaceFragment();
         AuthLoadingFragment authLoadingFragment = new AuthLoadingFragment();
+        StartFragment startFragment = new StartFragment();
         FragmentTransaction ftrans = getSupportFragmentManager().beginTransaction();
         switch (fragment) {
             case "InterfaceFragment":
@@ -45,6 +46,10 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 break;
             case "AuthLoadingFragment":
                 ftrans.replace( R.id.container, authLoadingFragment );
+                break;
+            default:
+                ftrans.replace( R.id.container, startFragment);
+                break;
         }
         ftrans.commit();
     }
