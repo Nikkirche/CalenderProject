@@ -46,9 +46,6 @@ public class AuthLoadingFragment extends Fragment {
 
         View view = inflater.inflate( R.layout.fragment_auth_loading, container, false );
         buttonStart = view.findViewById( R.id.buttonStart );
-
-        try {
-            Thread.sleep(15000);
             FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
 
             ref1 = FirebaseDatabase.getInstance().getReference( "users" ).child( GroupUser.getUid() );
@@ -71,19 +68,9 @@ public class AuthLoadingFragment extends Fragment {
                 }
             } );
             buttonStart.setVisibility( View.VISIBLE );
-
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         buttonStart.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    Thread.sleep(5000);}
-                catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 FirebaseUser GroupUser1 = FirebaseAuth.getInstance().getCurrentUser();
                 HashMap<String, HashMap<String, String>> data1 = new HashMap<>();
                 HashMap<String,String> nothing = new HashMap<>(  );

@@ -4,7 +4,7 @@
     <style name="RoundedCornerButton" parent="@style/Widget.AppCompat.Button.Colored">
         <item name="background">@drawable/round_button_style</item>
     </style>
-    <style name="ActivityTheme" parent="@style/Theme.AppCompat.NoActionBar">
+    <style name="ActivityTheme" parent="@style/Theme.Cyanea.Dark.NoActionBar">
         <item name="android:windowBackground">@drawable/activity_background</item>
     </style>
 </resources>

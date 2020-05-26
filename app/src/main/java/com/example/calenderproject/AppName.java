@@ -8,7 +8,7 @@ public class AppName extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Cyanea.init( this,getResources() );
-
+        Cyanea.init( this, getResources() );
     }
-}
+    }
+

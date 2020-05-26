@@ -53,7 +53,16 @@ public  class CalenderFragment extends CyaneaFragment {
         calendarView.setOnDateChangeListener( new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-                final String DayOfEvent = String.valueOf( i ) + "-" + String.valueOf( i1 ) + "-" + String.valueOf( i2 );
+                final String DayOfEvent;
+                if (i1>9 && i2>9) {
+                     DayOfEvent = String.valueOf( i ) + "-" + String.valueOf( i1 ) + "-" + String.valueOf( i2 );
+                }
+                else if (i1<10 && i2>9) {
+                     DayOfEvent = String.valueOf( i ) + "-0" + String.valueOf( i1 ) + "-" + String.valueOf( i2 );
+                }
+                else{
+                     DayOfEvent = String.valueOf( i ) + "-0" + String.valueOf( i1 ) + "-0" + String.valueOf( i2 );
+                }
                 FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                 ref = FirebaseDatabase.getInstance().getReference( "users" ).child( firebaseUser.getUid() ).child( "events" );
                 ref.addValueEventListener( new ValueEventListener() {

@@ -204,7 +204,23 @@ public class CreateEventFragment extends CyaneaFragment {
         }
         @Override
         public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute) {
-            String timeToShow = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
+            String timeToShow;
+            if (hourOfDay>9) {
+                if (minute>9) {
+                    timeToShow = String.valueOf( hourOfDay ) + ":" + String.valueOf( minute );
+                }
+                else{
+                    timeToShow = String.valueOf( hourOfDay ) + ":0" + String.valueOf( minute );
+                }
+            }
+            else{
+                if (minute>9) {
+                    timeToShow = "0"+String.valueOf( hourOfDay ) + ":" + String.valueOf( minute );
+                }
+                else{
+                    timeToShow = "0"+String.valueOf( hourOfDay ) + ":0" + String.valueOf( minute );
+                }
+            }
             ButtonSetTime.setText(timeToShow);
         }
     }
@@ -218,7 +234,23 @@ public class CreateEventFragment extends CyaneaFragment {
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            String dataToShow = String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(day);
+            String dataToShow;
+            if (month>9) {
+                if (day>9) {
+                    dataToShow = String.valueOf( year ) + "-" + String.valueOf( month ) + "-" + String.valueOf( day );
+                }
+                else {
+                    dataToShow = String.valueOf( year ) + "-" + String.valueOf( month ) + "-0" + String.valueOf( day );
+                }
+            }
+            else{
+                if (day>9) {
+                    dataToShow = String.valueOf( year ) + "-0" + String.valueOf( month ) + "-" + String.valueOf( day );
+                }
+                else{
+                    dataToShow = String.valueOf( year ) + "-0" + String.valueOf( month ) + "-0" + String.valueOf( day );
+                }
+            }
             ButtonSetData.setText( dataToShow );
         }
     }

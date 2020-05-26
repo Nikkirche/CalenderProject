@@ -101,8 +101,7 @@ public class SearchFragment extends CyaneaFragment {
     private void fetch(String SearchQuery) {
         query = FirebaseDatabase.getInstance()
                 .getReference( "Channels" )
-                .orderByChild( "name").startAt(SearchQuery)
-                .endAt(SearchQuery+"\uf8ff");;
+                .orderByChild( "name").equalTo( SearchQuery );
             Log.println( Log.DEBUG, "test", query.toString() );
         FirebaseRecyclerOptions<Channel> options =
                 new FirebaseRecyclerOptions.Builder<Channel>()
