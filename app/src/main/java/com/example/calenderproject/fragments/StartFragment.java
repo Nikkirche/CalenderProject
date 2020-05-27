@@ -121,7 +121,6 @@ public class StartFragment extends CyaneaFragment {
         );
         buttonReg.setOnClickListener( v -> {
             buttonReg.setClickable( false );
-            buttonReg.startAnimation();
             //Get Text
             final String email = regEmail.getText().toString();
             final String password = regPassword.getText().toString();
@@ -131,7 +130,6 @@ public class StartFragment extends CyaneaFragment {
         } );
         buttonSignIn.setOnClickListener( v -> {
             buttonSignIn.setClickable( false );
-            buttonSignIn.startAnimation();
             String email = editSignEmail.getText().toString();
             String password = editSignPassword.getText().toString();
             startPresenter.signIn( email, password );
@@ -159,6 +157,12 @@ public class StartFragment extends CyaneaFragment {
     }
     public void RegisterInAnimationStop() {
         buttonReg.revertAnimation();
+    }
+    public void SignInAnimationStart() {
+        buttonSignIn.startAnimation();
+    }
+    public void RegisterInAnimationStart() {
+        buttonReg.startAnimation();
     }
 
 

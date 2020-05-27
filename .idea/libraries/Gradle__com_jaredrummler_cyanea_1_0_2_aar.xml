@@ -9,6 +9,7 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jaredrummler/cyanea/1.0.2/52cc99b7022bb2b2abe0bbaab0e4e28e7f843/cyanea-1.0.2-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d0a00126a6d5b1dbc92fe2c389b88100/jetified-cyanea-1.0.2/jars/classes.jar!/" />
     </SOURCES>
   </library>
 </component>

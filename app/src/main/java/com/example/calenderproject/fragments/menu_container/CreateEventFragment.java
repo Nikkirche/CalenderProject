@@ -71,20 +71,11 @@ public class CreateEventFragment extends CyaneaFragment {
                         UserChannelEvent = mapp1.get("events");
                 }
 
-
             }
-
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
-
         } );
-
-
-
-
-
         refUser = FirebaseDatabase.getInstance().getReference( "Channels" ).child( ChannelName );
         refUser.addValueEventListener( new ValueEventListener() {
             @Override
@@ -93,14 +84,10 @@ public class CreateEventFragment extends CyaneaFragment {
                 if (map != null) {
                     SubscriberChannelEvent = map.get( "subscribers" );
                 }
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
-
         } );
         try {
             Thread.sleep(1000);
@@ -110,25 +97,14 @@ public class CreateEventFragment extends CyaneaFragment {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     mapp = (HashMap) dataSnapshot.getValue();
                     mapp2=(HashMap) dataSnapshot.getValue();
-
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
                 }
-
             } );
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
-
-
-
-
-
     }
 
     @Override
@@ -141,7 +117,6 @@ public class CreateEventFragment extends CyaneaFragment {
         ImageButton backButton = view.findViewById( R.id.buttonToChannelFromEvent );
          ButtonSetTime = view.findViewById( R.id.ButtonCreateEventSetTime );
         ButtonSetData = view.findViewById( R.id.ButtonCreateEventSetData);
-        final EditText EditData = view.findViewById( R.id.CreateEventEditData );
         final EditText EditText = view.findViewById( R.id.CreateEventEditText );
         backButton.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -149,12 +124,9 @@ public class CreateEventFragment extends CyaneaFragment {
                 ChannelFragment.getChildFragmentManager().popBackStackImmediate();
             }
         } );
-        ButtonSetTime.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TimePickerFragment mTimePicker = new TimePickerFragment();
-                mTimePicker.show(getChildFragmentManager(), "Select time");
-            }
+        ButtonSetTime.setOnClickListener( view1 -> {
+            TimePickerFragment mTimePicker = new TimePickerFragment();
+            mTimePicker.show(getChildFragmentManager(), "Select time");
         } );
         ButtonSetData.setOnClickListener( new View.OnClickListener() {
             @Override

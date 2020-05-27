@@ -179,18 +179,15 @@ public class MyChannelsFragment extends CyaneaFragment {
                             .setTitle( "Create?" )
                             .setMessage( "Are you sure want to create this Group  with name -" + name )
                             .setCancelable( false )
-                            .setPositiveButton( "Yes", R.drawable.ic_add_black_24dp, new MaterialDialog.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int which) {
-                                    ChannelService.SetNewChannel(mapopa);
-                                    ChannelService.createNewChannel( name, null, FirebaseAuth.getInstance().getCurrentUser().getUid(), nameOfCurrentUser );
-                                    dialogInterface.dismiss();
-                                    morphAnimationCreateChannel.morphIntoButton();
-                                    buttonGoSearch.setVisibility( View.VISIBLE);
-                                    channelView.setVisibility( View.VISIBLE );
-                                    AdminChannelView.setVisibility( View.VISIBLE );
+                            .setPositiveButton( "Yes", R.drawable.ic_add_black_24dp, (dialogInterface, which) -> {
+                                ChannelService.SetNewChannel(mapopa);
+                                ChannelService.createNewChannel( name, null, FirebaseAuth.getInstance().getCurrentUser().getUid(), nameOfCurrentUser );
+                                dialogInterface.dismiss();
+                                morphAnimationCreateChannel.morphIntoButton();
+                                buttonGoSearch.setVisibility( View.VISIBLE);
+                                ChannelLayout.setVisibility( View.VISIBLE );
+                                AdminChannelLayout.setVisibility( View.VISIBLE );
 
-                                }
                             } )
                             .setNegativeButton( "Cancel", R.drawable.ic_clear_black_24dp, new MaterialDialog.OnClickListener() {
                                 @Override
@@ -248,7 +245,6 @@ public class MyChannelsFragment extends CyaneaFragment {
                             @NonNull
                             @Override
                             public Channel parseSnapshot(@NonNull DataSnapshot snapshot) {
-
                                 return new Channel(snapshot.getValue().toString());
                             }
                         })

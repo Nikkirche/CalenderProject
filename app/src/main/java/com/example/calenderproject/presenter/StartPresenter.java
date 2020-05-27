@@ -35,6 +35,7 @@ public class StartPresenter {
     }
     public  void   signIn(String email,String password){
         if (email.length() > 0 || password.length() > 0) {
+            view.SignInAnimationStart();
             model.signIn( email, password )
                     .addOnFailureListener( e -> {
                         Toast.makeText( view.getContext(), "Can't log in: " + e.getMessage(), Toast.LENGTH_SHORT ).show();
@@ -42,16 +43,15 @@ public class StartPresenter {
                     } ).addOnSuccessListener( authResult -> view.GoToApp() );
         } else {
             Toast.makeText( view.getContext(), "Can't log in: You must write your  password and email!", Toast.LENGTH_SHORT ).show();
-            view.SignInAnimationStop();
         }
     }
 
     public void register(String email, String password, String name) {
         if (!isEmailCorrect( email ) || !isPasswordCorrect( password )) {
             Toast.makeText( view.getContext(), "Wrong password or email", Toast.LENGTH_SHORT ).show();
-            view.RegisterInAnimationStop();
         }
         else {
+            view.RegisterInAnimationStart();
             model.signInEmailAndPassword( email, password, name )
                     .addOnFailureListener( new OnFailureListener() {
                         @Override
