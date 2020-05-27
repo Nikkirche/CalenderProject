@@ -16,10 +16,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.calenderproject.MorphAnimation;
 import com.example.calenderproject.R;
 import com.example.calenderproject.firebase.ChannelService;
 import com.example.calenderproject.models.Channel;
+import com.example.calenderproject.util.MorphAnimation;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;

@@ -50,68 +50,65 @@ public  class CalenderFragment extends CyaneaFragment {
 
         CalendarView calendarView = view.findViewById( R.id.calendarView );
         final TextView testing = view.findViewById( R.id.testingtextView2 );
-        calendarView.setOnDateChangeListener( new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-                final String DayOfEvent;
-                if (i1>9 && i2>9) {
-                     DayOfEvent = String.valueOf( i ) + "-" + String.valueOf( i1 ) + "-" + String.valueOf( i2 );
-                }
-                else if (i1<10 && i2>9) {
-                     DayOfEvent = String.valueOf( i ) + "-0" + String.valueOf( i1 ) + "-" + String.valueOf( i2 );
-                }
-                else{
-                     DayOfEvent = String.valueOf( i ) + "-0" + String.valueOf( i1 ) + "-0" + String.valueOf( i2 );
-                }
-                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                ref = FirebaseDatabase.getInstance().getReference( "users" ).child( firebaseUser.getUid() ).child( "events" );
-                ref.addValueEventListener( new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
-                        TreeMap<String,String> test = new TreeMap<>( );
-                        for (String key : map.keySet()) {
-                            HashMap<String, String> data = map.get( key );
-                            for (String key2 : data.keySet()) {
-                                if (data.get( key2 ).contains( DayOfEvent )) {
-                                    String[] time = data.get( key2 ).split( " " );
-                                    String HourAndMin = time[1];
-                                    //MapOfEvents.put( HourAndMin, key2 );
-                                    test.put( HourAndMin,key2 );
-                                    //Log.e( "error",key2);
-
-                                }
-                            }
-
-                        }
-                        for (String key:test.keySet()){
-                            String ReadableTime;
-                            String RedactTime[] = key.split(":");
-                            if(RedactTime[0].length()==1){
-                                 ReadableTime = "0"+RedactTime[0] + ":" + RedactTime[1];
-                            }
-                            else{
-                                 ReadableTime = key;
-                            }
-                            String value = test.get( key );
-                            MapOfEvents.put(ReadableTime,value);
-                        }
-                        testing.setText( MapOfEvents.toString() );
-                        EventAdapter adapter = new EventAdapter(getData( MapOfEvents ) );
-                        CalenderEventView.setAdapter(adapter);
-                        RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext());
-
-                        CalenderEventView.setHasFixedSize(true);
-                        CalenderEventView.setNestedScrollingEnabled(true);
-
-                        CalenderEventView.setLayoutManager(manager);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                } );
+        calendarView.setOnDateChangeListener( (calendarView1, i, i1, i2) -> {
+            final String DayOfEvent;
+            if (i1>9 && i2>9) {
+                 DayOfEvent = i + "-" + i1 + "-" + i2;
             }
+            else if (i1<10 && i2>9) {
+                 DayOfEvent = i + "-0" + i1 + "-" + i2;
+            }
+            else{
+                 DayOfEvent = i + "-0" + i1 + "-0" + i2;
+            }
+            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+            ref = FirebaseDatabase.getInstance().getReference( "users" ).child( firebaseUser.getUid() ).child( "events" );
+            ref.addValueEventListener( new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
+                    TreeMap<String,String> test = new TreeMap<>( );
+                    for (String key : map.keySet()) {
+                        HashMap<String, String> data = map.get( key );
+                        for (String key2 : data.keySet()) {
+                            if (data.get( key2 ).contains( DayOfEvent )) {
+                                String[] time = data.get( key2 ).split( " " );
+                                String HourAndMin = time[1];
+                                //MapOfEvents.put( HourAndMin, key2 );
+                                test.put( HourAndMin,key2 );
+                                //Log.e( "error",key2);
+
+                            }
+                        }
+
+                    }
+                    for (String key:test.keySet()){
+                        String ReadableTime;
+                        String RedactTime[] = key.split(":");
+                        if(RedactTime[0].length()==1){
+                             ReadableTime = "0"+RedactTime[0] + ":" + RedactTime[1];
+                        }
+                        else{
+                             ReadableTime = key;
+                        }
+                        String value = test.get( key );
+                        MapOfEvents.put(ReadableTime,value);
+                    }
+                    testing.setText( MapOfEvents.toString() );
+                    EventAdapter adapter = new EventAdapter(getData( MapOfEvents ) );
+                    CalenderEventView.setAdapter(adapter);
+                    RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext());
+
+                    CalenderEventView.setHasFixedSize(true);
+                    CalenderEventView.setNestedScrollingEnabled(true);
+
+                    CalenderEventView.setLayoutManager(manager);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            } );
         } );
 
         return view;

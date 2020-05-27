@@ -7,4 +7,5 @@
     <style name="ActivityTheme" parent="@style/Theme.Cyanea.Dark.NoActionBar">
         <item name="android:windowBackground">@drawable/activity_background</item>
     </style>
+
 </resources>

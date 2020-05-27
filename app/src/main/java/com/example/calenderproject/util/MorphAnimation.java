@@ -1,4 +1,4 @@
-package com.example.calenderproject;
+package com.example.calenderproject.util;
 
 import android.animation.LayoutTransition;
 import android.view.Gravity;

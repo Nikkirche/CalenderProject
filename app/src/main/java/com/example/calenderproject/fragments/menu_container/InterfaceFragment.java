@@ -19,7 +19,7 @@ public class InterfaceFragment extends CyaneaFragment {
     private AccountFragment AccountFragment;
     private MyChannelsFragment MyChannelsFragment;
     private  ShareFragment ShareFragment;
-    BottomNavigationView menu;
+    private BottomNavigationView menu;
     @Override
     public void onStart() {
         super.onStart();

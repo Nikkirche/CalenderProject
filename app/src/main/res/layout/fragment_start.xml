@@ -19,8 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.7">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/form_login"
@@ -30,6 +29,7 @@
             android:background="#303030"
             android:padding="0dp"
             android:visibility="visible"
+            app:cardBackgroundColor="@android:color/secondary_text_light"
             app:cardCornerRadius="10dp"
             app:cardElevation="4dp">
 
@@ -49,9 +49,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@drawable/round_button_style"
                     android:gravity="center|center_horizontal|center_vertical"
                     android:text="@string/sign_in"
+                    android:textColor="@android:color/secondary_text_dark"
                     tools:layout_editor_absoluteX="-136dp"
                     tools:layout_editor_absoluteY="564dp" />
 
@@ -64,6 +64,7 @@
                     android:ems="10"
                     android:hint="@string/email"
                     android:inputType="textEmailAddress"
+                    android:textColor="@android:color/secondary_text_dark"
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -82,22 +83,24 @@
                     android:ems="10"
                     android:hint="@string/password"
                     android:inputType="numberPassword"
+                    android:textColor="@android:color/secondary_text_dark"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editSignEmail" />
 
-                <Button
+                <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                     android:id="@+id/buttonSignIn"
-                    style="@style/RoundedCornerButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/round_button_style"
+                    android:elegantTextHeight="true"
                     android:text="@string/sign_in"
+                    android:textColor="@android:color/tertiary_text_dark"
                     android:visibility="gone"
+                    app:initialCornerAngle="4dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editSignPassword" />
@@ -113,6 +116,7 @@
             android:layout_marginStart="0dp"
             android:background="#303030"
             android:padding="0dp"
+            app:cardBackgroundColor="@android:color/secondary_text_light"
             app:cardCornerRadius="10dp"
             app:cardElevation="4dp"
             app:cardPreventCornerOverlap="true">
@@ -130,14 +134,14 @@
                     android:id="@+id/buttonToRegFromStart"
                     style="@style/RoundedCornerButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@drawable/round_button_style"
                     android:backgroundTint="#FF0000"
                     android:gravity="center"
-                    android:text="@string/register" />
+                    android:text="@string/register"
+                    android:textColor="@android:color/secondary_text_dark" />
 
                 <EditText
                     android:id="@+id/editNameReg"
@@ -149,6 +153,7 @@
                     android:gravity="start|top"
                     android:hint="@string/name"
                     android:inputType="textMultiLine"
+                    android:textColor="@android:color/secondary_text_dark"
                     android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/editEmailReg"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -164,6 +169,7 @@
                     android:ems="10"
                     android:hint="@string/email"
                     android:inputType="textEmailAddress"
+                    android:textColor="@android:color/secondary_text_dark"
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -180,24 +186,23 @@
                     android:ems="10"
                     android:hint="@string/password"
                     android:inputType="textPassword"
+                    android:textColor="@android:color/secondary_text_dark"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editEmailReg" />
 
-                <Button
+                <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                     android:id="@+id/buttonRegister"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="48dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_weight="@android:integer/config_longAnimTime"
-                    android:background="@drawable/round_button_style"
-                    android:backgroundTint="#FF0000"
                     android:text="@string/register"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@android:color/tertiary_text_dark"
                     android:visibility="gone"
+                    app:initialCornerAngle="6dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -209,40 +214,26 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/info_form"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="128dp"
             android:layout_marginTop="60dp"
             android:layout_marginEnd="128dp"
             android:layout_marginBottom="60dp"
-            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="@android:color/secondary_text_light"
+            app:cardCornerRadius="12dp"
             app:cardElevation="4dp">
 
             <TextView
                 android:id="@+id/textViewInfoStart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center|center_vertical"
                 android:text="@string/or"
                 android:textAlignment="center"
+                android:textColor="@android:color/secondary_text_dark"
                 android:visibility="visible" />
         </androidx.cardview.widget.CardView>
 
     </FrameLayout>
-
-    <ImageView
-        android:id="@+id/imageLogo"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="64dp"
-        app:layout_constraintBottom_toTopOf="@+id/frame"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_logo" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

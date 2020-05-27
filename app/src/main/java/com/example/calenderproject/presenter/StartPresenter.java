@@ -9,7 +9,6 @@ import com.example.calenderproject.fragments.StartFragment;
 import com.example.calenderproject.fragments.StartModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
@@ -37,25 +36,20 @@ public class StartPresenter {
     public  void   signIn(String email,String password){
         if (email.length() > 0 || password.length() > 0) {
             model.signIn( email, password )
-                    .addOnFailureListener( new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText( view.getContext(), "Can't log in: " + e.getMessage(), Toast.LENGTH_SHORT ).show();
-                        }
-                    } ).addOnSuccessListener( new OnSuccessListener<AuthResult>() {
-                @Override
-                public void onSuccess(AuthResult authResult) {
-                    view.GoToApp();
-                }
-            } );
+                    .addOnFailureListener( e -> {
+                        Toast.makeText( view.getContext(), "Can't log in: " + e.getMessage(), Toast.LENGTH_SHORT ).show();
+                        view.SignInAnimationStop();
+                    } ).addOnSuccessListener( authResult -> view.GoToApp() );
         } else {
             Toast.makeText( view.getContext(), "Can't log in: You must write your  password and email!", Toast.LENGTH_SHORT ).show();
+            view.SignInAnimationStop();
         }
     }
 
     public void register(String email, String password, String name) {
         if (!isEmailCorrect( email ) || !isPasswordCorrect( password )) {
             Toast.makeText( view.getContext(), "Wrong password or email", Toast.LENGTH_SHORT ).show();
+            view.RegisterInAnimationStop();
         }
         else {
             model.signInEmailAndPassword( email, password, name )
@@ -63,6 +57,7 @@ public class StartPresenter {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText( view.getContext(), "Can't auth: " + e.getMessage(), Toast.LENGTH_SHORT ).show();
+                            view.RegisterInAnimationStop();
                         }
                     } );
         }
