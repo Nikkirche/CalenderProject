@@ -39,18 +39,10 @@ public  class CalenderFragment extends CyaneaFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.fragment_calender, container, false );
         CalenderEventView = view.findViewById( R.id.CalenderEventView );
-
-
-
-
-
-
-
-
-
         CalendarView calendarView = view.findViewById( R.id.calendarView );
         final TextView testing = view.findViewById( R.id.testingtextView2 );
         calendarView.setOnDateChangeListener( (calendarView1, i, i1, i2) -> {
+            MapOfEvents.clear();
             final String DayOfEvent;
             if (i1>9 && i2>9) {
                  DayOfEvent = i + "-" + i1 + "-" + i2;
@@ -99,7 +91,7 @@ public  class CalenderFragment extends CyaneaFragment {
                         String value = test.get( key );
                         MapOfEvents.put(ReadableTime,value);
                     }
-                    testing.setText( MapOfEvents.toString() );
+                    //testing.setText( MapOfEvents.toString() );
                     EventAdapter adapter = new EventAdapter(getData( MapOfEvents ) );
                     CalenderEventView.setAdapter(adapter);
                     RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext());

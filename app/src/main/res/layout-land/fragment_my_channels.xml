@@ -18,7 +18,7 @@
     <FrameLayout
         android:id="@+id/recyclerAdminChannelLayout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="70dp"
         android:layout_marginEnd="16dp"
         android:animateLayoutChanges="true"
@@ -57,7 +57,7 @@
     <FrameLayout
         android:id="@+id/recyclerChannelLayout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="70dp"
         android:animateLayoutChanges="true"
@@ -93,14 +93,14 @@
         </androidx.cardview.widget.CardView>
     </FrameLayout>
 
-    <ImageButton
+    <Button
         android:id="@+id/buttonToSearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="70dp"
         android:layout_marginBottom="56dp"
-        android:src="@drawable/ic_search_black_24dp"
+        android:drawableLeft="@drawable/ic_search_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -134,11 +134,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <ImageButton
+                <Button
                     android:id="@+id/buttonToCreateChannel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_add_black_24dp" />
+                    android:drawableLeft="@drawable/ic_add_black_24dp" />
 
                 <EditText
                     android:id="@+id/editCreateChannelName"

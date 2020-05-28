@@ -26,12 +26,12 @@ import com.google.firebase.database.Query;
 import com.jaredrummler.cyanea.app.CyaneaFragment;
 
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.functions.Consumer;
-import io.reactivex.rxjava3.functions.Predicate;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
@@ -43,7 +43,7 @@ public class SearchFragment extends CyaneaFragment {
     private Query query;
     private SearchView searchView;
     private TextView test;
-    private String SearchQuery = null;
+    private String SearchQuery = "";
     private String SubChannelName;
     private static final FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference refChannel;
@@ -100,8 +100,7 @@ public class SearchFragment extends CyaneaFragment {
 
     private void fetch(String SearchQuery) {
         query = FirebaseDatabase.getInstance()
-                .getReference( "Channels" )
-                .orderByChild( "name").equalTo( SearchQuery );
+                .getReference( "Channels" );
             Log.println( Log.DEBUG, "test", query.toString() );
         FirebaseRecyclerOptions<Channel> options =
                 new FirebaseRecyclerOptions.Builder<Channel>()
@@ -109,14 +108,13 @@ public class SearchFragment extends CyaneaFragment {
                             @NonNull
                             @Override
                             public Channel parseSnapshot(@NonNull DataSnapshot snapshot) {
-                                /*HashMap<String,HashMap<String, HashMap<String,String>>> map1=(HashMap) snapshot.getValue();
-                                if (map1 != null ) {
-                                    for (String key1 : map1.keySet()) {
-                                        values.put(key1,key1);
-                                    }
-                                }*/
-                                String ChannelName = snapshot.child( "id" ).child( "name" ).getValue().toString();
-                                return new Channel( ChannelName );
+                                String ChannelName = Objects.requireNonNull( snapshot.child( "id" ).child( "name" ).getValue() ).toString();
+                                if (ChannelName.contains(SearchQuery)){
+                                    return new Channel( ChannelName );
+                                }
+                                else{
+                                    return new Channel( "admin-stuff-really-nothing" );
+                                }
 
                             }
                         } )
@@ -135,19 +133,25 @@ public class SearchFragment extends CyaneaFragment {
 
             @Override
             protected void onBindViewHolder(SearchFragment.ChannelViewHolder holder, final int position, final Channel channel) {
-                final TextView NameView = holder.ChannelNameTextView;
-                NameView.setText( channel.getName() );
-                holder.itemView.setOnClickListener( new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        SearchChannelFragment searchChannelFragment = new SearchChannelFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putString( "ChannelName", channel.getName() );
-                        searchChannelFragment.setArguments( bundle );
-                        getChildFragmentManager().beginTransaction().add( R.id.SearchContainer, searchChannelFragment ).addToBackStack( null ).commit();
+                if (!channel.getName().equals( "admin-stuff-really-nothing" )) {
+                    final TextView NameView = holder.ChannelNameTextView;
+                    NameView.setText( channel.getName() );
+                    holder.itemView.setOnClickListener( new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            SearchChannelFragment searchChannelFragment = new SearchChannelFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putString( "ChannelName", channel.getName() );
+                            searchChannelFragment.setArguments( bundle );
+                            getChildFragmentManager().beginTransaction().add( R.id.SearchContainer, searchChannelFragment ).addToBackStack( null ).commit();
 
-                    }
-                } );
+                        }
+                    } );
+                }
+                else{
+                    final TextView NameView = holder.ChannelNameTextView;
+                    NameView.setVisibility( View.GONE );
+                }
             }
 
         };
@@ -157,12 +161,6 @@ public class SearchFragment extends CyaneaFragment {
     private void setUpSearchObservable() {
         RxSearchObservable.fromView( searchView )
                 .debounce( 300, TimeUnit.MILLISECONDS )
-                .filter( new Predicate<String>() {
-                    @Override
-                    public boolean test(String text) {
-                        return !text.isEmpty();
-                    }
-                } )
                 .distinctUntilChanged()
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
