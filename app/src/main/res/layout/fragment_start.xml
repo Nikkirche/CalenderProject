@@ -8,7 +8,7 @@
     android:animateLayoutChanges="true"
     android:background="?backgroundColor"
     android:isScrollContainer="true"
-    tools:context="com.example.calenderproject.fragments.StartFragment">
+    tools:context="com.example.calenderproject.UI.StartFragment">
 
     <FrameLayout
         android:id="@+id/frame"

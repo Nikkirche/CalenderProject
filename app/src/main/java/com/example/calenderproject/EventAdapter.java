@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.calenderproject.models.Event;
+import com.example.calenderproject.objects.Event;
 
 import java.util.ArrayList;
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder> {

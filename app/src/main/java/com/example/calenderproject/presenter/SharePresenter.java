@@ -1,7 +1,7 @@
 package com.example.calenderproject.presenter;
 
-import com.example.calenderproject.fragments.menu_container.ShareFragment;
-import com.example.calenderproject.fragments.menu_container.ShareModel;
+import com.example.calenderproject.UI.menu_container.ShareFragment;
+import com.example.calenderproject.UI.menu_container.ShareModel;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 public class SharePresenter {
     private ShareFragment view;

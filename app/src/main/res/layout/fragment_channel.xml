@@ -4,7 +4,7 @@
     android:id="@+id/ChannelContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.calenderproject.fragments.menu_container.ChannelFragment">
+    tools:context="com.example.calenderproject.UI.menu_container.ChannelFragment">
 
     <TextView
         android:id="@+id/ChannelFragmentNameView"

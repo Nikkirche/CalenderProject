@@ -1,6 +1,6 @@
 package com.example.calenderproject.firebase;
 
-import com.example.calenderproject.models.Event;
+import com.example.calenderproject.objects.Event;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -94,61 +94,5 @@ public class EventService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
-
-
-        /*refUser = FirebaseDatabase.getInstance().getReference( "users" );
-        refUser.addValueEventListener( new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String, HashMap<String,HashMap<String,String>>> miniMap1 = (HashMap) dataSnapshot.getValue();
-            HashMap  < String, HashMap<String, HashMap<String,HashMap<String,Integer>>>> miniMap2 = (HashMap) dataSnapshot.getValue();
-
-                if (miniMap1 != null) {
-                    for (String key1 : miniMap1.keySet()) {
-
-                        if (BigMap != null) {
-                            for (String key2 : BigMap.keySet()) {
-
-                                if(miniMap1.get(key1).get(   "id" ).get( "name" ).equals( key2 )){
-                                    if (){}
-                                    else{
-                                        HashMap<String,HashMap<String, Integer>> mop=BigMap.get(key2);
-                                        miniMap2.get( key1 ).get( "events" ).put(mop);
-                                    }
-                                }
-
-                            }
-                        }
-
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-
-
-        } );
-        */
-
-
-
-
-        /*HashMap<String, HashMap <String, String>> values = new HashMap<>();
-        HashMap<String, String> data = new HashMap<>();
-        data.put( "name",name );
-        HashMap<String, String> dataSubs = new HashMap<>();
-        dataSubs.put( nameOfCurrentUser,nameOfCurrentUser );
-
-        values.put("id", data);
-        values.put("subscribers", dataSubs);
-        FirebaseDatabase.getInstance()
-                .getReference( "Channels" ).child( name )
-                .setValue( values );
-
-         */
     }
 }

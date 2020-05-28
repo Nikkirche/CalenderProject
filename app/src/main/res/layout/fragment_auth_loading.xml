@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?backgroundColor"
-    tools:context="com.example.calenderproject.fragments.AuthLoadingFragment">
+    tools:context="com.example.calenderproject.UI.AuthLoadingFragment">
 
     <ProgressBar
         android:id="@+id/ProgressBarLoading"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:isScrollContainer="true"
-    tools:context="com.example.calenderproject.fragments.menu_container.ShareFragment">
+    tools:context="com.example.calenderproject.UI.menu_container.ShareFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"

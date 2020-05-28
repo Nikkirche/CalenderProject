@@ -1,6 +1,8 @@
-package com.example.calenderproject.fragments.menu_container;
+package com.example.calenderproject.UI.menu_container;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.calenderproject.EventAdapter;
 import com.example.calenderproject.R;
-import com.example.calenderproject.models.Event;
+import com.example.calenderproject.objects.Event;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +25,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jaredrummler.cyanea.app.CyaneaFragment;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -34,9 +45,27 @@ public  class CalenderFragment extends CyaneaFragment {
     private RecyclerView CalenderEventView;
     private DatabaseReference ref1;
     private DatabaseReference ref2;
+    public boolean isOnline() {
+        try {
+            int timeoutMs = 1500;
+            Socket sock = new Socket();
+            SocketAddress sockaddr = new InetSocketAddress("8.8.8.8", 53);
 
+            sock.connect(sockaddr, timeoutMs);
+            sock.close();
+            return true;
+        } catch (IOException e) { return false; }
+    }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+                if (isOnline()){
+                    Log.e( "test","yes" );
+                }
+                else{
+                    Log.e( "test","no" );
+                }
+
         View view = inflater.inflate( R.layout.fragment_calender, container, false );
         CalenderEventView = view.findViewById( R.id.CalenderEventView );
         CalendarView calendarView = view.findViewById( R.id.calendarView );
@@ -59,6 +88,44 @@ public  class CalenderFragment extends CyaneaFragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     HashMap<String, HashMap<String, String>> map = (HashMap) dataSnapshot.getValue();
+                    String infadata=new String(  );
+                    for(String yep:map.keySet())
+                    {
+                        HashMap<String, String> minimap=map.get(yep);
+                        for(String yep1:minimap.keySet())
+                        {
+                            infadata=infadata+minimap.get( yep1 )+"      "+yep1+"@@@@@@";
+
+                        }
+
+                    }
+                  //  Log.e("xx",infadata);
+                    try {
+                        FileOutputStream BigDude= getContext().openFileOutput("example.txt", Context.MODE_PRIVATE  );
+                        BigDude.flush();
+                        BigDude.write( infadata.getBytes() );
+                        BigDude.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    try {
+                        FileInputStream SmallDude=getContext().openFileInput( "example.txt" );
+                        InputStreamReader reader=new InputStreamReader( SmallDude );
+                        BufferedReader redr=new BufferedReader( reader );
+                        StringBuffer lover=new StringBuffer(  );
+                        String leaver=new String();
+                      //  while(redr.readLine()!=null)
+                       // {lover.append( redr.readLine() );}
+                        Log.e("xx",redr.readLine() );
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
                     TreeMap<String,String> test = new TreeMap<>( );
                     for (String key : map.keySet()) {
                         HashMap<String, String> data = map.get( key );

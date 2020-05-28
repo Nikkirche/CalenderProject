@@ -1,4 +1,4 @@
-package com.example.calenderproject.fragments.menu_container;
+package com.example.calenderproject.UI.menu_container;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.calenderproject.R;
-import com.example.calenderproject.models.Channel;
+import com.example.calenderproject.objects.Channel;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
@@ -53,13 +53,6 @@ public class SearchFragment extends CyaneaFragment {
     @Override
     public void onStart() {
         super.onStart();
-      /*  Bundle bundle = getArguments();
-        if (bundle != null) {
-            SubChannelName = bundle.getString( "ChannelName" );
-
-
-        } else {
-        }*/
         fetch( SearchQuery);
         adapter.startListening();
     }
@@ -78,9 +71,7 @@ public class SearchFragment extends CyaneaFragment {
         searchView = view.findViewById( R.id.SearchQuery );
         SearchRecycler = view.findViewById( R.id.SearchView );
         linearLayoutManager = new LinearLayoutManager( this.getActivity() );
-        SearchRecycler.setLayoutManager( linearLayoutManager );
-        test = view.findViewById( R.id.testSearch );
-        setUpSearchObservable();
+        SearchRecycler.setLayoutManager( linearLayoutManager );setUpSearchObservable();
         return view;
     }
 

@@ -1,4 +1,4 @@
-package com.example.calenderproject.fragments.menu_container;
+package com.example.calenderproject.UI.menu_container;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package com.example.calenderproject.models;
+package com.example.calenderproject.objects;
 
 import java.util.HashMap;
 

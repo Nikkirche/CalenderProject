@@ -10,9 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.calenderproject.fragments.AuthLoadingFragment;
-import com.example.calenderproject.fragments.StartFragment;
-import com.example.calenderproject.fragments.menu_container.InterfaceFragment;
+import com.example.calenderproject.UI.AuthLoadingFragment;
+import com.example.calenderproject.UI.StartFragment;
+import com.example.calenderproject.UI.menu_container.InterfaceFragment;
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 
 public class MainActivity extends CyaneaAppCompatActivity {

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.calenderproject.fragments.menu_container.DataPickerFragment">
+    tools:context="com.example.calenderproject.UI.menu_container.DataPickerFragment">
 
     <Button
         android:id="@+id/buttonCreateEvent"
@@ -18,16 +18,14 @@
     <EditText
         android:id="@+id/CreateEventEditText"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="26dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="26dp"
-        android:layout_marginBottom="16dp"
         android:ems="10"
-        android:inputType="textLongMessage|text|textEmailAddress"
+        android:inputType="textLongMessage|textWebEditText|text|textEmailAddress"
         android:text="Name"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/buttonCreateEvent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ButtonCreateEventSetTime" />

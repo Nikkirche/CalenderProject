@@ -4,28 +4,18 @@
     android:id="@+id/SearchContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.calenderproject.fragments.menu_container.SearchFragment">
-
-    <TextView
-        android:id="@+id/testSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="58dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    tools:context="com.example.calenderproject.UI.menu_container.SearchFragment">
 
     <SearchView
         android:id="@+id/SearchQuery"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageButton"
+        app:layout_constraintStart_toEndOf="@+id/buttonGoBackFromSearch"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/buttonGoBackFromSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_arrow_back_black_24dp"
@@ -36,9 +26,10 @@
         android:id="@+id/SearchView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/testSearch"
+        android:layout_marginBottom="52dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonGoBackFromSearch" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

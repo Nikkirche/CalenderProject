@@ -4,7 +4,7 @@
     android:id="@+id/my_channel_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.calenderproject.fragments.menu_container.MyChannelsFragment">
+    tools:context="com.example.calenderproject.UI.menu_container.MyChannelsFragment">
 
     <Space
         android:id="@+id/space2"

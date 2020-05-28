@@ -1,4 +1,4 @@
-package com.example.calenderproject.fragments.menu_container;
+package com.example.calenderproject.UI.menu_container;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -51,14 +51,7 @@ public class CreateEventFragment extends CyaneaFragment {
     @Override
     public void onStart() {
         super.onStart();
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            ChannelName = bundle.getString( "ChannelName" );
-
-            NameView.setText( ChannelName );
-        } else {
-            NameView.setText( "Error" );
-        }
+        getChannelName();
 
 
         refChannel = FirebaseDatabase.getInstance().getReference( "Channels" ).child( ChannelName );
@@ -105,6 +98,18 @@ public class CreateEventFragment extends CyaneaFragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    private void getChannelName() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            ChannelName = bundle.getString( "ChannelName" );
+
+            NameView.setText( ChannelName );
+        } else {
+            NameView.setText( "Error" );
+        }
+
     }
 
     @Override

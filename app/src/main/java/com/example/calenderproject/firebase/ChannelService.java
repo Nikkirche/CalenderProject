@@ -1,6 +1,6 @@
 package com.example.calenderproject.firebase;
 
-import com.example.calenderproject.models.Channel;
+import com.example.calenderproject.objects.Channel;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 

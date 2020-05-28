@@ -5,8 +5,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.calenderproject.fragments.StartFragment;
-import com.example.calenderproject.fragments.StartModel;
+import com.example.calenderproject.UI.StartFragment;
+import com.example.calenderproject.models.StartModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;

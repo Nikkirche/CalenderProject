@@ -4,7 +4,7 @@
     android:id="@+id/AccountContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.calenderproject.fragments.menu_container.AccountFragment">
+    tools:context="com.example.calenderproject.UI.menu_container.AccountFragment">
 
     <TextView
         android:id="@+id/AccountNameView"

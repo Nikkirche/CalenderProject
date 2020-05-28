@@ -1,6 +1,6 @@
-package com.example.calenderproject.fragments;
+package com.example.calenderproject.models;
 
-import com.example.calenderproject.models.User;
+import com.example.calenderproject.objects.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

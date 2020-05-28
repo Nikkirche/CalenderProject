@@ -1,4 +1,4 @@
-package com.example.calenderproject.models;
+package com.example.calenderproject.objects;
 
 public class Event {
     private final String text;

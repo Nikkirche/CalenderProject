@@ -1,6 +1,7 @@
-package com.example.calenderproject.models;
+package com.example.calenderproject.objects;
 
 import java.util.ArrayList;
+
 public class User {
     private String email;
     private String name;
