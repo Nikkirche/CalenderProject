@@ -36,8 +36,10 @@ import com.shreyaspatil.MaterialDialog.MaterialDialog;
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import es.dmoral.toasty.Toasty;
+import me.samlss.broccoli.Broccoli;
 
 public class MyChannelsFragment extends CyaneaFragment {
     private DatabaseReference ref;
@@ -51,6 +53,8 @@ public class MyChannelsFragment extends CyaneaFragment {
     private HashMap<String,String>  values;
     private String nameOfCurrentUser;
     HashMap<String,HashMap<String,String>> mapopa;
+    private Map<View, Broccoli> mViewPlaceholderManager = new HashMap<>();
+
 
     private DatabaseReference refUser;
     @Override
@@ -128,7 +132,8 @@ public class MyChannelsFragment extends CyaneaFragment {
         buttonGoSearch.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GoToFragment( "Search" );
+                SearchFragment searchFragment = new SearchFragment();
+                getParentFragmentManager().beginTransaction().replace( R.id.menu_container,searchFragment ).addToBackStack( null).commit();
             }
         } );
         final  MorphAnimation morphAnimationChannelRecycler = new MorphAnimation(ChannelRecyclerContainer,ChannelLayout,ChannelGroup  );
@@ -154,20 +159,17 @@ public class MyChannelsFragment extends CyaneaFragment {
             }
         } );
         final MorphAnimation morphAnimationCreateChannel = new MorphAnimation(CreateChannelContainer , CreateLayout, CreateGroup );
-        buttonGoCreate.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!morphAnimationCreateChannel.isPressed()) {
-                    buttonGoSearch.setVisibility( View.GONE);
-                    ChannelLayout.setVisibility( View.GONE );
-                    AdminChannelLayout.setVisibility( View.GONE );
-                    morphAnimationCreateChannel.morphIntoForm("MATCH_PARENT");
-                } else {
-                    morphAnimationCreateChannel.morphIntoButton();
-                    buttonGoSearch.setVisibility( View.VISIBLE);
-                    ChannelLayout.setVisibility( View.VISIBLE );
-                    AdminChannelLayout.setVisibility( View.VISIBLE );
-                }
+        buttonGoCreate.setOnClickListener( v -> {
+            if (!morphAnimationCreateChannel.isPressed()) {
+                buttonGoSearch.setVisibility( View.GONE);
+                ChannelLayout.setVisibility( View.GONE );
+                AdminChannelLayout.setVisibility( View.GONE );
+                morphAnimationCreateChannel.morphIntoForm("MATCH_PARENT");
+            } else {
+                morphAnimationCreateChannel.morphIntoButton();
+                buttonGoSearch.setVisibility( View.VISIBLE);
+                ChannelLayout.setVisibility( View.VISIBLE );
+                AdminChannelLayout.setVisibility( View.VISIBLE );
             }
         } );
         buttonCreateChannel.setOnClickListener( new View.OnClickListener() {
@@ -207,7 +209,6 @@ public class MyChannelsFragment extends CyaneaFragment {
 
         return view;
     }
-
     private boolean ChannelNameIsTrue(String name) {
         return name.length() > 3;
     }
@@ -238,6 +239,7 @@ public class MyChannelsFragment extends CyaneaFragment {
         }
     }
     private void fetchAdmin() {
+        Broccoli broccoli = new Broccoli();
         Query query = FirebaseDatabase.getInstance().getReference( "users" ).child( firebaseUser.getUid() ).child( "groups" );
         FirebaseRecyclerOptions<Channel> options =
                 new FirebaseRecyclerOptions.Builder<Channel>()
@@ -273,7 +275,7 @@ public class MyChannelsFragment extends CyaneaFragment {
                         bundle.putString("ChannelName",channel.getName() );
                         bundle.putString("TypeOfChannel","groups");
                         channelFragment.setArguments(bundle);
-                        getChildFragmentManager().beginTransaction().add( R.id.my_channel_container,channelFragment ).addToBackStack(null).commit();
+                        getParentFragmentManager().beginTransaction().replace( R.id.menu_container,channelFragment ).addToBackStack(null).commit();
 
                     }
                 } );
@@ -281,6 +283,7 @@ public class MyChannelsFragment extends CyaneaFragment {
 
         };
         AdminChannelView.setAdapter( adapterAdmin );
+
     }
 
     private void fetch() {
@@ -320,7 +323,7 @@ public class MyChannelsFragment extends CyaneaFragment {
                         bundle.putString("ChannelName",channel.getName() );
                         bundle.putString("TypeOfChannel","Subchannels");
                         channelFragment.setArguments(bundle);
-                        getChildFragmentManager().beginTransaction().add( R.id.my_channel_container,channelFragment ).addToBackStack(null).commit();
+                        getParentFragmentManager().beginTransaction().replace( R.id.menu_container,channelFragment ).addToBackStack(null).commit();
 
                     }
                 } );
@@ -343,7 +346,7 @@ public class MyChannelsFragment extends CyaneaFragment {
                 fragmentTransaction.remove( channelFragment);
                 break;
             case "Search":
-                fragmentTransaction.add( R.id.my_channel_container,searchFragment ).addToBackStack( null);
+                //fragmentTransaction.replace( R.id.menu_container,searchFragment ).addToBackStack( null);
                 break;
 
         }

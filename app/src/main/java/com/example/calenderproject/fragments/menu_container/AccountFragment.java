@@ -35,7 +35,7 @@ public class AccountFragment extends CyaneaFragment {
             @Override
             public void onClick(View view) {
                 SettingsFragment settingsFragment = new SettingsFragment();
-                getChildFragmentManager().beginTransaction().add( R.id.AccountContainer, settingsFragment ).commit();
+                getParentFragmentManager().beginTransaction().replace( R.id.menu_container, settingsFragment ).commit();
             }
         } );
         return view;

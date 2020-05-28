@@ -1,7 +1,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:backgroundTint="#303030"
-    android:visibility="visible">
+    android:backgroundTint="#303030">
     <PreferenceCategory app:title="@string/Customisation" >
         <Preference
             android:id="@+id/Customisation"

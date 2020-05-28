@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.calenderproject.R;
 import com.example.calenderproject.models.Channel;
 import com.example.calenderproject.presenter.SharePresenter;
+import com.example.calenderproject.util.MorphAnimation;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
@@ -151,9 +153,25 @@ public class ShareFragment extends CyaneaFragment {
 
             @Override
             protected void onBindViewHolder(ShareFragment.ChannelViewHolder holder, final int position, final Channel channel) {
+                final  Button NameView = holder.NameView;
                 final ImageView QRCod = holder.QRCod;
+                View QRContainer = holder.QRContainer;
+                ViewGroup QRViews = holder.QRViews;
+                FrameLayout layout= holder.layout;
+                NameView.setText( channel.getName() );
                 Bitmap QR = QRCode.from( "Calender" + channel.getName() ).bitmap();
                 QRCod.setImageBitmap( QR );
+                MorphAnimation morphAnimationQR = new MorphAnimation( QRContainer, layout, QRViews );
+                NameView.setOnClickListener( v -> {
+                    if (!morphAnimationQR.isPressed()) {
+                        morphAnimationQR.morphIntoForm("MATCH_CONSTRAINT");
+                        NameView.setText( R.string.back );
+                    } else {
+                        morphAnimationQR.morphIntoButton();
+                        NameView.setText( channel.getName() );
+                    }
+                } );
+
             }
 
         };
@@ -164,25 +182,26 @@ public class ShareFragment extends CyaneaFragment {
     public void setCameraFragment() {
         buttonToCamera.setVisibility( View.GONE );
         CameraFragment cameraFragment = new CameraFragment();
-        InterfaceFragment interfaceFragment = (InterfaceFragment)getParentFragment();
-        //interfaceFragment.hideMenu();
-        getChildFragmentManager().beginTransaction().add( R.id.ShareContainer, cameraFragment ).addToBackStack( "camera" ).commit();
+        getParentFragmentManager().beginTransaction().replace( R.id.ShareContainer, cameraFragment ).addToBackStack( "camera" ).commit();
 
     }
 
     static class ChannelViewHolder extends RecyclerView.ViewHolder {
         final ImageView QRCod;
+        final Button NameView;
+        final View QRContainer;
+        FrameLayout layout ;
+        ViewGroup QRViews;
 
         ChannelViewHolder(@NonNull View itemView) {
             super( itemView );
-
+            layout= itemView.findViewById( R.id.QRLayout );
             QRCod = itemView.findViewById( R.id.QRCod );
+            NameView = itemView.findViewById( R.id.QRChannelNameView );
+            QRContainer= itemView.findViewById( R.id.form_qr);
+            QRViews = itemView.findViewById( R.id.qr_views );
         }
 
-        public void bind(Channel channel) {
-            Bitmap QR = QRCode.from( "Calender" + channel.getName() ).bitmap();
-            QRCod.setImageBitmap( QR );
-        }
     }
     public  void openSettings() {
         startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);

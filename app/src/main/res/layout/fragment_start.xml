@@ -96,7 +96,6 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
-                    android:elegantTextHeight="true"
                     android:text="@string/sign_in"
                     android:textColor="@android:color/tertiary_text_dark"
                     android:visibility="gone"

@@ -110,7 +110,6 @@ public class CreateEventFragment extends CyaneaFragment {
     @Override
     public  View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final ChannelFragment ChannelFragment = ((ChannelFragment) CreateEventFragment.this.getParentFragment());
         View view = inflater.inflate( R.layout.fragment_create_event, container, false );
         NameView = view.findViewById( R.id.CreateEventChannelNameView );
         final Button buttonCreateEvent = view.findViewById( R.id.buttonCreateEvent );
@@ -118,22 +117,14 @@ public class CreateEventFragment extends CyaneaFragment {
          ButtonSetTime = view.findViewById( R.id.ButtonCreateEventSetTime );
         ButtonSetData = view.findViewById( R.id.ButtonCreateEventSetData);
         final EditText EditText = view.findViewById( R.id.CreateEventEditText );
-        backButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ChannelFragment.getChildFragmentManager().popBackStackImmediate();
-            }
-        } );
+        backButton.setOnClickListener( view12 -> getParentFragmentManager().popBackStackImmediate() );
         ButtonSetTime.setOnClickListener( view1 -> {
             TimePickerFragment mTimePicker = new TimePickerFragment();
             mTimePicker.show(getChildFragmentManager(), "Select time");
         } );
-        ButtonSetData.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatePickerFragment mDatePicker = new DatePickerFragment();
-                mDatePicker.show(getChildFragmentManager(), "Select date");
-            }
+        ButtonSetData.setOnClickListener( view13 -> {
+            DatePickerFragment mDatePicker = new DatePickerFragment();
+            mDatePicker.show(getChildFragmentManager(), "Select date");
         } );
         buttonCreateEvent.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -150,7 +141,7 @@ public class CreateEventFragment extends CyaneaFragment {
                 if (DataIsTrue( data ) && TextIsTrue( text )) {
                     EventService.createNewEvent( ChannelName, data, text );
                     buttonCreateEvent.setClickable( false);
-                    ChannelFragment.getChildFragmentManager().popBackStackImmediate();
+                    getParentFragmentManager().popBackStackImmediate();
                 }else{
                     buttonCreateEvent.setClickable( true);
                 }

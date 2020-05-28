@@ -4,7 +4,17 @@
     android:id="@+id/ShareContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:isScrollContainer="true"
     tools:context="com.example.calenderproject.fragments.menu_container.ShareFragment">
+
+    <TextView
+        android:id="@+id/ShareInfoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonToCameraFragment" />
 
     <Button
         android:id="@+id/buttonToCameraFragment"
@@ -23,5 +33,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonToCameraFragment" />
+        app:layout_constraintTop_toBottomOf="@+id/ShareInfoTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -80,6 +80,7 @@ public class AuthLoadingFragment extends Fragment {
                 ref2 = FirebaseDatabase.getInstance().getReference( "users" ).child( GroupUser1.getUid() );
                 ref2.setValue(values1);
                 final MainActivity act = (MainActivity) getActivity();
+
               act.GoToFragment( "InterfaceFragment" );
 
 

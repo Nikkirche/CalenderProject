@@ -270,7 +270,7 @@ public class ChannelFragment extends CyaneaFragment {
     }
 
     private void GoToFragment(Fragment Fragment) {
-        getChildFragmentManager().beginTransaction().add( R.id.ChannelContainer,Fragment  ).addToBackStack( null).commit();
+        getParentFragmentManager().beginTransaction().replace( R.id.menu_container,Fragment  ).addToBackStack( null).commit();
 
     }
 }

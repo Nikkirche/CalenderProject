@@ -4,7 +4,6 @@
     android:id="@+id/SearchContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cyanea_background_reference"
     tools:context="com.example.calenderproject.fragments.menu_container.SearchFragment">
 
     <TextView
