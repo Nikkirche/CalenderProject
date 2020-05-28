@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="#303030"
+    android:background="?backgroundColor"
     android:isScrollContainer="true"
     tools:context="com.example.calenderproject.fragments.StartFragment">
 

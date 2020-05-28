@@ -104,8 +104,8 @@ public class MyChannelsFragment extends CyaneaFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.fragment_my_channels, container, false );
-        final ImageButton buttonGoCreate = view.findViewById( R.id.buttonToCreateChannel );
-        final  ImageButton buttonGoSearch = view.findViewById( R.id.buttonToSearch);
+        final Button buttonGoCreate = view.findViewById( R.id.buttonToCreateChannel );
+        final  Button buttonGoSearch = view.findViewById( R.id.buttonToSearch);
         final ImageButton buttonRemoveChannelRecycler = view.findViewById( R.id.buttonRemoveChannelRecycler );
         final ImageButton buttonRemoveAdminChannelRecycler = view.findViewById( R.id.buttonRemoveAdminChannelRecycler );
         ViewGroup CreateGroup = view.findViewById( R.id.create_channel_views );

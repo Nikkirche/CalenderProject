@@ -75,7 +75,7 @@ public  class CalenderFragment extends CyaneaFragment {
                                 String[] time = data.get( key2 ).split( " " );
                                 String HourAndMin = time[1];
                                 //MapOfEvents.put( HourAndMin, key2 );
-                                test.put( HourAndMin,key2 );
+                                test.put( HourAndMin+"      "+key2,"." );
                                 //Log.e( "error",key2);
 
                             }
@@ -86,7 +86,12 @@ public  class CalenderFragment extends CyaneaFragment {
                         String ReadableTime;
                         String RedactTime[] = key.split(":");
                         if(RedactTime[0].length()==1){
-                             ReadableTime = "0"+RedactTime[0] + ":" + RedactTime[1];
+                            int lena=RedactTime.length;
+                            ReadableTime = "0";
+                            for (int j = 0; j <lena ; j++) {
+                                ReadableTime =ReadableTime +RedactTime[j];
+                            }
+
                         }
                         else{
                              ReadableTime = key;

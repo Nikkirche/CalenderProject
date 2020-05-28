@@ -178,8 +178,7 @@ public class ChannelFragment extends CyaneaFragment {
         backButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final MyChannelsFragment myChannelsFragment = ((MyChannelsFragment)ChannelFragment.this.getParentFragment());
-                myChannelsFragment.GoToFragment( "rChannel" );
+                getParentFragmentManager().popBackStackImmediate();
             }
         } );
         eventButton.setOnClickListener( new View.OnClickListener() {
@@ -193,18 +192,15 @@ public class ChannelFragment extends CyaneaFragment {
             }
         } );
         ImageButton UnsubscribeButton = view.findViewById( R.id.buttonUnsubscribe );
-        UnsubscribeButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        UnsubscribeButton.setOnClickListener( view1 -> {
 
-                reftoUser = FirebaseDatabase.getInstance().getReference( "users" ).child( GroupUser.getUid() );
-                reftoUser.setValue( map );
+            reftoUser = FirebaseDatabase.getInstance().getReference( "users" ).child( GroupUser.getUid() );
+            reftoUser.setValue( map );
 
 
-                reftoChannel = FirebaseDatabase.getInstance().getReference( "Channels" ).child(ChannelName  );
-                refChannel.setValue( map1 );
-            }
-        });
+            reftoChannel = FirebaseDatabase.getInstance().getReference( "Channels" ).child(ChannelName  );
+            refChannel.setValue( map1 );
+        } );
         return view;
 
 

@@ -20,7 +20,8 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/form_admin_channel_recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="?backgroundColor">
 
             <LinearLayout
                 android:id="@+id/admin_channel_recycler_views"
@@ -32,6 +33,7 @@
                     android:id="@+id/buttonRemoveAdminChannelRecycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="?backgroundColor"
                     android:src="@drawable/ic_keyboard_arrow_up_black_24dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -57,6 +59,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/form_recycler_channel"
+            android:background="?backgroundColor"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -70,6 +73,7 @@
                     android:id="@+id/buttonRemoveChannelRecycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="?backgroundColor"
                     android:src="@drawable/ic_keyboard_arrow_up_black_24dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -106,13 +110,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <ImageButton
+                <Button
                     android:id="@+id/buttonToCreateChannel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="70dp"
                     android:layout_marginEnd="70dp"
-                    android:src="@drawable/ic_add_black_24dp" />
+                    android:cropToPadding="true"
+                    android:text="@string/CreateChannel"
+                    android:drawableLeft="@drawable/ic_add_black_24dp" />
 
                 <EditText
                     android:id="@+id/editCreateChannelName"
@@ -131,6 +137,7 @@
                 <Button
                     android:id="@+id/buttonCreateChannel"
                     style="@style/RoundedCornerButton"
+                    android:drawableStart="@drawable/ic_add_black_24dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
@@ -149,14 +156,15 @@
         </androidx.cardview.widget.CardView>
     </FrameLayout>
 
-    <ImageButton
+    <Button
         android:id="@+id/buttonToSearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="70dp"
-        android:src="@drawable/ic_search_black_24dp"
+        android:drawableLeft="@drawable/ic_search_black_24dp"
+        android:text="@string/Search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

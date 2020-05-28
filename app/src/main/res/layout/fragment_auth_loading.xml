@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#303030"
+    android:background="?backgroundColor"
     tools:context="com.example.calenderproject.fragments.AuthLoadingFragment">
 
     <ProgressBar
@@ -25,7 +25,6 @@
         app:layout_constraintBottom_toTopOf="@+id/buttonStart"
         app:layout_constraintEnd_toStartOf="@+id/button2"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
