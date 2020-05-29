@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
+import com.example.calenderproject.MainActivity;
 import com.example.calenderproject.R;
-import com.example.calenderproject.UI.menu_container.InterfaceFragment;
 import com.example.calenderproject.presenter.StartPresenter;
 import com.example.calenderproject.util.MorphAnimation;
 import com.google.firebase.auth.FirebaseAuth;
@@ -139,13 +139,17 @@ public class StartFragment extends CyaneaFragment {
     }
 
     public void GoToLoadingFragment() {
-        AuthLoadingFragment authLoadingFragment = new AuthLoadingFragment();
-        getParentFragmentManager().beginTransaction().replace( R.id.container,authLoadingFragment);
+        final MainActivity act = (MainActivity) getActivity();
+        if (act != null) {
+            act.GoToFragment( "AuthLoadingFragment" );
+        }
     }
 
     public void GoToApp() {
-        InterfaceFragment interfaceFragment = new InterfaceFragment();
-        getParentFragmentManager().beginTransaction().replace( R.id.container,interfaceFragment);
+        final MainActivity act = (MainActivity) getActivity();
+        if (act != null) {
+            act.GoToFragment( "InterfaceFragment" );
+        }
     }
 
     public void SignInAnimationStop() {

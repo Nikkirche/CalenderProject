@@ -1,5 +1,8 @@
 package com.example.calenderproject.UI.menu_container;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -10,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.calenderproject.EventService;
 import com.example.calenderproject.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jaredrummler.cyanea.app.CyaneaFragment;
@@ -24,7 +28,15 @@ public class InterfaceFragment extends CyaneaFragment {
     public void onStart() {
         super.onStart();
         FragmentTransaction ftrans = getChildFragmentManager().beginTransaction();
-        ftrans.add( R.id.menu_container,CalenderFragment ).commit();
+        if (!CalenderFragment.isAdded()) {
+            ftrans.add( R.id.menu_container, CalenderFragment ).commit();
+        }
+        Context context = getContext();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(new Intent(context, EventService.class));
+        } else {
+            context.startService(new Intent(context, EventService.class));
+        }
 
     }
 

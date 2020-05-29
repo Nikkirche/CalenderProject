@@ -11,8 +11,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -332,27 +330,6 @@ public class MyChannelsFragment extends CyaneaFragment {
         };
         channelView.setAdapter( adapter );
     }
-
-    void GoToFragment(String Fragment) {
-        InterfaceFragment interfaceFragment = new InterfaceFragment();
-        MyChannelsFragment myChannelsFragment = new MyChannelsFragment();
-        SearchFragment searchFragment = new SearchFragment();
-        ChannelFragment channelFragment = new ChannelFragment();
-        FragmentManager fragmentManager = getChildFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        switch (Fragment) {
-            case "rChannel":
-                fragmentManager.popBackStackImmediate();
-                fragmentTransaction.remove( channelFragment);
-                break;
-            case "Search":
-                //fragmentTransaction.replace( R.id.menu_container,searchFragment ).addToBackStack( null);
-                break;
-
-        }
-        fragmentTransaction.commit();
-    }
-
 
 }
 

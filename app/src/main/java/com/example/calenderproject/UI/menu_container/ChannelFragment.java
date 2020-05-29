@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,6 +42,7 @@ public class ChannelFragment extends CyaneaFragment {
     private static DatabaseReference reftoUser;
     private static final FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference refChannel;
+    private ProgressBar progressBar;
     private DatabaseReference reftoChannel;
     HashMap<String, HashMap<String, String>> map;
     HashMap<String, HashMap<String, String>> map1;
@@ -163,8 +165,7 @@ public class ChannelFragment extends CyaneaFragment {
         NameView = view.findViewById( R.id.ChannelFragmentNameView );
          eventButton = view.findViewById( R.id.buttonToCreateEvent);
         ImageButton backButton = view.findViewById( R.id.buttonToMyChannelsfromChannel );
-        EventView = view.findViewById( R.id.EventView );
-        linearLayoutManager = new LinearLayoutManager( this.getActivity() );
+        EventView = view.findViewById( R.id.EventView );linearLayoutManager = new LinearLayoutManager( this.getActivity() );
         EventView.setLayoutManager( linearLayoutManager );
         EventView.setHasFixedSize( true );
         Bundle bundle = getArguments();
@@ -175,6 +176,7 @@ public class ChannelFragment extends CyaneaFragment {
             NameView.setText( "Error" );
         }
         fetch(ChannelName);
+
         backButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -270,17 +272,6 @@ public class ChannelFragment extends CyaneaFragment {
                 final TextView EventDataView = holder.EventDataTextView;
                 EventNameView.setText( event.getText() );
                 EventDataView.setText( event.getData() );
-                holder.itemView.setOnClickListener( new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        /*ChannelFragment channelFragment = new ChannelFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("ChannelName",channel.getName() );
-                        channelFragment.setArguments(bundle);
-                        getChildFragmentManager().beginTransaction().add( R.id.my_channel_container,channelFragment ).addToBackStack(null).commit();*/
-
-                    }
-                } );
             }
 
         };
