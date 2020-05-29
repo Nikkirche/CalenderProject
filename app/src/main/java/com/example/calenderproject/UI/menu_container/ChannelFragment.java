@@ -207,11 +207,12 @@ public class ChannelFragment extends CyaneaFragment {
     }
     static class EventViewHolder extends RecyclerView.ViewHolder {
         final TextView EventNameTextView;
+        final TextView EventDataTextView;
 
         EventViewHolder(@NonNull View itemView) {
             super( itemView );
-
             EventNameTextView = itemView.findViewById( R.id.EventNameTextView );
+            EventDataTextView = itemView.findViewById( R.id.EventDataTextView );
         }
 
         public void bind(Channel channel) {
@@ -227,8 +228,27 @@ public class ChannelFragment extends CyaneaFragment {
                             @NonNull
                             @Override
                             public Event parseSnapshot(@NonNull DataSnapshot snapshot) {
+                                String data = snapshot.getValue().toString();
+                                String[] dataSplited = data.split( "=" );
+                                int lena = dataSplited.length;
+                                String time1 =dataSplited[lena-1];
+                                String event1=new String(  );
+                                for (int i = 0; i < lena-1; i++) {
+                                    event1 = event1+"=" + dataSplited[i];
+                                }
+                                String event=new String(  );
+                                int lenofevent=event1.length();
+                                for (int i = 2; i <lenofevent ; i++) {
+                                    event=event+event1.charAt( i );
+                                }
 
-                                return new Event(snapshot.getValue().toString());
+                                String time = "";
+                                int lenoftime=time1.length();
+                                for (int i = 0; i <lenoftime-1 ; i++) {
+                                    time=time+time1.charAt( i );
+                                }
+
+                                return new Event(event,time);
                             }
                         })
                         .build();
@@ -247,7 +267,9 @@ public class ChannelFragment extends CyaneaFragment {
             @Override
             protected void onBindViewHolder(ChannelFragment.EventViewHolder holder, final int position, final Event event) {
                 final TextView EventNameView = holder.EventNameTextView;
+                final TextView EventDataView = holder.EventDataTextView;
                 EventNameView.setText( event.getText() );
+                EventDataView.setText( event.getData() );
                 holder.itemView.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

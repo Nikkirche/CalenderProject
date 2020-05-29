@@ -1,5 +1,6 @@
 package com.example.calenderproject.UI.menu_container;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -66,7 +67,9 @@ public class CalenderFragment extends CyaneaFragment {
 
                 }
 
+                @SuppressLint("CheckResult")
                 public void onCancelled(@NonNull DatabaseError databaseError) {
+                    //Toasty.error( getContext(),R.string.no_internet  );
                 }
             } );
         }
@@ -99,8 +102,7 @@ public class CalenderFragment extends CyaneaFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.fragment_calender, container, false );
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy( policy );
+        setPolicy();
         Button updateButton = view.findViewById( R.id.buttonUpdateEvents );
         updateButton.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -248,6 +250,11 @@ public class CalenderFragment extends CyaneaFragment {
 
 
         return view;
+    }
+
+    private void setPolicy() {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy( policy );
     }
 
     public ArrayList getData(TreeMap Map) {

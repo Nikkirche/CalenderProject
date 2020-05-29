@@ -3,8 +3,10 @@ package com.example.calenderproject;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -17,7 +19,7 @@ import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 
 public class MainActivity extends CyaneaAppCompatActivity {
 
-
+    private PowerManager.WakeLock wl;
     private StartFragment StartFragment;
     @Override
     public void onStart() {
@@ -29,7 +31,20 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        wl.release();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        wl.acquire(10*60*1000L /*10 minutes*/);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
+        PowerManager pm = (PowerManager) getSystemService( Context.POWER_SERVICE);
+        wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "CalenderProject:MainActivity");
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
 

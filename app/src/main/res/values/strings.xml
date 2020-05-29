@@ -12,6 +12,9 @@
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>
+    //For all
+    <string name="no_internet">Could not load ,please check your ionternet connection  </string>
+    <string name="update">Update</string>
     <!-- Stuff -->
     <string name="sign_in">Log In</string>
     <string name="register">Register</string>
@@ -46,6 +49,7 @@
     <string name="select_time">Select Time</string>
     <string name="select_data">Select Data</string>
     <string name="create_event">Create Event</string>
+
 
 
 </resources>

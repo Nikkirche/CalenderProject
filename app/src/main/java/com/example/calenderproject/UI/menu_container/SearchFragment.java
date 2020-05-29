@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -41,7 +42,7 @@ public class SearchFragment extends CyaneaFragment {
     private FirebaseRecyclerAdapter adapter;
     HashMap<String, String> values;
     private Query query;
-    private SearchView searchView;
+    private SearchView Search;
     private TextView test;
     private String SearchQuery = "";
     private String SubChannelName;
@@ -68,7 +69,14 @@ public class SearchFragment extends CyaneaFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.fragment_search, container, false );
-        searchView = view.findViewById( R.id.SearchQuery );
+        Search = view.findViewById( R.id.SearchQuery );
+        ImageButton buttonGoBack = view.findViewById( R.id.buttonGoBackFromSearch );
+        buttonGoBack.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getParentFragmentManager().popBackStackImmediate();
+            }
+        } );
         SearchRecycler = view.findViewById( R.id.SearchView );
         linearLayoutManager = new LinearLayoutManager( this.getActivity() );
         SearchRecycler.setLayoutManager( linearLayoutManager );setUpSearchObservable();
@@ -134,7 +142,7 @@ public class SearchFragment extends CyaneaFragment {
                             Bundle bundle = new Bundle();
                             bundle.putString( "ChannelName", channel.getName() );
                             searchChannelFragment.setArguments( bundle );
-                            getChildFragmentManager().beginTransaction().add( R.id.SearchContainer, searchChannelFragment ).addToBackStack( null ).commit();
+                            getParentFragmentManager().beginTransaction().replace( R.id.menu_container, searchChannelFragment ).addToBackStack( null ).commit();
 
                         }
                     } );
@@ -150,7 +158,7 @@ public class SearchFragment extends CyaneaFragment {
     }
 
     private void setUpSearchObservable() {
-        RxSearchObservable.fromView( searchView )
+        RxSearchObservable.fromView( Search)
                 .debounce( 300, TimeUnit.MILLISECONDS )
                 .distinctUntilChanged()
                 .subscribeOn( Schedulers.io() )

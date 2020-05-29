@@ -43,8 +43,6 @@ public class SearchChannelFragment extends Fragment {
     HashMap<String, HashMap<String, String>> data2;
 
 
-
-
     @Override
     public void onStart() {
         super.onStart();
@@ -155,20 +153,15 @@ public class SearchChannelFragment extends Fragment {
         NameView = view.findViewById( R.id.NameView );
         SubscribeButton.setOnClickListener( view1 -> {
             SubscribeButton.startAnimation();
-            SubscribeButton.setClickable( false );
 
             refChannelBoy = FirebaseDatabase.getInstance().getReference( "Channels" ).child( channelName );
-            if (mappa != null) {
-                refChannelBoy.setValue( mappa );
-            }
+            refChannelBoy.setValue( mappa );
 
             refChannelGirl = FirebaseDatabase.getInstance().getReference( "users" ).child( GroupUser.getUid() );
-            if (data1 != null) {
-                refChannelGirl.child( "Subchannels" ).setValue( data1 );
-            }
-            if (data2 != null) {
-                refChannelGirl.child( "events" ).setValue( data2 );
-            }
+            refChannelGirl.child( "Subchannels" ).setValue( data1 );
+
+
+            refChannelGirl.child( "events" ).setValue( data2 );
         } );
 
 
