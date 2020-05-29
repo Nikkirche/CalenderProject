@@ -1,5 +1,6 @@
 package com.example.calenderproject.UI.menu_container;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +51,8 @@ public class MyChannelsFragment extends CyaneaFragment {
     private  FirebaseRecyclerAdapter adapterAdmin;
     private HashMap<String,String>  values;
     private String nameOfCurrentUser;
+    ImageButton buttonRemoveChannelRecycler;
+    ImageButton buttonRemoveAdminChannelRecycler;
     HashMap<String,HashMap<String,String>> mapopa;
     private Map<View, Broccoli> mViewPlaceholderManager = new HashMap<>();
 
@@ -89,6 +92,7 @@ public class MyChannelsFragment extends CyaneaFragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         } );
+
     }
 
     @Override
@@ -101,11 +105,13 @@ public class MyChannelsFragment extends CyaneaFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        SharedPreferences settings = getContext().getSharedPreferences("ChannelCustomisation", 0);
+        SharedPreferences.Editor editor = settings.edit();
         View view = inflater.inflate( R.layout.fragment_my_channels, container, false );
         final Button buttonGoCreate = view.findViewById( R.id.buttonToCreateChannel );
         final  Button buttonGoSearch = view.findViewById( R.id.buttonToSearch);
-        final ImageButton buttonRemoveChannelRecycler = view.findViewById( R.id.buttonRemoveChannelRecycler );
-        final ImageButton buttonRemoveAdminChannelRecycler = view.findViewById( R.id.buttonRemoveAdminChannelRecycler );
+         buttonRemoveChannelRecycler = view.findViewById( R.id.buttonRemoveChannelRecycler );
+         buttonRemoveAdminChannelRecycler = view.findViewById( R.id.buttonRemoveAdminChannelRecycler );
         ViewGroup CreateGroup = view.findViewById( R.id.create_channel_views );
         ViewGroup AdminChannelGroup = view.findViewById( R.id.admin_channel_recycler_views );
         ViewGroup ChannelGroup = view.findViewById( R.id.channel_recycler_views );
@@ -125,8 +131,6 @@ public class MyChannelsFragment extends CyaneaFragment {
         AdminLinearLayoutManager = new LinearLayoutManager( this.getActivity() );
         AdminChannelView.setLayoutManager( AdminLinearLayoutManager );
         AdminChannelView.setHasFixedSize( true );
-        fetch();
-        fetchAdmin();
         buttonGoSearch.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,20 +143,32 @@ public class MyChannelsFragment extends CyaneaFragment {
         buttonRemoveChannelRecycler.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!morphAnimationChannelRecycler.isPressed()) {
+                if (morphAnimationChannelRecycler.isPressed()) {
                     morphAnimationChannelRecycler.morphIntoButton();
+                    buttonRemoveChannelRecycler.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                    editor.putString("ChannelRecycler" ,"removed" );
+                    editor.apply();
                 } else {
                     morphAnimationChannelRecycler.morphIntoForm("MATCH_PARENT");
+                    buttonRemoveChannelRecycler.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                    editor.putString("AdminChannelRecycler" ,"added" );
+                    editor.apply();
                 }
             }
         } );
         buttonRemoveAdminChannelRecycler.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!morphAnimationAdminChannelRecycler.isPressed()) {
+                if (morphAnimationAdminChannelRecycler.isPressed()) {
                     morphAnimationAdminChannelRecycler.morphIntoButton();
+                    buttonRemoveAdminChannelRecycler.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                    editor.putString("AdminChannelRecycler" ,"removed" );
+                    editor.apply();
                 } else {
                     morphAnimationAdminChannelRecycler.morphIntoForm("MATCH_PARENT");
+                    buttonRemoveAdminChannelRecycler.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);;
+                    editor.putString("AdminChannelRecycler" ,"added" );
+                    editor.apply();
                 }
             }
         } );
@@ -204,6 +220,9 @@ public class MyChannelsFragment extends CyaneaFragment {
 
             }
         } );
+        fetch();
+        fetchAdmin();
+
 
         return view;
     }
@@ -331,6 +350,13 @@ public class MyChannelsFragment extends CyaneaFragment {
         channelView.setAdapter( adapter );
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        buttonRemoveChannelRecycler.performClick();
+        buttonRemoveChannelRecycler.performClick();
+        buttonRemoveChannelRecycler.performClick();
+    }
 }
 
 

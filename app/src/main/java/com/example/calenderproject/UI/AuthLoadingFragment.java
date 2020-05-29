@@ -27,64 +27,67 @@ public class AuthLoadingFragment extends Fragment {
     TextView Yayd;
     private DatabaseReference ref1;
     private DatabaseReference ref2;
-    HashMap<String,HashMap<String, HashMap<String, String>>> values1;
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-
-    }
+    HashMap<String, HashMap<String, HashMap<String, String>>> values1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-       /* */
+        /* */
 
         View view = inflater.inflate( R.layout.fragment_auth_loading, container, false );
         buttonStart = view.findViewById( R.id.buttonStart );
-            FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
 
-            ref1 = FirebaseDatabase.getInstance().getReference( "users" ).child( GroupUser.getUid() );
-            ref1.addValueEventListener( new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
-                    HashMap<String,HashMap<String, HashMap<String, String>>> valuessss1;
-                    valuessss1 = (HashMap)dataSnapshot.getValue();
-                    values1=valuessss1;
-
-
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            } );
-            buttonStart.setVisibility( View.VISIBLE );
         buttonStart.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseUser GroupUser1 = FirebaseAuth.getInstance().getCurrentUser();
-                HashMap<String, HashMap<String, String>> data1 = new HashMap<>();
-                HashMap<String,String> nothing = new HashMap<>(  );
-                nothing.put("Pashal Egg", "1970-01-12 23:23" );
-                data1.put("PashalEgg69",nothing);
-                values1.put("events",data1);
-                ref2 = FirebaseDatabase.getInstance().getReference( "users" ).child( GroupUser1.getUid() );
-                ref2.setValue(values1);
                 final MainActivity act = (MainActivity) getActivity();
+                act.GoToFragment( "InterfaceFragment" );
 
-              act.GoToFragment( "InterfaceFragment" );
 
-
-            }  });
+            }
+        } );
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        ref1 = FirebaseDatabase.getInstance().getReference( "users" ).child( GroupUser.getUid() );
+        ref1.addValueEventListener( new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                HashMap<String, HashMap<String, HashMap<String, String>>> valuessss1;
+                valuessss1 = (HashMap) dataSnapshot.getValue();
+                values1 = valuessss1;
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        } );
+        try {
+            Thread.sleep( 2000 );
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        FirebaseUser GroupUser1 = FirebaseAuth.getInstance().getCurrentUser();
+        HashMap<String, HashMap<String, String>> data1 = new HashMap<>();
+        HashMap<String, String> nothing = new HashMap<>();
+        nothing.put( "Pashal Egg", "1970-01-12 23:23" );
+        data1.put( "PashalEgg69", nothing );
+        values1.put( "events", data1 );
+        ref2 = FirebaseDatabase.getInstance().getReference( "users" ).child( GroupUser1.getUid() );
+        ref2.setValue( values1 );
+        buttonStart.setVisibility( View.VISIBLE );
+    }
+
 }

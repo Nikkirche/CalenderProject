@@ -159,10 +159,15 @@ public class ChannelFragment extends CyaneaFragment {
         EventView = view.findViewById( R.id.EventView );
         linearLayoutManager = new LinearLayoutManager( this.getActivity() );
         EventView.setLayoutManager( linearLayoutManager );
+        ImageButton UnsubscribeButton = view.findViewById( R.id.buttonUnsubscribe );
         EventView.setHasFixedSize( true );
         Bundle bundle = getArguments();
         if (bundle != null) {
             ChannelName = bundle.getString( "ChannelName" );
+            if(ChannelName.equals("zerogroup"))
+            {
+                UnsubscribeButton.setVisibility(View.GONE);
+            }
 
         } else {
             NameView.setText( "Error" );
@@ -184,7 +189,7 @@ public class ChannelFragment extends CyaneaFragment {
                 GoToFragment(createEventFragment);
             }
         } );
-        ImageButton UnsubscribeButton = view.findViewById( R.id.buttonUnsubscribe );
+
         UnsubscribeButton.setOnClickListener( view1 -> {
 
             reftoUser = FirebaseDatabase.getInstance().getReference( "users" ).child( GroupUser.getUid() );
