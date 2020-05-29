@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -101,8 +100,6 @@ public class CalenderFragment extends CyaneaFragment {
 
         CalenderEventView = view.findViewById( R.id.CalenderEventView );
         CalendarView calendarView = view.findViewById( R.id.calendarView );
-        final TextView testing = view.findViewById( R.id.testingtextView2 );
-
 
 
         calendarView.setOnDateChangeListener( (calendarView1, i, i1, i2) -> {
@@ -116,7 +113,7 @@ public class CalenderFragment extends CyaneaFragment {
                 DayOfEvent = i + "-0" + i1 + "-0" + i2;
             }
 
-                Log.e( "test", "no" );
+
                 TreeMap<String, String> test = new TreeMap<>();
 
                 try {

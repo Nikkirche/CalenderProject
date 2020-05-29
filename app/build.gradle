@@ -31,7 +31,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "android.arch.work:work-runtime:1.0.1"
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation 'br.com.simplepass:loading-button-android:2.2.0'
     implementation 'de.psdev.licensesdialog:licensesdialog:2.1.0'

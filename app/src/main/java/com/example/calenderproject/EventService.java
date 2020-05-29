@@ -122,6 +122,7 @@ public class EventService extends Service {
             @Override
             public void run() {
                 try {
+                    Thread.sleep( 1200 );
                     while (true) {
                         TreeMap<String, String> MapOfEvents = new TreeMap<>();
                         TreeMap<String, String> test = new TreeMap<>();

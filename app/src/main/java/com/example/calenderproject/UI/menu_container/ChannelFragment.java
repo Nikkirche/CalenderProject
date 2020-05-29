@@ -14,18 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.calenderproject.R;
-import com.example.calenderproject.objects.Channel;
-import com.example.calenderproject.objects.Event;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.firebase.ui.database.SnapshotParser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.jaredrummler.cyanea.app.CyaneaFragment;
 
@@ -37,7 +31,6 @@ public class ChannelFragment extends CyaneaFragment {
     private String TypeOfChannel;
     private RecyclerView EventView;
     private LinearLayoutManager linearLayoutManager;
-    private FirebaseRecyclerAdapter adapter;
     private static DatabaseReference refUser;
     private static DatabaseReference reftoUser;
     private static final FirebaseUser GroupUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -50,7 +43,6 @@ public class ChannelFragment extends CyaneaFragment {
     @Override
     public void onStart() {
         super.onStart();
-        adapter.startListening();
         Bundle bundle = getArguments();
         if (bundle != null) {
 
@@ -155,7 +147,6 @@ public class ChannelFragment extends CyaneaFragment {
     @Override
     public void onStop() {
         super.onStop();
-        adapter.stopListening();
     }
 
     @Override
@@ -165,7 +156,8 @@ public class ChannelFragment extends CyaneaFragment {
         NameView = view.findViewById( R.id.ChannelFragmentNameView );
          eventButton = view.findViewById( R.id.buttonToCreateEvent);
         ImageButton backButton = view.findViewById( R.id.buttonToMyChannelsfromChannel );
-        EventView = view.findViewById( R.id.EventView );linearLayoutManager = new LinearLayoutManager( this.getActivity() );
+        EventView = view.findViewById( R.id.EventView );
+        linearLayoutManager = new LinearLayoutManager( this.getActivity() );
         EventView.setLayoutManager( linearLayoutManager );
         EventView.setHasFixedSize( true );
         Bundle bundle = getArguments();
@@ -175,7 +167,6 @@ public class ChannelFragment extends CyaneaFragment {
         } else {
             NameView.setText( "Error" );
         }
-        fetch(ChannelName);
 
         backButton.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -207,76 +198,8 @@ public class ChannelFragment extends CyaneaFragment {
 
 
     }
-    static class EventViewHolder extends RecyclerView.ViewHolder {
-        final TextView EventNameTextView;
-        final TextView EventDataTextView;
-
-        EventViewHolder(@NonNull View itemView) {
-            super( itemView );
-            EventNameTextView = itemView.findViewById( R.id.EventNameTextView );
-            EventDataTextView = itemView.findViewById( R.id.EventDataTextView );
-        }
-
-        public void bind(Channel channel) {
-            EventNameTextView.setText( channel.name );
-        }
-    }
-
-    private void fetch(String ChannelName) {
-        Query query = FirebaseDatabase.getInstance().getReference( "Channels" ).child( ChannelName ).child( "events" );
-        FirebaseRecyclerOptions<Event> options =
-                new FirebaseRecyclerOptions.Builder<Event>()
-                        .setQuery(query, new SnapshotParser<Event>() {
-                            @NonNull
-                            @Override
-                            public Event parseSnapshot(@NonNull DataSnapshot snapshot) {
-                                String data = snapshot.getValue().toString();
-                                String[] dataSplited = data.split( "=" );
-                                int lena = dataSplited.length;
-                                String time1 =dataSplited[lena-1];
-                                String event1=new String(  );
-                                for (int i = 0; i < lena-1; i++) {
-                                    event1 = event1+"=" + dataSplited[i];
-                                }
-                                String event=new String(  );
-                                int lenofevent=event1.length();
-                                for (int i = 2; i <lenofevent ; i++) {
-                                    event=event+event1.charAt( i );
-                                }
-
-                                String time = "";
-                                int lenoftime=time1.length();
-                                for (int i = 0; i <lenoftime-1 ; i++) {
-                                    time=time+time1.charAt( i );
-                                }
-
-                                return new Event(event,time);
-                            }
-                        })
-                        .build();
 
 
-        adapter = new FirebaseRecyclerAdapter<Event, ChannelFragment.EventViewHolder>( options ) {
-            @Override
-            public ChannelFragment.EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from( parent.getContext() )
-                        .inflate( R.layout.item_event, parent, false );
-
-                return new ChannelFragment.EventViewHolder( view );
-            }
-
-
-            @Override
-            protected void onBindViewHolder(ChannelFragment.EventViewHolder holder, final int position, final Event event) {
-                final TextView EventNameView = holder.EventNameTextView;
-                final TextView EventDataView = holder.EventDataTextView;
-                EventNameView.setText( event.getText() );
-                EventDataView.setText( event.getData() );
-            }
-
-        };
-        EventView.setAdapter( adapter );
-    }
 
     private void GoToFragment(Fragment Fragment) {
         getParentFragmentManager().beginTransaction().replace( R.id.menu_container,Fragment  ).addToBackStack( null).commit();

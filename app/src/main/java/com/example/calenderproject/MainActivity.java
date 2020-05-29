@@ -6,13 +6,10 @@ import android.os.PowerManager;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
 
 import com.example.calenderproject.UI.AuthLoadingFragment;
 import com.example.calenderproject.UI.StartFragment;
 import com.example.calenderproject.UI.menu_container.InterfaceFragment;
-import com.example.calenderproject.UI.menu_container.NotificationWorker;
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 
 public class MainActivity extends CyaneaAppCompatActivity {
@@ -25,9 +22,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
         StartFragment = new StartFragment();
         FragmentTransaction fstart = getSupportFragmentManager().beginTransaction();
         fstart.add( R.id.container, StartFragment ).commit();
-        WorkManager mWorkManager = WorkManager.getInstance();
-        OneTimeWorkRequest mRequest = new OneTimeWorkRequest.Builder( NotificationWorker.class).build();
-        mWorkManager.enqueue(mRequest);
     }
 
     @Override
