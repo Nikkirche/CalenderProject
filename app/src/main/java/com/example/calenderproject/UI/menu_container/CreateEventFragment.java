@@ -205,18 +205,18 @@ public class CreateEventFragment extends CyaneaFragment {
             String dataToShow;
             if (month>9) {
                 if (day>9) {
-                    dataToShow = String.valueOf( year ) + "-" + String.valueOf( month ) + "-" + String.valueOf( day );
+                    dataToShow = year + "-" + (month + 1) + "-" + day;
                 }
                 else {
-                    dataToShow = String.valueOf( year ) + "-" + String.valueOf( month ) + "-0" + String.valueOf( day );
+                    dataToShow = year + "-" + (month + 1) + "-0" + day;
                 }
             }
             else{
                 if (day>9) {
-                    dataToShow = String.valueOf( year ) + "-0" + String.valueOf( month ) + "-" + String.valueOf( day );
+                    dataToShow = year + "-0" + (month + 1) + "-" + day;
                 }
                 else{
-                    dataToShow = String.valueOf( year ) + "-0" + String.valueOf( month ) + "-0" + String.valueOf( day );
+                    dataToShow = year + "-0" + (month + 1) + "-0" + day;
                 }
             }
             ButtonSetData.setText( dataToShow );

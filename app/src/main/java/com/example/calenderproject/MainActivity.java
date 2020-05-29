@@ -1,20 +1,18 @@
 package com.example.calenderproject;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.example.calenderproject.UI.AuthLoadingFragment;
 import com.example.calenderproject.UI.StartFragment;
 import com.example.calenderproject.UI.menu_container.InterfaceFragment;
+import com.example.calenderproject.UI.menu_container.NotificationWorker;
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 
 public class MainActivity extends CyaneaAppCompatActivity {
@@ -27,7 +25,9 @@ public class MainActivity extends CyaneaAppCompatActivity {
         StartFragment = new StartFragment();
         FragmentTransaction fstart = getSupportFragmentManager().beginTransaction();
         fstart.add( R.id.container, StartFragment ).commit();
-        createEventNotificationChannel();
+        WorkManager mWorkManager = WorkManager.getInstance();
+        OneTimeWorkRequest mRequest = new OneTimeWorkRequest.Builder( NotificationWorker.class).build();
+        mWorkManager.enqueue(mRequest);
     }
 
     @Override
@@ -70,29 +70,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
         ftrans.commit();
     }
 
-    private void createEventNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString( R.string.channel_name );
-            String description = getString( R.string.channel_description );
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel( "Events", name, importance );
-            channel.setDescription( description );
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService( NotificationManager.class );
-            notificationManager.createNotificationChannel( channel );
-        }
-    }
-    public void createEventNotification(){
-        Notification newEventNotification = new NotificationCompat.Builder( this.getBaseContext(), "Events" )
-                //.setSmallIcon(R.drawable.new_mail)
-                .setContentTitle( "test" )
-                //.setContentText(emailObject.getSubject())
-                //.setLargeIcon(emailObject.getSenderAvatar())
-                .build();
-    }
 
 }
 

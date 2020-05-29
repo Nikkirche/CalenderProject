@@ -128,11 +128,7 @@ public class SearchChannelFragment extends Fragment {
                                                HashMap<String, HashMap<String, HashMap<String, String>>> map1 = (HashMap) dataSnapshot.getValue();
                                                data2 = map1.get( "events" );
 
-                                               if (SubEvents != null) {
-                                                   for (String key : SubEvents.keySet()) {
-                                                       data2.put( key, SubEvents.get( key ) );
-                                                   }
-                                               }
+
                                            }
 
                                            @Override
@@ -153,6 +149,11 @@ public class SearchChannelFragment extends Fragment {
         NameView = view.findViewById( R.id.NameView );
         SubscribeButton.setOnClickListener( view1 -> {
             SubscribeButton.startAnimation();
+            if (SubEvents != null) {
+                for (String key : SubEvents.keySet()) {
+                    data2.put( key, SubEvents.get( key ) );
+                }
+            }
 
             refChannelBoy = FirebaseDatabase.getInstance().getReference( "Channels" ).child( channelName );
             refChannelBoy.setValue( mappa );

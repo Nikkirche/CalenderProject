@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.TextView;
 
@@ -32,8 +31,6 @@ import com.jaredrummler.cyanea.app.CyaneaFragment;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -101,33 +98,6 @@ public class CalenderFragment extends CyaneaFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.fragment_calender, container, false );
         setPolicy();
-        Button updateButton = view.findViewById( R.id.buttonUpdateEvents );
-        updateButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.e( "test"," gavno" );
-                String infadata = new String();
-                for (String yep : map.keySet()) {
-                    HashMap<String, String> minimap = map.get( yep );
-                    for (String yep1 : minimap.keySet()) {
-                        infadata = infadata + minimap.get( yep1 ) + "      " + yep1 + "@@@@@@";
-
-                    }
-
-                }
-                Log.e( "xx", infadata );
-                try {
-                    FileOutputStream BigDude = getContext().openFileOutput( "example.txt", Context.MODE_PRIVATE );
-                    BigDude.flush();
-                    BigDude.write( infadata.getBytes() );
-                    BigDude.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        } );
 
         CalenderEventView = view.findViewById( R.id.CalenderEventView );
         CalendarView calendarView = view.findViewById( R.id.calendarView );
@@ -146,54 +116,11 @@ public class CalenderFragment extends CyaneaFragment {
                 DayOfEvent = i + "-0" + i1 + "-0" + i2;
             }
 
-            if (isOnline()) {
-                TreeMap<String, String> test = new TreeMap<>();
-                for (String key : map.keySet()) {
-                    HashMap<String, String> data = map.get( key );
-                    for (String key2 : data.keySet()) {
-                        if (data.get( key2 ).contains( DayOfEvent )) {
-                            String[] time = data.get( key2 ).split( " " );
-                            String HourAndMin = time[1];
-                            //MapOfEvents.put( HourAndMin, key2 );
-                            test.put( HourAndMin + "      " + key2, "." );
-                            //Log.e( "error",key2);
-
-                        }
-                    }
-
-                }
-                for (String key : test.keySet()) {
-                    String ReadableTime;
-                    String RedactTime[] = key.split( ":" );
-                    if (RedactTime[0].length() == 1) {
-                        int lena = RedactTime.length;
-                        ReadableTime = "0";
-                        for (int j = 0; j < lena; j++) {
-                            ReadableTime = ReadableTime + RedactTime[j];
-                        }
-
-                    } else {
-                        ReadableTime = key;
-                    }
-                    String value = test.get( key );
-                    MapOfEvents.put( ReadableTime, value );
-                }
-                EventAdapter adapter = new EventAdapter( getData( MapOfEvents ) );
-                CalenderEventView.setAdapter( adapter );
-                RecyclerView.LayoutManager manager = new LinearLayoutManager( getContext() );
-
-                CalenderEventView.setHasFixedSize( true );
-                CalenderEventView.setNestedScrollingEnabled( true );
-
-                CalenderEventView.setLayoutManager( manager );
-                //testing.setText( MapOfEvents.toString() );
-
-            } else {
                 Log.e( "test", "no" );
                 TreeMap<String, String> test = new TreeMap<>();
 
                 try {
-                    FileInputStream SmallDude = getContext().openFileInput( "example.txt" );
+                    FileInputStream SmallDude = getContext().openFileInput( "events.txt" );
                     InputStreamReader reader = new InputStreamReader( SmallDude );
                     BufferedReader redr = new BufferedReader( reader );
                     StringBuffer lover = new StringBuffer();
@@ -243,7 +170,6 @@ public class CalenderFragment extends CyaneaFragment {
                 CalenderEventView.setNestedScrollingEnabled( true );
 
                 CalenderEventView.setLayoutManager( manager );
-            }
         } );
 
 
