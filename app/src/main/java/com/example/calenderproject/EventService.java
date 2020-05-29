@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -180,6 +181,9 @@ public class EventService extends Service {
     }
 
     private void showNotification(String time, String text) {
+        Intent intent = new Intent(this,MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_ONE_SHOT);
         NotificationManager manager = (NotificationManager) getApplicationContext().getSystemService( Context.NOTIFICATION_SERVICE );
         String channelId = "task_channel";
         String channelName = "task_name";
@@ -191,6 +195,7 @@ public class EventService extends Service {
         NotificationCompat.Builder builder = new NotificationCompat.Builder( getApplicationContext(), channelId )
                 .setContentTitle( time )
                 .setContentText( text )
+                .setContentIntent(pendingIntent)
                 .setSmallIcon( R.mipmap.ic_launcher );
         manager.notify( 1, builder.build() );
     }
